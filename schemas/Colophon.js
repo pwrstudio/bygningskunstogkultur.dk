@@ -10,19 +10,24 @@ export default {
             type: 'string'
         },
         {
-            title: 'Content',
-            name: 'content',
+            title: 'Logo',
+            name: 'logo',
+            type: 'image'
+        },
+        {
+            title: 'Wide column',
+            name: 'wideColumn',
             type: 'contentEditor'
         },
         {
-            title: 'Slug',
-            name: 'slug',
-            type: 'slug',
-            options: {
-                source: 'title',
-                maxLength: 200
-            },
-            validation: Rule => Rule.required()
+            title: 'First narrow column',
+            name: 'firstNarrowColumn',
+            type: 'contentEditor'
+        },
+        {
+            title: 'Second narrow column',
+            name: 'secondNarrowColumn',
+            type: 'contentEditor'
         },
     ]
 }
