@@ -25,6 +25,11 @@ export default {
             },
         },
         {
+            title: 'Zoomable slideshow layout',
+            name: 'zoomableSlideshowLayout',
+            type: 'boolean'
+        },
+        {
             title: 'Content',
             name: 'content',
             type: 'contentEditor'
