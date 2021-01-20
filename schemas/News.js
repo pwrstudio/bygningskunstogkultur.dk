@@ -14,7 +14,8 @@ export default {
         {
             title: 'Publication date',
             name: 'publicationDate',
-            type: 'date'
+            type: 'date',
+            validation: Rule => Rule.required()
         },
         {
             title: 'Location',
