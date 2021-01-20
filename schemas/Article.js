@@ -38,7 +38,21 @@ export default {
             title: 'Slideshow',
             name: 'slideshow',
             type: 'array',
-            of: [{ type: 'image' }]
+            of: [
+                { 
+                    type: 'image',   
+                    fields: [
+                        {
+                            type: 'contentEditor',
+                            name: 'caption',
+                            title: 'Caption',
+                            options: {
+                                isHighlighted: true // <-- make this field easily accessible
+                            }
+                        }
+                    ]
+                }
+            ]
         },
         {
             title: 'Slug',
