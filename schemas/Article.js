@@ -38,10 +38,25 @@ export default {
             title: 'Slideshow',
             name: 'slideshow',
             type: 'array',
+            options: {
+                editModal: 'fullscreen'
+            },
             of: [
                 { 
-                    type: 'image',   
+                    type: 'image',
+                    options: {
+                        hotspot: true // <-- Defaults to false
+                    },  
                     fields: [
+                        {
+                            type: 'boolean',
+                            name: 'cover',
+                            title: 'Cover',
+                            description: 'Crop image to fill slideshow area',
+                            options: {
+                                isHighlighted: true // <-- make this field easily accessible
+                            }
+                        },
                         {
                             type: 'contentEditor',
                             name: 'caption',
