@@ -1,4 +1,5 @@
-import { format } from "date-fns";
+import { FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa"
+import { MdLanguage } from "react-icons/md"
 
 export default {
     title: 'Article',
@@ -16,6 +17,68 @@ export default {
             name: 'byline',
             type: 'simpleEditor'
         },
+        {
+            title: "Links",
+            name: "links",
+            type: "array",
+            options: {
+              editModal: "popover",
+            },
+            of: [
+              {
+                title: "Instagram",
+                name: "instagram",
+                icon: FaInstagram,
+                type: "object",
+                fields: [
+                  {
+                    title: "URL",
+                    name: "url",
+                    type: "url",
+                  },
+                ],
+              },
+              {
+                title: "Facebook",
+                name: "facebook",
+                icon: FaFacebook,
+                type: "object",
+                fields: [
+                  {
+                    title: "URL",
+                    name: "url",
+                    type: "url",
+                  },
+                ],
+              },
+              {
+                title: "Twitter",
+                name: "twitter",
+                icon: FaTwitter,
+                type: "object",
+                fields: [
+                  {
+                    title: "URL",
+                    name: "url",
+                    type: "url",
+                  },
+                ],
+              },
+              {
+                title: "Other",
+                name: "other",
+                icon: MdLanguage,
+                type: "object",
+                fields: [
+                  {
+                    title: "URL",
+                    name: "url",
+                    type: "url",
+                  },
+                ],
+              },
+            ],
+          },
         {
             title: 'Main image',
             name: 'mainImage',
