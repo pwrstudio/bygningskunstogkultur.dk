@@ -15,6 +15,11 @@ export default {
             description: 'File format: mp4',
         },
         {
+            name: 'posterImage',
+            type: 'image',
+            title: 'Poster image'
+        },
+        {
             title: 'Autoplay',
             name: 'autoPlay',
             type: 'boolean',

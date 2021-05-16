@@ -36,6 +36,16 @@ export default {
             type: 'simpleEditor'
         },
         {
+            title: 'Extended view',
+            name: 'extendedView',
+            type: 'boolean'
+        },
+        {
+            title: 'Extended content',
+            name: 'extendedContent',
+            type: 'simpleEditor'
+        },
+        {
             title: 'Slug',
             name: 'slug',
             type: 'slug',
