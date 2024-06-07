@@ -1,0 +1,229 @@
+@font-face {
+    font-family: 'AkademiDisplay';
+    src: url('/fonts/AkademiDisplay-Light.woff2') format('woff2'),
+        url('/fonts/AkademiDisplay-Light.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'AkademiText';
+    src: url('/fonts/AkademiText-Regular.woff2') format('woff2'),
+        url('/fonts/AkademiText-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'AkademiText';
+    src: url('/fonts/AkademiText-Semibold.woff2') format('woff2'),
+        url('/fonts/AkademiText-Semibold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'AkademiText';
+    src: url('/fonts/AkademiText-Italic.woff2') format('woff2'),
+        url('/fonts/AkademiText-Italic.woff') format('woff');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+
+:root {
+    --display-stack: 'AkademiDisplay', Helvetica, Arial, sans-serif;
+    --sans-stack: 'AkademiText', Helvetica, Arial, sans-serif;
+    --serif-stack: times, serif;
+  
+    --black: rgba(0, 0, 0, 1);
+    --white: rgba(254, 254, 254, 1);
+    --grey: rgba(0, 0, 0, 0.15);
+    --grey-solid: rgba(216, 216, 216, 1);
+    --green: rgba(2, 189, 3, 1);
+    --light-green: rgba(2, 189, 3, 0.25);
+  
+    --border-black: 2px solid var(--black);
+  
+    --transition: cubic-bezier(0.23, 1, 0.32, 1);
+  
+    --font-size-normal: 18px;
+    --font-size-small: 14px;
+    --font-size-semi-small: 12px;
+    --font-size-smaller: 10px;
+    --font-size-large: 18px;
+    --font-size-caption: var(--font-size-normal);
+    --font-size-larger: 48px;
+    --title-letter-spacing: 20px;
+    --font-size-print: 22px;
+  
+    --line-height: 24px;
+    --line-height-small: 20px;
+    --line-height-large: 28px;
+    --line-height-larger: 48px;
+    --margin: 42px;
+    --margin-xs: 8px;
+    --phone-margin: 14px;
+  
+    --font-size-large-phone: var(--font-size-normal);
+  
+    /* PROJECT SIZES */
+    --menu-bar-height: calc(var(--line-height) * 3);
+    --menu-items-height: 210px;
+    --menu-width: 420px;
+    --extended-menu-width: 680px;
+    --menu-difference: 260px;
+  
+    --menu-side-width: 42px;
+    --coverslider-2: 808px;
+    --coverslider-1: 400px;
+  
+    --text-width: 600px;
+    --text-width-wider: 800px;
+  }
+
+  * {
+    /* Assuming hide-scroll mixin includes code to hide the scrollbar */
+    overflow: hidden;
+    scrollbar-width: none; /* For Firefox */
+    -ms-overflow-style: none;  /* For Internet Explorer and Edge */
+  }
+  
+  *::-webkit-scrollbar {
+    display: none; /* For Chrome, Safari, and Opera */
+  }
+  
+  *::selection {
+    background: rgba(230, 230, 230, 1);
+  }
+  
+  *::-moz-selection {
+    background: rgba(230, 230, 230, 1);
+  }
+  
+  body {
+    font-size: var(--font-size-normal);
+    line-height: var(--line-height);
+    margin: 0;
+    padding: 0;
+    text-rendering: optimizeLegibility;
+    overscroll-behavior: none;
+    overflow-y: hidden;
+  }
+
+  @media screen and (max-width: 768px) { /* Assuming phone screen size is defined as max-width: 768px */
+    body {
+      overflow-y: scroll;
+    }
+  }
+  
+  video {
+    width: 100%;
+  }
+  
+  a,
+  .link {
+    color: inherit;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  
+  p.normal {
+    font-size: var(--font-size-normal);
+    line-height: var(--line-height);
+    margin-top: 0;
+  }
+  
+  p.h1 {
+    font-size: inherit;
+    text-transform: uppercase;
+    margin-top: 0;
+  }
+  
+  .header {
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+  }
+  
+  .article {
+    counter-reset: fnoteCounter;
+  }
+  
+  .footnote-link {
+    counter-increment: fnoteCounter;
+    color: inherit;
+    text-decoration: none !important;
+  }
+  
+  .footnote-link:after {
+    position: relative;
+    top: -6px;
+    font-family: var(--sans-stack);
+    font-size: var(--font-size-small);
+    line-height: var(--line-height);
+    content: "(" counter(fnoteCounter) ")";
+    padding-left: 4px;
+  }
+  
+  .footnote-link:hover {
+    text-decoration: underline !important;
+  }
+  
+  figure {
+    width: var(--text-width);
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: var(--font-size-small);
+    line-height: var(--line-height);
+    font-family: var(--sans-stack);
+    margin-bottom: var(--line-height);
+    margin-top: 0;
+  }
+  
+  figure .embed-container {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+    max-width: 720px;
+    width: 100%;
+    margin-bottom: 0.5em;
+  }
+  
+  figure .embed-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+  
+  figure .soundcloud-container {
+    width: 100%;
+    overflow: hidden;
+    max-width: 100%;
+    margin-bottom: 0.5em;
+  }
+  
+  figure .soundcloud-container iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+  
+  blockquote {
+    line-height: 1.5em;
+  }
+
+  .title {
+    text-transform: uppercase;
+    font-weight: normal;
+    font-size: inherit;
+  }
+  

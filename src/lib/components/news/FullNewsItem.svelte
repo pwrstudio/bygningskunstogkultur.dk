@@ -1,0 +1,105 @@
+<script lang="ts">
+  import type { News } from "$lib/types/sanity.types"
+  import { urlFor, renderBlockText } from "$lib/modules/sanity"
+  import { formattedDate } from "$lib/modules/utils"
+  import ArrowLeft from "$lib/components/graphics/ArrowLeft.svelte"
+
+  export let news: News
+
+  const closeExtendedNews = () => {
+    // newsExtended.set(false)
+  }
+</script>
+
+<div class="full-news-item">
+  <!-- svelte-ignore a11y-click-events-have-key-events -->
+  <!-- svelte-ignore a11y-no-static-element-interactions -->
+  <div class="close-extended" on:click={closeExtendedNews}>
+    <ArrowLeft />
+  </div>
+  <div class="content">
+    {#if news.mainImage?.asset}
+      <img
+        class="image"
+        alt={news.title}
+        src={urlFor(news.mainImage.asset)
+          .width(400)
+          .quality(90)
+          .saturation(-100)
+          .auto("format")
+          .url()}
+      />
+    {/if}
+    <!-- HEADER -->
+    <div class="header">
+      <!-- TITLE -->
+      <span>
+        {news.title}
+      </span>
+      <!-- PUBLICATION DATE -->
+      <span>
+        {#if news.publicationDate}
+          {@html formattedDate(news.publicationDate)}
+        {/if}
+      </span>
+    </div>
+    <!-- SHARE -->
+    <div class="share">
+      <!-- SHARING
+        <Share /> -->
+    </div>
+    <!-- CONTENT -->
+    {#if news.extendedContent?.content && Array.isArray(news.extendedContent.content)}
+      <div class="paragraph">
+        {@html renderBlockText(news.extendedContent.content)}
+      </div>
+    {:else if news.content?.content && Array.isArray(news.content.content)}
+      <div class="paragraph">
+        {@html renderBlockText(news.content?.content ?? [])}
+      </div>
+    {/if}
+  </div>
+</div>
+
+<style lang="scss">
+  @import "../../styles/variables.scss";
+
+  .image {
+    mix-blend-mode: unset;
+    max-height: 500px;
+    object-fit: cover;
+  }
+
+  .share {
+    float: right;
+    padding-left: 10px;
+  }
+
+  .full-news-item {
+    position: relative;
+    min-height: 100%;
+    padding-bottom: calc(var(--margin) * 2);
+    padding-left: 42px;
+
+    .close-extended {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 20px;
+      height: 42px;
+      cursor: pointer;
+    }
+
+    .content {
+      background: var(--green);
+    }
+
+    .header {
+      font-size: var(--font-size-small);
+      border-top: var(--border-black);
+      border-bottom: var(--border-black);
+      padding-top: 4px;
+      margin-bottom: var(--margin-xs);
+    }
+  }
+</style>

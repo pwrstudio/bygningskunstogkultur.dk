@@ -1,0 +1,64 @@
+$line-height: 24px;
+$line-height_small: 20px;
+$line-height_large: 28px;
+$line-height_larger: 48px;
+$margin: 42px;
+$margin_xs: 8px;
+
+// PROJECT SIZES
+$menu_bar_height: $line-height * 3;
+$menu_items_height: 210px;
+$menu_width: 420px;
+$menu-difference: 260px;
+
+$menu_button_width: 42px;
+$coverslider_2: 808px;
+$coverslider_1: 400px;
+
+$text_width: 600px;
+$text_width_wider: 800px;
+
+$breakpoints: (
+  "phone-small": (
+    max-width: 400px
+  ),
+  "phone": (
+    max-width: 768px
+  ),
+  "small": (
+    max-width: 900px
+  ),
+  "medium": (
+    max-width: $coverslider_2 + $menu_width + $menu_button_width + $menu_button_width + $menu_button_width
+  ),
+  "large": (
+    max-width: 1600px
+  ),
+  "short": (
+    max-height: 700px
+  ),
+);
+
+/// Responsive manager.
+/// @access public
+/// @param {String} $breakpoint - Breakpoint
+/// @requires $breakpoints
+@mixin screen-size($breakpoint) {
+  $raw-query: map-get($breakpoints, $breakpoint);
+  @if $raw-query {
+    $query: if(type-of($raw-query) == "string", unquote($raw-query), inspect($raw-query));
+    @media #{$query} {
+      @content;
+    }
+  } @else {
+    @error 'No value found for `#{$breakpoint}`. ' + 'Please make sure it is defined in `$breakpoints` map.';
+  }
+}
+
+@mixin hide-scroll {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
