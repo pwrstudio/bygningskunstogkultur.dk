@@ -90,7 +90,6 @@
   }
 
   const toggleToC = () => {
-    console.log("toggle")
     inTransition = true
     tableOfContentsActive.set(!$tableOfContentsActive)
     newsExtended.set(false)
@@ -116,7 +115,6 @@
     class:peek
     class:parentOpen={$menuActive}
     class:parentExtended={$newsExtended}
-    style="height: {ih + 'px'};"
   >
     <ul class="toc-menu t-o-c">
       <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -227,6 +225,7 @@
     transform: translateX(
       calc((-1 * var(--extended-menu-width)) + var(--menu-side-width))
     );
+    height: 100vh;
 
     margin-left: var(--menu-side-width);
     padding-left: calc(var(--margin) / 2);

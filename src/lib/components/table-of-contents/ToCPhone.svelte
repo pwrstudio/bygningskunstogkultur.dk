@@ -326,7 +326,7 @@
         &.peek {
           transform: translate(
             0,
-            calc(100% - #{$menu_items_height} - #{$menu_button_width})
+            calc(100% - var(--menu-items-height) - var(--menu-items-width))
           ) !important;
         }
       }

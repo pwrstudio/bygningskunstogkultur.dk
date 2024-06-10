@@ -86,6 +86,7 @@
         font-weight: normal;
         font-size: 26px;
         top: -1px;
+        overflow: visible;
       }
 
       .image {

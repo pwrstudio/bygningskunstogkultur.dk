@@ -8,9 +8,14 @@
     article: Article
   }
 
-  const { issue, article } = data
+  const issue = data.issue
 
-  currentIssue.set(issue)
+  // Make the article reactive to make sure the reload on page navigation
+  $: article = data.article
+
+  $: currentIssue.set(issue)
 </script>
 
-<ArticleComponent {article} {issue} />
+{#key data}
+  <ArticleComponent {article} {issue} />
+{/key}

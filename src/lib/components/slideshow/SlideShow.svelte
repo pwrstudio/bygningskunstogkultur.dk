@@ -1,10 +1,9 @@
 <script lang="ts">
   import type { Slide, SanityImageAsset } from "$lib/types/sanity.types"
-  import { urlFor, renderBlockText } from "$lib/modules/sanity"
+  import { urlFor, renderBlockText, toPlainText } from "$lib/modules/sanity"
   import { onMount } from "svelte"
   import Swiper from "swiper"
   import { Pagination, Navigation } from "swiper/modules"
-  import { get } from "lodash-es"
 
   import "swiper/swiper-bundle.css"
   import "swiper/css/navigation"
@@ -95,14 +94,10 @@
     swiperInstance = new Swiper(swiperContainer, {
       modules: [Pagination, Navigation],
       pagination: {
-        el: "#custom-pagination",
+        el: ".custom-pagination",
         clickable: true,
       },
-      navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev",
-      },
-      spaceBetween: 8,
+      spaceBetween: 20,
       autoHeight: mobile,
     })
 
@@ -134,7 +129,7 @@
                 class="slide-img zoomable"
                 class:zoomed
                 src={zoomImgUrl(slide.asset)}
-                alt={slide.asset.alt}
+                alt={toPlainText(slide.caption?.content ?? [])}
               />
             </div>
           {:else}
@@ -142,11 +137,11 @@
               <img
                 class="slide-img contain"
                 src={urlFor(slide.asset).quality(90).width(1200).url()}
-                alt={slide.asset.alt}
+                alt={toPlainText(slide.caption?.content ?? [])}
               />
               {#if slide.caption}
                 <div class="caption">
-                  {@html renderBlockText(get(slide, "caption.content", []))}
+                  {@html renderBlockText(slide.caption?.content ?? [])}
                 </div>
               {/if}
             </div>
@@ -155,19 +150,22 @@
       {/each}
     </div>
 
-    <div class="swiper-button-prev"></div>
-    <div class="swiper-button-next"></div>
-    <div class="swiper-pagination"></div>
+    <!-- Bottom -->
+    <div class="bottom">
+      <!-- Pagination -->
+      <div class={"custom-pagination"} />
 
-    {#if zoomable}
-      <div class="zoomLevel">
-        <!-- svelte-ignore a11y-click-events-have-key-events -->
-        <!-- svelte-ignore a11y-no-static-element-interactions -->
-        <span class="button" on:click={toggleZoomButton}>
-          {`${zoomLevel * 100}%`}[±]
-        </span>
-      </div>
-    {/if}
+      <!-- Zoom level -->
+      {#if zoomable}
+        <div class="zoomLevel">
+          <!-- svelte-ignore a11y-click-events-have-key-events -->
+          <!-- svelte-ignore a11y-no-static-element-interactions -->
+          <span class="button" on:click={toggleZoomButton}>
+            {`${zoomLevel * 100}%`}[±]
+          </span>
+        </div>
+      {/if}
+    </div>
   </div>
 </div>
 
@@ -194,7 +192,13 @@
     }
 
     .bottom {
-      height: $margin;
+      height: var(--margin);
+      position: relative;
+      top: 40px;
+    }
+
+    .swiper-container {
+      height: 100%;
     }
 
     :global(.swiper-pagination) {
@@ -216,7 +220,7 @@
     }
 
     :global(.swiper-wrapper) {
-      height: calc(90vh - #{$margin * 2});
+      height: calc(90vh - var(--margin) * 2);
 
       @include screen-size("small") {
         height: 100%;
@@ -231,7 +235,7 @@
     :global(.img-container) {
       width: 100%;
       height: 100%;
-      max-height: calc(100vh - #{$margin * 2.5});
+      max-height: calc(100vh - var(--margin) * 2.5);
       display: flex;
       flex-flow: column nowrap;
       align-items: flex-start;
@@ -254,7 +258,7 @@
 
     :global(.slide-img) {
       max-width: 100%;
-      max-height: calc(100% - #{$margin * 2});
+      max-height: calc(100% - (var(--margin) * 2));
       padding-bottom: var(--margin-xs);
       background: white;
     }
@@ -303,7 +307,7 @@
       bottom: 0;
       margin-right: 40px;
       :global(p) {
-        font-size: 16px;
+        font-size: var(--font-size-small);
         line-height: 20px;
       }
       :global(p a) {
@@ -317,5 +321,13 @@
 
   :global(.zoomable .swiper-slide) {
     background: #f2f2f2;
+  }
+
+  :global(.custom-pagination) {
+    height: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
   }
 </style>

@@ -2,12 +2,11 @@
   import type { Article, Issue } from "$lib/types/sanity.types"
   import { renderBlockText } from "$lib/modules/sanity"
   import { getNextArticle } from "$lib/modules/utils"
-  import { get } from "lodash-es"
 
   import { menuActive } from "$lib/modules/stores"
 
   // import MetaData from "./MetaData.svelte"
-  import Slideshow from "$lib/components/issue/SlideShow.svelte"
+  import Slideshow from "$lib/components/slideshow/SlideShow.svelte"
   import Meta from "$lib/components/issue/Meta.svelte"
   import ZoomMeta from "$lib/components/issue/ZoomMeta.svelte"
   import ArrowDown from "$lib/components/graphics/ArrowDown.svelte"
@@ -17,6 +16,9 @@
   export let issue: Issue
 
   const nextArticle: Article | null = getNextArticle(issue, article)
+
+  console.log("article", article)
+  console.log("nextArticle", nextArticle)
 
   const closeMenu = () => {
     menuActive.set(false)
@@ -35,27 +37,24 @@
       <ZoomMeta {article} {issue} />
 
       <div class="block full">
-        <Slideshow zoomable slides={get(article, "slideshow", [])} />
+        <Slideshow zoomable slides={article.slideshow ?? []} />
       </div>
     {:else}
       <!-- META -->
       <Meta {article} {issue} />
 
       <div class="block full mobile">
-        {#if !get(article, "zoomableSlideshowLayout", false)}
-          <div
-            class="col slideshow-mobile"
-            class:slideshow={get(article, "slideshow", [])}
-          >
-            {#if get(article, "slideshow", [])}
-              <Slideshow mobile slides={article.slideshow ?? []} />
+        {#if !article.zoomableSlideshowLayout}
+          <div class="col slideshow-mobile" class:slideshow={article.slideshow}>
+            {#if article.slideshow}
+              <Slideshow mobile slides={article.slideshow} />
             {/if}
           </div>
         {/if}
       </div>
 
       <div class="block main">
-        {@html renderBlockText(get(article, "content.content", []))}
+        {@html renderBlockText(article.content?.content ?? [])}
       </div>
 
       <!-- FOOTNOTES -->
@@ -141,7 +140,7 @@
       }
 
       &.zoomableSlideshowLayout {
-        padding: $margin 0;
+        padding: var(--margin) 0;
         width: 100%;
         display: flex;
         flex-flow: row wrap;
@@ -175,7 +174,7 @@
 
       .block {
         &.main {
-          margin-bottom: $margin;
+          margin-bottom: var(--margin);
         }
 
         &.link {
@@ -204,5 +203,10 @@
   .article:last-child {
     margin-bottom: $menu_button_width * 2;
     padding-bottom: 100px;
+  }
+
+  :global(.graphic) {
+    width: 80px;
+    margin: 0 auto 12px;
   }
 </style>

@@ -105,6 +105,7 @@
 
   .social {
     white-space: nowrap;
+    flex-shrink: 0;
 
     .copy {
       cursor: pointer;

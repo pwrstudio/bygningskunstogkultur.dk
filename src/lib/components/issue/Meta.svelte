@@ -56,6 +56,7 @@
     padding-top: var(--margin-xs);
     padding-bottom: var(--margin-xs);
     border-top: var(--border-black);
+    font-size: 16px;
 
     .right {
       text-align: right;
@@ -65,7 +66,7 @@
   .article-title {
     font-family: var(--display-stack);
     font-size: var(--font-size-larger);
-    line-height: $line_height_larger;
+    line-height: var(--line-height-larger);
     font-weight: normal;
     margin: 0 0 var(--margin-xs);
   }
@@ -83,7 +84,7 @@
 
     .text {
       flex-grow: 1;
-      margin-right: $margin;
+      margin-right: var(--margin);
 
       @include screen-size("small") {
         margin-right: 0;

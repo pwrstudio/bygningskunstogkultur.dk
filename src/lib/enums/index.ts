@@ -4,3 +4,10 @@ export enum MenuSection {
     About,
     Colophon
 }
+
+export enum PageType {
+    Landing,
+    Article,
+    News,
+    Pdf
+}

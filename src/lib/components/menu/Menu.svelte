@@ -1,7 +1,6 @@
 <script lang="ts">
   import type { News, Colophon, About } from "$lib/types/sanity.types"
   import { MenuSection } from "$lib/enums"
-  import { onMount } from "svelte"
 
   import { menuActive, newsExtended } from "$lib/modules/stores"
 
@@ -16,6 +15,7 @@
   export let landing: Boolean = false
 
   let activeMenuSection: MenuSection = MenuSection.News
+  let menuContentElement: HTMLDivElement
   let vw: number
   let ih: number
 
@@ -23,6 +23,11 @@
     if (landing) {
       menuActive.set(true)
     }
+  }
+
+  const changeMenuSection = (section: MenuSection) => {
+    activeMenuSection = section
+    menuContentElement.scrollTo(0, 0)
   }
 
   const toggleMenu = () => {
@@ -43,32 +48,6 @@
     //   menuItemActive.set(null)
     // }
   }
-
-  // afterUpdate(() => {
-  //   if (pvw < 768 && vw >= 768) {
-  //     menuActive.set(true)
-  //   }
-  //   pvw = vw
-  // })
-
-  onMount(() => {
-    // $activeRoute will change on navigation
-    // if ($activeRoute.uri === "/") {
-    //   if (vw < 768) {
-    //     menuActive.set(false)
-    //   }
-    // }
-    // Switch the menu to off if the vw is mobile size
-    // if (landing) {
-    //   if (pvw >= 768 && vw < 768) {
-    //     menuActive.set(false)
-    //   } else if (pvw < 768 && vw >= 768) {
-    //     menuActive.set(true)
-    //   }
-    // }
-    // Set previous vw to current vw
-    // pvw = vw
-  })
 </script>
 
 <!-- WINDOW BINDINGS -->
@@ -77,7 +56,7 @@
 <!-- class:peek={!$menuItemActive && vw < 768} -->
 <div class="menu" class:open={$menuActive} class:extended={$newsExtended}>
   <!-- CONTENT -->
-  <div class="menu-content">
+  <div class="menu-content" bind:this={menuContentElement}>
     {#if activeMenuSection == MenuSection.News}
       <MenuNews {news} />
     {:else if activeMenuSection == MenuSection.About}
@@ -114,7 +93,7 @@
       id="news"
       class:active={activeMenuSection == MenuSection.News}
       on:click={() => {
-        activeMenuSection = MenuSection.News
+        changeMenuSection(MenuSection.News)
       }}
     >
       På Instituttet
@@ -126,7 +105,7 @@
       id="about"
       class:active={activeMenuSection == MenuSection.About}
       on:click={() => {
-        activeMenuSection = MenuSection.About
+        changeMenuSection(MenuSection.About)
       }}
     >
       Om magasinet
@@ -138,7 +117,7 @@
       id="colophon"
       class:active={activeMenuSection == MenuSection.Colophon}
       on:click={() => {
-        activeMenuSection = MenuSection.Colophon
+        changeMenuSection(MenuSection.Colophon)
       }}
     >
       Kolofon
@@ -164,7 +143,7 @@
     width: var(--extended-menu-width);
     line-height: var(--line-height);
     overflow: hidden; // Ensure no overflow issues
-    padding-top: $margin;
+    padding-top: var(--margin);
     padding-right: var(--menu-side-width);
     padding-left: calc(var(--menu-difference) + 42px);
     padding-bottom: 32px;
@@ -183,7 +162,10 @@
       transform: translate(-$menu-difference, 0);
 
       &.peek {
-        transform: translate(0, calc(100% - #{$menu_items_height})) !important;
+        transform: translate(
+          0,
+          calc(100% - var(--menu-items-height))
+        ) !important;
       }
     }
 
@@ -249,7 +231,7 @@
     position: absolute;
     right: 0;
     top: 0;
-    padding: $margin 0;
+    padding: var(--margin) 0;
     writing-mode: vertical-rl;
     text-orientation: upright;
     letter-spacing: var(--title-letter-spacing);

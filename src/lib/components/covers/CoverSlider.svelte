@@ -2,7 +2,7 @@
   import type { Issue } from "$lib/types/sanity.types"
   import Swiper from "swiper"
   import { Pagination, Navigation } from "swiper/modules"
-  import { onMount } from "svelte"
+  import { onMount, afterUpdate, tick } from "svelte"
   import { get } from "lodash-es"
   import { mapValue } from "$lib/modules/utils"
 
@@ -28,17 +28,23 @@
   let swiperDesktop: Swiper
   let swiperMobile: Swiper
 
-  onMount(() => {
-    vw = window.innerWidth
-
+  $: {
     if (768 < vw && vw < 1350) {
       scale = mapValue(vw, 769, 1349, 0.2, 0.9)
     } else {
       scale = 1
     }
+
     if (vw < 400) {
       coverScale = mapValue(vw, 80, 440, 0, 0.8)
     }
+  }
+
+  async function initializeSwipers() {
+    if (swiperDesktop) swiperDesktop.destroy()
+    if (swiperMobile) swiperMobile.destroy()
+
+    await tick()
 
     swiperDesktop = new Swiper(swiperDesktopElement, {
       modules: [Navigation, Pagination],
@@ -69,6 +75,25 @@
       slidesPerView: 1,
       spaceBetween: 10.5,
     })
+  }
+
+  onMount(() => {
+    vw = window.innerWidth
+
+    if (768 < vw && vw < 1350) {
+      scale = mapValue(vw, 769, 1349, 0.2, 0.9)
+    } else {
+      scale = 1
+    }
+    if (vw < 400) {
+      coverScale = mapValue(vw, 80, 440, 0, 0.8)
+    }
+
+    initializeSwipers()
+  })
+
+  afterUpdate(() => {
+    initializeSwipers()
   })
 </script>
 
@@ -100,18 +125,17 @@
     </div>
 
     <!-- SWIPER DESKTOP -->
-    <div
-      class="swiper-desktop"
-      bind:this={swiperDesktopElement}
-      class:scaled={scale !== 1}
-      style="transform: scale({scale})"
-    >
-      <div class="swiper-wrapper">
-        {#each issues as issue}
-          <div class="swiper-slide">
-            <Cover {issue} />
-          </div>
-        {/each}
+    <!-- class:scaled={scale !== 1}
+    style="transform: scale({scale})" -->
+    <div class="swiper-desktop">
+      <div class="swiper-container" bind:this={swiperDesktopElement}>
+        <div class="swiper-wrapper">
+          {#each issues as issue}
+            <div class="swiper-slide">
+              <Cover {issue} />
+            </div>
+          {/each}
+        </div>
       </div>
     </div>
 
@@ -274,5 +298,9 @@
       width: 100%;
       padding-left: 20px;
     }
+  }
+
+  .custom-pagination {
+    width: auto;
   }
 </style>

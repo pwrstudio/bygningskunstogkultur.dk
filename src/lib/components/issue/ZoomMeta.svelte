@@ -98,7 +98,7 @@
     .article-title {
       font-family: var(--display-stack);
       font-size: var(--font-size-large) r;
-      line-height: $line_height_larger;
+      line-height: var(--line-height-larger);
       font-weight: normal;
       margin: 0 0 var(--margin-xs);
     }
@@ -116,7 +116,7 @@
 
       .text {
         flex-grow: 1;
-        margin-right: $margin;
+        margin-right: var(--margin);
 
         @include screen-size("small") {
           margin-right: 0;
@@ -131,7 +131,7 @@
 
   .main-text {
     padding-top: 4px !important;
-    padding-bottom: $margin;
+    padding-bottom: var(--margin);
     border-top: var(--border-black);
     width: 50%;
     float: right;

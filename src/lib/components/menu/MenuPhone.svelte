@@ -228,7 +228,7 @@
     width: var(--extended-menu-width);
     line-height: var(--line-height);
     overflow: auto;
-    padding: $margin;
+    padding: var(--margin);
     padding-right: var(--menu-button-width);
     padding-left: calc(var(--menu-difference) + 42px);
     padding-bottom: 32px;
@@ -262,7 +262,7 @@
       position: absolute;
       right: 0;
       top: 0;
-      padding: $margin 0;
+      padding: var(--margin) 0;
       writing-mode: vertical-rl;
       text-orientation: upright;
       letter-spacing: var(--title-letter-spacing);
@@ -328,7 +328,7 @@
       margin-right: -1 * var(--margin-xs); // hacky
 
       .ticker {
-        min-width: $margin;
+        min-width: var(--margin);
         position: relative;
 
         .title {
@@ -338,7 +338,7 @@
           transform: translate(-50%, 0);
           display: block;
           margin: 0 auto;
-          padding: $margin 0;
+          padding: var(--margin) 0;
           writing-mode: vertical-rl;
           text-orientation: upright;
           letter-spacing: var(--title-letter-spacing);
@@ -350,7 +350,10 @@
       transform: translate(-$menu-difference, 0);
 
       &.peek {
-        transform: translate(0, calc(100% - #{$menu_items_height})) !important;
+        transform: translate(
+          0,
+          calc(100% - var(--menu-items-height))
+        ) !important;
       }
 
       @include screen-size("phone") {

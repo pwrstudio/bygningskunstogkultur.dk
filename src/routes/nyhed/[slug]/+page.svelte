@@ -11,4 +11,6 @@
   console.log(news)
 </script>
 
-<FullNewsItem {news} />
+{#key data}
+  <FullNewsItem {news} />
+{/key}
