@@ -1,18 +1,18 @@
 <script lang="ts">
   import type { News, Colophon, About } from "$lib/types/sanity.types"
-  import { MenuSection } from "$lib/enums"
+  import { MenuSection, PageType } from "$lib/enums"
 
   import { menuActive, newsExtended } from "$lib/modules/stores"
 
-  import MenuNews from "$lib/components/menu/MenuNews.svelte"
-  import MenuAbout from "$lib/components/menu/MenuAbout.svelte"
-  import MenuColophon from "$lib/components/menu/MenuColophon.svelte"
+  import MenuNews from "$lib/components/menu/sections/MenuNews.svelte"
+  import MenuAbout from "$lib/components/menu/sections/MenuAbout.svelte"
+  import MenuColophon from "$lib/components/menu/sections/MenuColophon.svelte"
   import MailingListForm from "$lib/components/menu/MailingListForm.svelte"
 
   export let news: News[]
   export let about: About
   export let colophon: Colophon
-  export let landing: Boolean = false
+  export let pageType: PageType
 
   let activeMenuSection: MenuSection = MenuSection.News
   let menuContentElement: HTMLDivElement
@@ -20,7 +20,7 @@
   let ih: number
 
   $: {
-    if (landing) {
+    if (pageType === PageType.Landing) {
       menuActive.set(true)
     }
   }
@@ -28,6 +28,15 @@
   const changeMenuSection = (section: MenuSection) => {
     activeMenuSection = section
     menuContentElement.scrollTo(0, 0)
+  }
+
+  const handleSidebarClick = () => {
+    if ($newsExtended) {
+      newsExtended.set(false)
+    } else if (pageType !== PageType.Landing && vw > 768) {
+      // Disable closing the menu on landing page
+      toggleMenu()
+    }
   }
 
   const toggleMenu = () => {
@@ -71,14 +80,8 @@
   <!-- svelte-ignore a11y-no-static-element-interactions -->
   <div
     class="menu-side"
-    class:disabled={landing && vw > 768}
-    on:click={e => {
-      if ($newsExtended) {
-        newsExtended.set(false)
-      } else if (landing === false && vw > 768) {
-        toggleMenu()
-      }
-    }}
+    class:disabled={pageType === PageType.Landing && vw > 768}
+    on:click={handleSidebarClick}
   >
     <h1 class="title">Kort nyt</h1>
     <h1 class="title bottom">Info</h1>

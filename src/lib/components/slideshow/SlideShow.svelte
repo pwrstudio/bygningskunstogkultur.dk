@@ -199,6 +199,7 @@
 
     .swiper-container {
       height: 100%;
+      overflow: hidden;
     }
 
     :global(.swiper-pagination) {

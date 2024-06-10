@@ -2,13 +2,11 @@
   import type { Article, News } from "$lib/types/sanity.types"
   import { truncate } from "lodash-es"
   import { toPlainText, urlFor } from "$lib/modules/sanity"
-  import { stripHtml } from "$lib/modules/utils"
   import { defaultMetadata } from "./defaultMetadata"
 
   export let post: Article | News | null = null
 
-  let title =
-    (post?.title ? stripHtml(post.title) + " | " : "") + defaultMetadata.title
+  let title = (post?.title ? post.title + " | " : "") + defaultMetadata.title
 
   let description =
     post?.content?.content && Array.isArray(post.content.content)
@@ -19,7 +17,7 @@
       : defaultMetadata.description
 
   let image = post?.mainImage
-    ? urlFor(post.mainImage).quality(80).height(800).width(1200).url()
+    ? urlFor(post.mainImage).quality(80).height(627).width(1200).url()
     : defaultMetadata.image
 </script>
 

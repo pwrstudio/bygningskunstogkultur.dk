@@ -9,9 +9,9 @@
     newsExtended,
   } from "$lib/modules/stores"
 
-  import MenuNews from "$lib/components/menu/MenuNews.svelte"
-  import MenuAbout from "$lib/components/menu/MenuAbout.svelte"
-  import MenuColophon from "$lib/components/menu/MenuColophon.svelte"
+  import MenuNews from "$lib/components/menu/sections/MenuNews.svelte"
+  import MenuAbout from "$lib/components/menu/sections/MenuAbout.svelte"
+  import MenuColophon from "$lib/components/menu/sections/MenuColophon.svelte"
   import MailingListForm from "$lib/components/menu/MailingListForm.svelte"
 
   export let news: News[]

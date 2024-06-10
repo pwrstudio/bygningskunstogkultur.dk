@@ -2,6 +2,7 @@
   import type { Article, Issue } from "$lib/types/sanity.types"
   import { currentIssue } from "$lib/modules/stores"
   import ArticleComponent from "$lib/components/issue/ArticleComponent.svelte"
+  import MetaData from "$lib/components/metadata/MetaData.svelte"
 
   export let data: {
     issue: Issue
@@ -17,5 +18,6 @@
 </script>
 
 {#key data}
+  <MetaData post={article} />
   <ArticleComponent {article} {issue} />
 {/key}

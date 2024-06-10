@@ -9,5 +9,6 @@ export enum PageType {
     Landing,
     Article,
     News,
-    Pdf
+    Pdf,
+    Error
 }

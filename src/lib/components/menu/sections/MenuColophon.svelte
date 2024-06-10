@@ -27,7 +27,7 @@
 </div>
 
 <style lang="scss">
-  @import "../../styles/variables.scss";
+  @import "../../../styles/variables.scss";
 
   .narrow-cols {
     border-top: var(--border-black);

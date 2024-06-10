@@ -1,7 +1,5 @@
 <script lang="ts">
   import { fade } from "svelte/transition"
-  import { tick } from "svelte"
-  import { scrollBack } from "$lib/modules/utils"
   import { calculateArticleReadingTime } from "$lib/modules/utils"
   import type { Article, Issue } from "$lib/types/sanity.types"
 
@@ -76,16 +74,11 @@
   }
 
   const goToArticle = async (article: Article) => {
-    const destination = "/" + issue.slug.current + "/" + article.slug.current
-    if (scrollParent) {
-      scrollBack(scrollParent, 0)
-    }
-    await tick()
-    console.log(destination)
-    goto(destination)
+    goto("/" + issue.slug.current + "/" + article.slug.current)
+    tableOfContentsActive.set(false)
   }
 
-  const goToLandingPage = () => {
+  const gotToLandingPage = () => {
     goto("/")
   }
 
@@ -119,7 +112,7 @@
     <ul class="toc-menu t-o-c">
       <!-- svelte-ignore a11y-click-events-have-key-events -->
       <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-      <li class="toc-menu-item title-item link" on:click={goToLandingPage}>
+      <li class="toc-menu-item title-item link" on:click={gotToLandingPage}>
         TILBAGE TIL FORSIDE
       </li>
       {#each issue.tableOfContents as article, index}
@@ -169,7 +162,7 @@
         <!-- svelte-ignore a11y-click-events-have-key-events -->
         <!-- svelte-ignore a11y-no-static-element-interactions -->
         <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-        <li class="bullet" on:click={goToLandingPage}>⌂</li>
+        <li class="bullet" on:click={gotToLandingPage}>⌂</li>
         {#each issue.tableOfContents as article, index}
           <!-- svelte-ignore a11y-click-events-have-key-events -->
           <!-- svelte-ignore a11y-no-static-element-interactions -->

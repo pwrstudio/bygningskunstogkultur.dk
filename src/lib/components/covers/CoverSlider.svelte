@@ -2,7 +2,7 @@
   import type { Issue } from "$lib/types/sanity.types"
   import Swiper from "swiper"
   import { Pagination, Navigation } from "swiper/modules"
-  import { onMount, afterUpdate, tick } from "svelte"
+  import { onMount, afterUpdate } from "svelte"
   import { get } from "lodash-es"
   import { mapValue } from "$lib/modules/utils"
 
@@ -43,8 +43,6 @@
   async function initializeSwipers() {
     if (swiperDesktop) swiperDesktop.destroy()
     if (swiperMobile) swiperMobile.destroy()
-
-    await tick()
 
     swiperDesktop = new Swiper(swiperDesktopElement, {
       modules: [Navigation, Pagination],
@@ -210,8 +208,9 @@
     padding: 0;
     overflow: hidden;
 
-    :global(.swiper-container) {
+    .swiper-container {
       width: $coverslider_2;
+      overflow: hidden;
     }
 
     :global(.swiper-slide) {
@@ -221,7 +220,6 @@
     @include screen-size("phone") {
       :global(.swiper-container) {
         width: $coverslider_1;
-        overflow: hidden;
       }
     }
 

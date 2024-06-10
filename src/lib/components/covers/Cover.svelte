@@ -1,6 +1,6 @@
 <script lang="ts">
-  import type { Issue } from "$lib/types/sanity.types"
   import { fade } from "svelte/transition"
+  import type { Issue } from "$lib/types/sanity.types"
   import { urlFor } from "$lib/modules/sanity"
   import Logo from "$lib/components/graphics/Logo.svelte"
 

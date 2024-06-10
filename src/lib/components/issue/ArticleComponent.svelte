@@ -5,7 +5,6 @@
 
   import { menuActive } from "$lib/modules/stores"
 
-  // import MetaData from "./MetaData.svelte"
   import Slideshow from "$lib/components/slideshow/SlideShow.svelte"
   import Meta from "$lib/components/issue/Meta.svelte"
   import ZoomMeta from "$lib/components/issue/ZoomMeta.svelte"
@@ -16,9 +15,6 @@
   export let issue: Issue
 
   const nextArticle: Article | null = getNextArticle(issue, article)
-
-  console.log("article", article)
-  console.log("nextArticle", nextArticle)
 
   const closeMenu = () => {
     menuActive.set(false)
@@ -36,6 +32,7 @@
       <!-- ZOOM-META -->
       <ZoomMeta {article} {issue} />
 
+      <!-- ZOOMABLE SLIDESHOW -->
       <div class="block full">
         <Slideshow zoomable slides={article.slideshow ?? []} />
       </div>
@@ -43,6 +40,7 @@
       <!-- META -->
       <Meta {article} {issue} />
 
+      <!-- NORMAL SLIDESHOW -->
       <div class="block full mobile">
         {#if !article.zoomableSlideshowLayout}
           <div class="col slideshow-mobile" class:slideshow={article.slideshow}>
@@ -53,6 +51,7 @@
         {/if}
       </div>
 
+      <!-- TEXT -->
       <div class="block main">
         {@html renderBlockText(article.content?.content ?? [])}
       </div>
@@ -61,6 +60,7 @@
       <Footnotes {article} />
     {/if}
 
+    <!-- NEXT ARTICLE NAVIGATION -->
     {#if nextArticle}
       <a
         href={nextArticle.slug.current}

@@ -25,7 +25,7 @@
       <figcaption>
         <!-- CAPTION -->
         <span class="caption>">
-          {@html renderBlockText(block.caption.content)}
+          {@html renderBlockText(block.caption?.content ?? [])}
         </span>
       </figcaption>
     {/if}

@@ -36,12 +36,6 @@ export function extractFootnotes(mainContent: BlockContent) {
     return footnotes
 }
 
-export function stripHtml(html: string) {
-    let tmp = document.createElement("DIV")
-    tmp.innerHTML = html
-    return tmp.textContent || tmp.innerText || ""
-}
-
 export function calculateArticleReadingTime(article: Article) {
     const blockContent = article?.content?.content
     if (!blockContent) return 0

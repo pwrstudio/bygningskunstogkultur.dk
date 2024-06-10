@@ -16,6 +16,7 @@
   }
 
   onMount(() => {
+    // Listen to changes to the hash to scroll to and from footnotes
     window.addEventListener("hashchange", scrollToHash)
   })
 </script>
