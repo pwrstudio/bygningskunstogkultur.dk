@@ -5,7 +5,7 @@
   import Menu from "$lib/components/menu/Menu.svelte"
   import ToC from "$lib/components/table-of-contents/ToC.svelte"
 
-  import { menuActive, currentIssue } from "$lib/modules/stores"
+  import { menuOpen, currentIssue } from "$lib/modules/stores"
 
   export let data: {
     about: About
@@ -36,7 +36,7 @@
   $: pageType = getPageType($page.route?.id ?? "")
 
   const closeMenu = () => {
-    if ($menuActive) menuActive.set(false)
+    if ($menuOpen) menuOpen.set(false)
   }
 </script>
 
@@ -49,7 +49,7 @@
 
 <svelte:window bind:innerWidth={vw} />
 
-{#if vw < 768 && $menuActive}
+{#if vw < 768 && $menuOpen}
   <!-- svelte-ignore a11y-click-events-have-key-events -->
   <!-- svelte-ignore a11y-no-static-element-interactions -->
   <div class="pseudo" on:click|preventDefault={closeMenu} />

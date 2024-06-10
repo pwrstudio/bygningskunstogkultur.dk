@@ -2,7 +2,7 @@
   import type { News, Colophon, About } from "$lib/types/sanity.types"
   import { MenuSection, PageType } from "$lib/enums"
 
-  import { menuActive, newsExtended } from "$lib/modules/stores"
+  import { menuOpen, newsExtended } from "$lib/modules/stores"
 
   import MenuNews from "$lib/components/menu/sections/MenuNews.svelte"
   import MenuAbout from "$lib/components/menu/sections/MenuAbout.svelte"
@@ -21,7 +21,7 @@
 
   $: {
     if (pageType === PageType.Landing) {
-      menuActive.set(true)
+      menuOpen.set(true)
     }
   }
 
@@ -40,20 +40,20 @@
   }
 
   const toggleMenu = () => {
-    menuActive.set(!$menuActive)
+    menuOpen.set(!$menuOpen)
     newsExtended.set(false)
 
-    // if (vw < 768 && $tableOfContentsActive && $menuActive) {
-    //   tableOfContentsActive.set(false)
+    // if (vw < 768 && $tableOfContentsOpen && $menuOpen) {
+    //   tableOfContentsOpen.set(false)
     // }
 
-    // if ($menuActive && vw >= 768) {
+    // if ($menuOpen && vw >= 768) {
     //   if (!$menuItemActive) {
     //     menuItemActive.set("news")
     //   }
     // }
 
-    // if (!$menuActive) {
+    // if (!$menuOpen) {
     //   menuItemActive.set(null)
     // }
   }
@@ -63,7 +63,7 @@
 <svelte:window bind:innerWidth={vw} bind:innerHeight={ih} />
 
 <!-- class:peek={!$menuItemActive && vw < 768} -->
-<div class="menu" class:open={$menuActive} class:extended={$newsExtended}>
+<div class="menu" class:open={$menuOpen} class:extended={$newsExtended}>
   <!-- CONTENT -->
   <div class="menu-content" bind:this={menuContentElement}>
     {#if activeMenuSection == MenuSection.News}

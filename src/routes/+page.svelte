@@ -9,7 +9,7 @@
   const { issues } = data
 
   import {
-    menuActive,
+    menuOpen,
     newsExtended,
     extendedPost,
     currentIssue,
@@ -19,7 +19,7 @@
   currentIssue.set(undefined)
 
   onDestroy(() => {
-    menuActive.set(false)
+    menuOpen.set(false)
     newsExtended.set(false)
     extendedPost.set({})
   })

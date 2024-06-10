@@ -6,8 +6,8 @@
   export let issue: Issue
 
   import {
-    tableOfContentsActive,
-    menuActive,
+    tableOfContentsOpen,
+    menuOpen,
     currentArticleSlug,
     newsExtended,
   } from "$lib/modules/stores"
@@ -67,7 +67,7 @@
   }
 
   $: {
-    if ((!$tableOfContentsActive && scrollParent) || (scrollParent && peek)) {
+    if ((!$tableOfContentsOpen && scrollParent) || (scrollParent && peek)) {
       console.log("reset")
       scrollParent.scrollTop = 0
     }
@@ -75,7 +75,7 @@
 
   const goToArticle = async (article: Article) => {
     goto("/" + issue.slug.current + "/" + article.slug.current)
-    tableOfContentsActive.set(false)
+    tableOfContentsOpen.set(false)
   }
 
   const gotToLandingPage = () => {
@@ -84,10 +84,10 @@
 
   const toggleToC = () => {
     inTransition = true
-    tableOfContentsActive.set(!$tableOfContentsActive)
+    tableOfContentsOpen.set(!$tableOfContentsOpen)
     newsExtended.set(false)
-    if (vw < 768 && $tableOfContentsActive && $menuActive) {
-      menuActive.set(false)
+    if (vw < 768 && $tableOfContentsOpen && $menuOpen) {
+      menuOpen.set(false)
     }
     setTimeout(() => {
       inTransition = false
@@ -104,9 +104,9 @@
     bind:this={scrollParent}
     class="toc"
     class:disabled={inTransition}
-    class:open={$tableOfContentsActive}
+    class:open={$tableOfContentsOpen}
     class:peek
-    class:parentOpen={$menuActive}
+    class:parentOpen={$menuOpen}
     class:parentExtended={$newsExtended}
   >
     <ul class="toc-menu t-o-c">

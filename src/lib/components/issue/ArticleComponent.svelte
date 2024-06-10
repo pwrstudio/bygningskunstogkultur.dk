@@ -3,7 +3,7 @@
   import { renderBlockText } from "$lib/modules/sanity"
   import { getNextArticle } from "$lib/modules/utils"
 
-  import { menuActive } from "$lib/modules/stores"
+  import { menuOpen } from "$lib/modules/stores"
 
   import Slideshow from "$lib/components/slideshow/SlideShow.svelte"
   import Meta from "$lib/components/issue/Meta.svelte"
@@ -17,7 +17,7 @@
   const nextArticle: Article | null = getNextArticle(issue, article)
 
   const closeMenu = () => {
-    menuActive.set(false)
+    menuOpen.set(false)
   }
 </script>
 

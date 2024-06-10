@@ -4,8 +4,8 @@
   import { onMount } from "svelte"
 
   import {
-    menuActive,
-    tableOfContentsActive,
+    menuOpen,
+    tableOfContentsOpen,
     newsExtended,
   } from "$lib/modules/stores"
 
@@ -28,34 +28,34 @@
 
   $: {
     if (landing) {
-      if (vw > 768 && !$menuActive) {
-        menuActive.set(true)
+      if (vw > 768 && !$menuOpen) {
+        menuOpen.set(true)
       }
     }
   }
 
   const toggleMenu = () => {
-    menuActive.set(!$menuActive)
+    menuOpen.set(!$menuOpen)
     newsExtended.set(false)
 
-    if (vw < 768 && $tableOfContentsActive && $menuActive) {
-      tableOfContentsActive.set(false)
+    if (vw < 768 && $tableOfContentsOpen && $menuOpen) {
+      tableOfContentsOpen.set(false)
     }
 
-    // if ($menuActive && vw >= 768) {
+    // if ($menuOpen && vw >= 768) {
     //   if (!$menuItemActive) {
     //     menuItemActive.set("news")
     //   }
     // }
 
-    // if (!$menuActive) {
+    // if (!$menuOpen) {
     //   menuItemActive.set(null)
     // }
   }
 
   // afterUpdate(() => {
   //   if (pvw < 768 && vw >= 768) {
-  //     menuActive.set(true)
+  //     menuOpen.set(true)
   //   }
   //   pvw = vw
   // })
@@ -64,16 +64,16 @@
     // $activeRoute will change on navigation
     // if ($activeRoute.uri === "/") {
     //   if (vw < 768) {
-    //     menuActive.set(false)
+    //     menuOpen.set(false)
     //   }
     // }
 
     // Switch the menu to off if the vw is mobile size
     if (landing) {
       if (pvw >= 768 && vw < 768) {
-        menuActive.set(false)
+        menuOpen.set(false)
       } else if (pvw < 768 && vw >= 768) {
-        menuActive.set(true)
+        menuOpen.set(true)
       }
     }
 
@@ -88,7 +88,7 @@
 <!-- class:peek={!$menuItemActive && vw < 768} -->
 <div
   class="menu"
-  class:open={$menuActive}
+  class:open={$menuOpen}
   class:single={!landing}
   class:extended={$newsExtended}
   style="height: {ih + 'px'};"
@@ -205,7 +205,7 @@
     <!-- svelte-ignore a11y-no-static-element-interactions -->
     <div class="menu-button" on:click|preventDefault={toggleMenu}>
       <h1 class="title hamburger">
-        <div class="hamburger-cross-icon" class:open={$menuActive}>
+        <div class="hamburger-cross-icon" class:open={$menuOpen}>
           <span />
           <span />
           <span />

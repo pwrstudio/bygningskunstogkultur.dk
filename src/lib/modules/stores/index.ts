@@ -2,10 +2,10 @@ import { writable } from 'svelte/store'
 import type { Writable } from 'svelte/store'
 import type { Issue } from '$lib/types/sanity.types'
 
-// UI
-export const menuActive = writable(false)
+// UI state
+export const menuOpen = writable(false)
+export const tableOfContentsOpen = writable(false)
 export const newsExtended = writable(false)
-export const tableOfContentsActive = writable(false)
 
 // Data
 export const currentIssue: Writable<Issue | undefined> = writable(undefined)

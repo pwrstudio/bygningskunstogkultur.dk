@@ -29,7 +29,7 @@
   }
 
   import {
-    tableOfContentsActive,
+    tableOfContentsOpen,
     newsExtended,
     extendedPost,
   } from "$lib/modules/stores"
@@ -138,7 +138,7 @@
             class="read-more"
             on:click={e => {
               extendedPost.set(item)
-              tableOfContentsActive.set(false)
+              tableOfContentsOpen.set(false)
               newsExtended.set(true)
             }}
           >
