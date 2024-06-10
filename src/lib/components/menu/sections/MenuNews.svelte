@@ -1,95 +1,55 @@
 <script lang="ts">
   import type { News } from "$lib/types/sanity.types"
-  export let news = [] as News[]
-
+  import { tick, createEventDispatcher } from "svelte"
   import { renderBlockText, urlFor } from "$lib/modules/sanity"
   import { formattedDate } from "$lib/modules/utils"
-  import { isArray, has } from "lodash-es"
-
+  import { tableOfContentsOpen, newsExtended } from "$lib/modules/stores"
   import ArrowRight from "$lib/components/graphics/ArrowRight.svelte"
-  import ArrowLeft from "$lib/components/graphics/ArrowLeft.svelte"
-  import Share from "$lib/components/share/Share.svelte"
+  import FullNewsItem from "$lib/components/news/FullNewsItem.svelte"
 
-  let el: HTMLElement
+  const dispatch = createEventDispatcher()
+
+  export let news = [] as News[]
+
   let vh: number
   let vw: number
 
-  const closeExtendedNews = () => {
-    let targetNewsItem = $extendedPost.slug.current
-    extendedPost.set({})
-    newsExtended.set(false)
-    window.setTimeout(() => {
-      let targetNewsItemEl = document.querySelector(`#${targetNewsItem}`)
-      if (targetNewsItemEl) {
-        targetNewsItemEl.scrollIntoView({
-          block: "start",
-        })
-      }
-    }, 200)
+  let extendedPost: News | null = null
+
+  const openExtendedPost = (item: News) => {
+    extendedPost = item
+    tableOfContentsOpen.set(false)
+    newsExtended.set(true)
+    dispatch("scrollToTop")
   }
 
-  import {
-    tableOfContentsOpen,
-    newsExtended,
-    extendedPost,
-  } from "$lib/modules/stores"
+  const closeExtendedPost = async () => {
+    if (!extendedPost) return
+
+    let targetNewsItem = extendedPost.slug.current
+
+    newsExtended.set(false)
+    extendedPost = null
+
+    // Let the DOM update before scrolling
+    await tick()
+    let targetNewsItemEl = document.querySelector(`#${targetNewsItem}`)
+    if (targetNewsItemEl) {
+      targetNewsItemEl.scrollIntoView({
+        block: "start",
+      })
+    }
+  }
 </script>
 
 <svelte:window bind:innerHeight={vh} bind:innerWidth={vw} />
 
-<div class:extended={$newsExtended} bind:this={el}>
-  <!-- LOGO -->
-  {#if $newsExtended}
-    <div class="news-item">
-      <!-- svelte-ignore a11y-click-events-have-key-events -->
-      <!-- svelte-ignore a11y-no-static-element-interactions -->
-      <div class="close-extended" on:click={closeExtendedNews}>
-        <ArrowLeft />
-      </div>
-      <div class="content">
-        {#if $extendedPost.mainImage?.asset}
-          <img
-            class="image"
-            alt={$extendedPost.title}
-            src={urlFor($extendedPost.mainImage.asset)
-              .width(400)
-              .quality(90)
-              .saturation(-100)
-              .auto("format")
-              .url()}
-          />
-        {/if}
-        <!-- HEADER -->
-        <div class="header">
-          <!-- TITLE -->
-          <span>
-            {$extendedPost.title}
-          </span>
-          <!-- PUBLICATION DATE -->
-          <span>
-            {#if $extendedPost.publicationDate}
-              {@html formattedDate($extendedPost.publicationDate)}
-            {/if}
-          </span>
-        </div>
-        <!-- SHARE -->
-        <div class="share">
-          <!-- SHARING
-          <Share /> -->
-        </div>
-        <!-- CONTENT -->
-        {#if has($extendedPost, "extendedContent.content") && isArray($extendedPost.extendedContent.content)}
-          <div class="paragraph">
-            {@html renderBlockText($extendedPost.extendedContent.content)}
-          </div>
-        {:else if has($extendedPost, "content.content") && isArray($extendedPost.content.content)}
-          <div class="paragraph">
-            {@html renderBlockText($extendedPost.content.content)}
-          </div>
-        {/if}
-      </div>
-    </div>
+<div class:extended={$newsExtended}>
+  <!-- EXTENDED POST -->
+  {#if $newsExtended && extendedPost}
+    <FullNewsItem news={extendedPost} on:close={closeExtendedPost} />
   {:else}
+    <!-- LOGO -->
     <div class="kadk-logo">
       <img alt="logo" src="/img/logo.svg" />
     </div>
@@ -136,10 +96,8 @@
           <!-- svelte-ignore a11y-no-static-element-interactions -->
           <div
             class="read-more"
-            on:click={e => {
-              extendedPost.set(item)
-              tableOfContentsOpen.set(false)
-              newsExtended.set(true)
+            on:click={_ => {
+              openExtendedPost(item)
             }}
           >
             <ArrowRight />

@@ -27,7 +27,7 @@
 
   const changeMenuSection = (section: MenuSection) => {
     activeMenuSection = section
-    menuContentElement.scrollTo(0, 0)
+    scrollToTop()
   }
 
   const handleSidebarClick = () => {
@@ -37,6 +37,10 @@
       // Disable closing the menu on landing page
       toggleMenu()
     }
+  }
+
+  const scrollToTop = () => {
+    menuContentElement.scrollTo(0, 0)
   }
 
   const toggleMenu = () => {
@@ -67,7 +71,7 @@
   <!-- CONTENT -->
   <div class="menu-content" bind:this={menuContentElement}>
     {#if activeMenuSection == MenuSection.News}
-      <MenuNews {news} />
+      <MenuNews {news} on:scrollToTop={scrollToTop} />
     {:else if activeMenuSection == MenuSection.About}
       <MenuAbout {about} />
     {:else if activeMenuSection == MenuSection.Colophon}
@@ -87,50 +91,52 @@
     <h1 class="title bottom">Info</h1>
   </div>
 
-  <!-- MENU LIST -->
-  <ul class="menu-list">
-    <!-- svelte-ignore a11y-click-events-have-key-events -->
-    <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-    <li
-      class="menu-item title"
-      id="news"
-      class:active={activeMenuSection == MenuSection.News}
-      on:click={() => {
-        changeMenuSection(MenuSection.News)
-      }}
-    >
-      På Instituttet
-    </li>
-    <!-- svelte-ignore a11y-click-events-have-key-events -->
-    <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-    <li
-      class="menu-item title"
-      id="about"
-      class:active={activeMenuSection == MenuSection.About}
-      on:click={() => {
-        changeMenuSection(MenuSection.About)
-      }}
-    >
-      Om magasinet
-    </li>
-    <!-- svelte-ignore a11y-click-events-have-key-events -->
-    <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-    <li
-      class="menu-item title"
-      id="colophon"
-      class:active={activeMenuSection == MenuSection.Colophon}
-      on:click={() => {
-        changeMenuSection(MenuSection.Colophon)
-      }}
-    >
-      Kolofon
-    </li>
-  </ul>
+  {#if !$newsExtended}
+    <!-- MENU LIST -->
+    <ul class="menu-list">
+      <!-- svelte-ignore a11y-click-events-have-key-events -->
+      <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+      <li
+        class="menu-item title"
+        id="news"
+        class:active={activeMenuSection == MenuSection.News}
+        on:click={() => {
+          changeMenuSection(MenuSection.News)
+        }}
+      >
+        På Instituttet
+      </li>
+      <!-- svelte-ignore a11y-click-events-have-key-events -->
+      <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+      <li
+        class="menu-item title"
+        id="about"
+        class:active={activeMenuSection == MenuSection.About}
+        on:click={() => {
+          changeMenuSection(MenuSection.About)
+        }}
+      >
+        Om magasinet
+      </li>
+      <!-- svelte-ignore a11y-click-events-have-key-events -->
+      <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+      <li
+        class="menu-item title"
+        id="colophon"
+        class:active={activeMenuSection == MenuSection.Colophon}
+        on:click={() => {
+          changeMenuSection(MenuSection.Colophon)
+        }}
+      >
+        Kolofon
+      </li>
+    </ul>
 
-  <!-- NEWSLETTER FORM -->
-  <div class="newsletter-signup">
-    <MailingListForm />
-  </div>
+    <!-- NEWSLETTER FORM -->
+    <div class="newsletter-signup">
+      <MailingListForm />
+    </div>
+  {/if}
 </div>
 
 <style lang="scss">

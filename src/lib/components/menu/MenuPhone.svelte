@@ -229,7 +229,7 @@
     line-height: var(--line-height);
     overflow: auto;
     padding: var(--margin);
-    padding-right: var(--menu-button-width);
+    padding-right: var(--menu-side-width);
     padding-left: calc(var(--menu-difference) + 42px);
     padding-bottom: 32px;
     font-family: var(--sans-stack);
@@ -240,14 +240,14 @@
     transition: transform 0.2s ease-out;
     user-select: none;
     transform: translateX(
-      calc((-1 * var(--extended-menu-width)) + var(--menu-button-width))
+      calc((-1 * var(--extended-menu-width)) + var(--menu-side-width))
     );
 
     @include screen-size("phone") {
       bottom: 0;
       transform: translateY(calc(100% - #{$menu_button_width}));
       width: 100vw;
-      padding: var(--menu-button-width) calc(var(--margin) / 4) 0;
+      padding: var(--menu-side-width) calc(var(--margin) / 4) 0;
     }
 
     background: var(--green);

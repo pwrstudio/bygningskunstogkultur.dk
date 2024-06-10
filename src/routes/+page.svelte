@@ -8,12 +8,7 @@
 
   const { issues } = data
 
-  import {
-    menuOpen,
-    newsExtended,
-    extendedPost,
-    currentIssue,
-  } from "$lib/modules/stores"
+  import { menuOpen, newsExtended, currentIssue } from "$lib/modules/stores"
 
   // No current issue as we are on the landing page
   currentIssue.set(undefined)
@@ -21,7 +16,6 @@
   onDestroy(() => {
     menuOpen.set(false)
     newsExtended.set(false)
-    extendedPost.set({})
   })
 </script>
 
@@ -34,10 +28,6 @@
 <style lang="scss">
   @import "../lib/styles/variables.scss";
 
-  :local(body) {
-    background-color: var(--grey-solid);
-  }
-
   .landing {
     background: var(--grey-solid);
     width: calc(100% - var(--menu-width));
@@ -47,7 +37,7 @@
     transition: width 0.2s ease-out;
 
     @include screen-size("phone") {
-      height: calc(100% - var(--menu-button-width));
+      height: calc(100% - var(--menu-side-width));
       width: 100vw;
       overflow: hidden;
     }

@@ -11,7 +11,3 @@ export const newsExtended = writable(false)
 export const currentArticleSlug: Writable<string | undefined> = writable(undefined)
 // Used to pass data into the table of contents
 export const currentIssue: Writable<Issue | undefined> = writable(undefined)
-
-export const extendedPost = writable({})
-
-

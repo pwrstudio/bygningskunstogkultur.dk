@@ -1,20 +1,23 @@
 <script lang="ts">
+  import { createEventDispatcher } from "svelte"
   import type { News } from "$lib/types/sanity.types"
   import { urlFor, renderBlockText } from "$lib/modules/sanity"
   import { formattedDate } from "$lib/modules/utils"
   import ArrowLeft from "$lib/components/graphics/ArrowLeft.svelte"
 
+  const dispatch = createEventDispatcher()
+
   export let news: News
 
-  const closeExtendedNews = () => {
-    // newsExtended.set(false)
+  const close = () => {
+    dispatch("close")
   }
 </script>
 
 <div class="full-news-item">
   <!-- svelte-ignore a11y-click-events-have-key-events -->
   <!-- svelte-ignore a11y-no-static-element-interactions -->
-  <div class="close-extended" on:click={closeExtendedNews}>
+  <div class="close-extended" on:click={close}>
     <ArrowLeft />
   </div>
   <div class="content">
@@ -23,7 +26,7 @@
         class="image"
         alt={news.title}
         src={urlFor(news.mainImage.asset)
-          .width(400)
+          .width(900)
           .quality(90)
           .saturation(-100)
           .auto("format")
@@ -49,11 +52,11 @@
         <Share /> -->
     </div>
     <!-- CONTENT -->
-    {#if news.extendedContent?.content && Array.isArray(news.extendedContent.content)}
+    {#if news.extendedContent?.content}
       <div class="paragraph">
         {@html renderBlockText(news.extendedContent.content)}
       </div>
-    {:else if news.content?.content && Array.isArray(news.content.content)}
+    {:else if news.content?.content}
       <div class="paragraph">
         {@html renderBlockText(news.content?.content ?? [])}
       </div>
@@ -66,8 +69,7 @@
 
   .image {
     mix-blend-mode: unset;
-    max-height: 500px;
-    object-fit: cover;
+    width: 100%;
   }
 
   .share {
@@ -88,10 +90,6 @@
       width: 20px;
       height: 42px;
       cursor: pointer;
-    }
-
-    .content {
-      background: var(--green);
     }
 
     .header {

@@ -1,6 +1,6 @@
 import { loadData } from "$lib/modules/sanity"
 import { queries } from "$lib/groq"
-import type { Issue, News, About, Colophon } from "$lib/types/sanity.types"
+import type { Issue } from "$lib/types/sanity.types"
 
 /** @type {import('./$types').PageLoad} */
 export async function load() {
