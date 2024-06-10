@@ -245,7 +245,7 @@
 
     @include screen-size("phone") {
       bottom: 0;
-      transform: translateY(calc(100% - #{$menu_button_width}));
+      transform: translateY(calc(100% - var(--menu-side-width)));
       width: 100vw;
       padding: var(--menu-side-width) calc(var(--margin) / 4) 0;
     }
@@ -271,7 +271,7 @@
       justify-content: space-between;
       align-items: center;
       height: 100%;
-      width: $menu_button_width;
+      width: var(--menu-side-width);
       cursor: pointer;
 
       .title {
@@ -281,7 +281,7 @@
       @include screen-size("phone") {
         padding: 0 calc(var(--margin) / 4);
         width: 100%;
-        height: $menu_button_width;
+        height: var(--menu-side-width);
         writing-mode: horizontal-tb;
         text-orientation: upright;
         align-items: flex-start;
@@ -347,7 +347,7 @@
     }
 
     &.open {
-      transform: translate(-$menu-difference, 0);
+      transform: translate(-var(--menu-difference), 0);
 
       &.peek {
         transform: translate(
@@ -362,7 +362,7 @@
 
       &.single {
         @include screen-size("phone") {
-          transform: translate(0, $menu_button_width);
+          transform: translate(0, var(--menu-side-width));
         }
       }
     }
@@ -537,9 +537,7 @@
     padding: 0;
     margin: 0;
     list-style-type: none;
-    // width: $menu_width;
     z-index: 10;
-    // padding-bottom: 42px;
     box-shadow: 0px -20px 20px var(--green);
     @include screen-size("phone") {
       box-shadow: unset;

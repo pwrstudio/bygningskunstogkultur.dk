@@ -1,10 +1,3 @@
-$menu_width: 420px;
-$menu-difference: 260px;
-
-$menu_button_width: 42px;
-$coverslider_2: 808px;
-$coverslider_1: 400px;
-
 $breakpoints: (
   "phone-small": (
     max-width: 400px
@@ -16,7 +9,7 @@ $breakpoints: (
     max-width: 900px
   ),
   "medium": (
-    max-width: $coverslider_2 + $menu_width + $menu_button_width + $menu_button_width + $menu_button_width
+    max-width: 1354px
   ),
   "large": (
     max-width: 1600px
@@ -40,12 +33,4 @@ $breakpoints: (
   } @else {
     @error 'No value found for `#{$breakpoint}`. ' + 'Please make sure it is defined in `$breakpoints` map.';
   }
-}
-
-@mixin hide-scroll {
-  &::-webkit-scrollbar {
-    display: none;
-  }
-  -ms-overflow-style: none;
-  scrollbar-width: none;
 }

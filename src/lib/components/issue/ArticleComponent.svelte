@@ -121,7 +121,7 @@
     padding-left: calc(var(--menu-side-width) * 2);
 
     @include screen-size("phone") {
-      height: calc(100vh - #{$menu_button_width});
+      height: calc(100vh - var(--menu-side-width));
       flex-flow: column nowrap;
       height: auto;
       overflow-y: auto;
@@ -201,7 +201,7 @@
   }
 
   .article:last-child {
-    margin-bottom: $menu_button_width * 2;
+    margin-bottom: calc(var(--menu-side-width) * 2);
     padding-bottom: 100px;
   }
 

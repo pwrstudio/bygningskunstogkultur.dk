@@ -168,7 +168,7 @@
     background: var(--green);
 
     &.open {
-      transform: translate(-$menu-difference, 0);
+      transform: translate(calc(-1 * var(--menu-difference)), 0);
 
       &.peek {
         transform: translate(
@@ -249,7 +249,7 @@
     justify-content: space-between;
     align-items: center;
     height: 100%;
-    width: $menu_button_width;
+    width: var(--menu-side-width);
     cursor: pointer;
 
     .title {

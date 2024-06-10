@@ -209,7 +209,7 @@
     overflow: hidden;
 
     .swiper-container {
-      width: $coverslider_2;
+      width: var(--coverslider-2);
       overflow: hidden;
     }
 
@@ -219,7 +219,7 @@
 
     @include screen-size("phone") {
       :global(.swiper-container) {
-        width: $coverslider_1;
+        width: var(--coverslider-1);
       }
     }
 

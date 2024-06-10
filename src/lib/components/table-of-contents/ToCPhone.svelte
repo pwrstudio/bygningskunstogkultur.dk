@@ -250,14 +250,16 @@
   @import "../../styles/variables.scss";
 
   .toc {
-    margin-left: $menu_button_width;
+    margin-left: var(--menu-side-width);
     padding-left: calc(var(--margin) / 2);
     background: var(--grey-solid);
     z-index: 999;
     pointer-events: initial;
     overflow: hidden;
     width: $menu-width;
-    transform: translateX((-1 * $menu-width) + $menu_button_width);
+    transform: translateX(
+      calc((-1 * var(--menu-side-width)) + var(--menu-side-width))
+    );
 
     &.disabled {
       pointer-events: none;
@@ -276,7 +278,7 @@
       margin-left: unset;
       padding-left: unset;
       width: 100%;
-      transform: translateY(100%) translateY(-2 * $menu_button_width);
+      transform: translateY(100%) translateY(calc(-2 * var(--menu-side-width)));
       height: auto;
       padding: var(--margin) calc(var(--margin) / 4) 0;
     }
@@ -315,7 +317,7 @@
       transform: translateX(0);
 
       &.open {
-        transform: translateX($menu_width - $menu_button_width);
+        transform: translateX(calc(var(--menu-width) - var(--menu-side-width)));
       }
 
       @include screen-size("phone") {
