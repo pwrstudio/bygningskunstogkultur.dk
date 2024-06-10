@@ -7,8 +7,6 @@
   }
 
   const { news } = data
-
-  console.log(news)
 </script>
 
 {#key data}
