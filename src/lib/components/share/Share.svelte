@@ -1,10 +1,6 @@
 <script lang="ts">
-  // # # # # # # # # # # # # #
-  //
-  //  Share
-  //
-  // # # # # # # # # # # # # #
-
+  import type { Article, Issue, News } from "$lib/types/sanity.types"
+  import { browser } from "$app/environment"
   import Fa from "svelte-fa"
   import copy from "copy-to-clipboard"
   import {
@@ -19,20 +15,19 @@
     faCheck,
     faFilePdf,
   } from "@fortawesome/free-solid-svg-icons"
-  import type { Article, Issue } from "$lib/types/sanity.types"
 
-  // *** PROPS
-  export let article: Article
-  export let issue: Issue
+  export let article: Article | News
+  export let issue: Issue | null = null
 
   // SHARING LINKS
   const PDF_URL = "/pdf-article/" + article.slug.current
 
-  const URL =
-    "https://bygningskunstogkultur.dk/" +
-    issue.slug.current +
-    "/" +
-    article.slug.current
+  const URL = issue
+    ? "https://bygningskunstogkultur.dk/" +
+      issue.slug.current +
+      "/" +
+      article.slug.current
+    : "https://bygningskunstogkultur.dk/nyhed/" + article.slug.current
 
   const LINKEDIN = "https://www.linkedin.com/shareArticle?mini=true&url=" + URL
 
@@ -45,16 +40,16 @@
   const EMAIL = "mailto:?subject=" + article.title + "&body=" + URL
 
   const nativeShare = () => {
-    // if (navigator?.share) {
-    //   navigator
-    //     .share({
-    //       title: article.title,
-    //       text: article.title,
-    //       url: URL,
-    //     })
-    //     .then(() => console.log("Successful share"))
-    //     .catch(error => console.log("Error sharing", error))
-    // }
+    if (navigator?.share) {
+      navigator
+        .share({
+          title: article.title,
+          text: article.title,
+          url: URL,
+        })
+        .then(() => console.log("Successful share"))
+        .catch(error => console.log("Error sharing", error))
+    }
   }
 
   let copied = false
@@ -91,13 +86,13 @@
     {/if}
   </span>
   <!-- Native share dialog if available (mobile) -->
-  <!-- {#if navigator?.share} -->
-  <!-- svelte-ignore a11y-click-events-have-key-events -->
-  <!-- svelte-ignore a11y-no-static-element-interactions -->
-  <!-- <span on:click={nativeShare} target="_blank">
+  {#if browser && navigator?.share}
+    <!-- svelte-ignore a11y-click-events-have-key-events -->
+    <!-- svelte-ignore a11y-no-static-element-interactions -->
+    <span on:click={nativeShare}>
       <Fa icon={faShareAltSquare} />
     </span>
-  {/if} -->
+  {/if}
 </div>
 
 <style lang="scss">
@@ -112,7 +107,7 @@
     }
 
     :global(svg) {
-      height: 1.3em !important;
+      height: 1.1em !important;
     }
 
     :global(.copy svg) {
@@ -124,7 +119,7 @@
         margin-left: 5px;
       }
       :global(svg) {
-        height: 1.3em !important;
+        height: 1.1em !important;
       }
     }
   }

@@ -4,6 +4,7 @@
   import { urlFor, renderBlockText } from "$lib/modules/sanity"
   import { formattedDate } from "$lib/modules/utils"
   import ArrowLeft from "$lib/components/graphics/ArrowLeft.svelte"
+  import Share from "$lib/components/share/Share.svelte"
 
   const dispatch = createEventDispatcher()
 
@@ -48,8 +49,8 @@
     </div>
     <!-- SHARE -->
     <div class="share">
-      <!-- SHARING
-        <Share /> -->
+      <!-- SHARING -->
+      <Share article={news} />
     </div>
     <!-- CONTENT -->
     {#if news.extendedContent?.content}

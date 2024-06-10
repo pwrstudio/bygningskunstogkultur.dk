@@ -16,15 +16,14 @@
   class:empty={!issue.tableOfContents || issue.tableOfContents.length == 0}
   style="transform: scale({scale});"
   in:fade
-  href="/{issue.slug?.current ?? ''}"
-  data-sveltekit-preload-data
+  href="/{issue.slug.current}"
 >
   <div class="inner">
     <div class="logo">
       <Logo />
     </div>
     <h1 class="logo-title">
-      {issue.title ?? ""}
+      {issue.title}
     </h1>
     {#if issue.mainImage?.asset}
       <img
@@ -35,7 +34,7 @@
           .quality(90)
           .auto("format")
           .url()}
-        alt={issue.mainImage?.alt ?? ""}
+        alt={issue.title}
       />
     {/if}
   </div>
