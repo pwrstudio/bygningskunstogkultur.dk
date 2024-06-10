@@ -226,7 +226,7 @@
     left: 0;
     height: 100vh;
     width: var(--extended-menu-width);
-    line-height: $line-height;
+    line-height: var(--line-height);
     overflow: auto;
     padding: $margin;
     padding-right: var(--menu-button-width);
@@ -254,7 +254,7 @@
 
     :global(p.normal) {
       font-size: var(--font-size-small);
-      line-height: $line-height_small;
+      line-height: var(--line-height-small);
     }
 
     .menu-button {
@@ -325,7 +325,7 @@
       max-height: 100%;
       display: flex;
       flex-flow: row;
-      margin-right: -1 * $margin_xs; // hacky
+      margin-right: -1 * var(--margin-xs); // hacky
 
       .ticker {
         min-width: $margin;

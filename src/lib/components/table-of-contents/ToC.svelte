@@ -9,7 +9,6 @@
 
   import {
     tableOfContentsActive,
-    tableOfContents,
     menuActive,
     currentArticleSlug,
     newsExtended,
@@ -33,7 +32,6 @@
 
   $: {
     if (issue.tableOfContents) {
-      // console.log($tableOfContents)
       const max = 5
       // const max = Math.min(5, $tableOfContents.length)
       let placed = 0
@@ -155,7 +153,7 @@
       <li
         class="toc-menu-item title-item link"
         on:click={e => {
-          // window.location = "/pdf-issue/" + $currentIssueSlug
+          goto("/pdf-issue/" + issue.slug.current)
         }}
       >
         <div class="title-text pdf">Hent udgaven som PDF</div>
@@ -213,7 +211,7 @@
     top: 0;
     left: 0;
     width: var(--extended-menu-width);
-    line-height: $line-height;
+    line-height: var(--line-height);
     overflow: auto;
     padding: var(--margin);
     padding-right: var(--menu-side-width);

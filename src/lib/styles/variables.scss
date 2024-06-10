@@ -1,12 +1,4 @@
-$line-height: 24px;
-$line-height_small: 20px;
-$line-height_large: 28px;
-$line-height_larger: 48px;
 $margin: 42px;
-$margin_xs: 8px;
-
-// PROJECT SIZES
-$menu_bar_height: $line-height * 3;
 $menu_items_height: 210px;
 $menu_width: 420px;
 $menu-difference: 260px;
@@ -14,9 +6,6 @@ $menu-difference: 260px;
 $menu_button_width: 42px;
 $coverslider_2: 808px;
 $coverslider_1: 400px;
-
-$text_width: 600px;
-$text_width_wider: 800px;
 
 $breakpoints: (
   "phone-small": (

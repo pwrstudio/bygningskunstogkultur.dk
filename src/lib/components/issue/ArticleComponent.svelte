@@ -163,7 +163,7 @@
           }
 
           &.main {
-            padding-left: $margin_xs;
+            padding-left: var(--margin-xs);
 
             .content {
               padding-top: 6px;

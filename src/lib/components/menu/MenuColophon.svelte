@@ -31,8 +31,8 @@
 
   .narrow-cols {
     border-top: var(--border-black);
-    margin-top: $margin_xs;
-    padding-top: $margin_xs;
+    margin-top: var(--margin-xs);
+    padding-top: var(--margin-xs);
     width: 100%;
     display: flex;
     flex-flow: row nowrap;

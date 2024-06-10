@@ -36,14 +36,14 @@
   @import "../../styles/variables.scss";
 
   .image {
-    width: $text_width;
+    width: var(--text-width);
     max-width: 100%;
     margin-left: auto;
     margin-right: auto;
     font-size: var(--font-size-small);
-    line-height: $line-height;
+    line-height: var(--line-height);
     font-family: var(--sans-stack);
-    margin-bottom: $line-height;
+    margin-bottom: var(--line-height);
     // margin-top: 2rem;
 
     &.fullwidth {
@@ -63,7 +63,7 @@
     &.fullheight {
       width: 100%;
       max-height: unset;
-      height: calc(100vh - #{$menu_bar_height});
+      height: calc(100vh - var(--$menu_bar_height));
       display: flex;
       justify-content: center;
       align-items: center;
@@ -75,8 +75,8 @@
     }
 
     &.padded {
-      padding-top: $line-height * 4;
-      padding-bottom: $line-height * 4;
+      padding-top: calc(var(--line-height) * 4);
+      padding-bottom: calc(var(--line-height) * 4);
     }
   }
 

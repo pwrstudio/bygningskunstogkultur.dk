@@ -186,7 +186,7 @@
     }
 
     .zoomLevel {
-      padding-top: $margin_xs;
+      padding-top: var(--margin-xs);
 
       .button {
         cursor: pointer;
@@ -255,7 +255,7 @@
     :global(.slide-img) {
       max-width: 100%;
       max-height: calc(100% - #{$margin * 2});
-      padding-bottom: $margin_xs;
+      padding-bottom: var(--margin-xs);
       background: white;
     }
 

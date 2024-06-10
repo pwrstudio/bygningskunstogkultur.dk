@@ -162,7 +162,7 @@
     left: 0;
     height: 100vh;
     width: var(--extended-menu-width);
-    line-height: $line-height;
+    line-height: var(--line-height);
     overflow: hidden; // Ensure no overflow issues
     padding-top: $margin;
     padding-right: var(--menu-side-width);

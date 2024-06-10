@@ -1,6 +1,5 @@
 <script lang="ts">
   import type { EmbedBlock } from "$lib/types/sanity.types"
-  import { has } from "lodash-es"
   import getVideoId from "get-video-id"
   import { renderBlockText } from "$lib/modules/sanity"
 
@@ -9,7 +8,7 @@
 
 <figure class="embed">
   <!-- // YOUTUBE -->
-  {#if block.url.includes("youtube")}
+  {#if block.url && block.url.includes("youtube")}
     <div class="youtube-container">
       <iframe
         width="720"
@@ -24,7 +23,7 @@
   {/if}
 
   <!-- // VIMEO -->
-  {#if block.url.includes("vimeo")}
+  {#if block.url && block.url.includes("vimeo")}
     <div class="vimeo-container">
       <iframe
         width="720"
@@ -58,7 +57,7 @@
   {/if}
 
   <!-- CAPTION -->
-  {#if has(block, "caption.content")}
+  {#if block.caption?.content}
     <figcaption class="caption">
       {@html renderBlockText(block.caption.content)}
     </figcaption>
@@ -69,15 +68,15 @@
   @import "../../styles/variables.scss";
 
   .embed {
-    width: $text_width;
+    width: var(--text-width);
     max-width: 100%;
     margin-left: auto;
     margin-right: auto;
     font-size: var(--font-size-small);
-    line-height: $line-height;
+    line-height: var(--line-height);
     font-family: var(--sans-stack);
-    margin-bottom: $line-height;
-    margin-top: $line-height;
+    margin-bottom: var(--line-height);
+    margin-top: var(--line-height);
 
     .youtube-container,
     .vimeo-container {

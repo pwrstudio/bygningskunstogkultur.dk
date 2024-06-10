@@ -86,8 +86,8 @@
     }
 
     .header {
-      padding-top: $margin_xs;
-      padding-bottom: $margin_xs;
+      padding-top: var(--margin-xs);
+      padding-bottom: var(--margin-xs);
       border-top: var(--border-black);
 
       .right {
@@ -100,13 +100,13 @@
       font-size: var(--font-size-large) r;
       line-height: $line_height_larger;
       font-weight: normal;
-      margin: 0 0 $margin_xs;
+      margin: 0 0 var(--margin-xs);
     }
 
     .byline {
       border-bottom: var(--border-black);
-      margin-bottom: $margin_xs;
-      padding-bottom: $margin_xs;
+      margin-bottom: var(--margin-xs);
+      padding-bottom: var(--margin-xs);
       display: flex;
       align-items: flex-end;
 

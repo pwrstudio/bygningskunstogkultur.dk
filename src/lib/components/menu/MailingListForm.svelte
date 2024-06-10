@@ -58,14 +58,14 @@
       margin-top: 3px;
       text-decoration: none;
       cursor: pointer;
-      line-height: $line-height;
+      line-height: var(--line-height);
       font-family: var(--sans-stack);
       font-size: var(--font-size-small);
     }
     .main-group {
       input {
         display: block;
-        line-height: $line-height;
+        line-height: var(--line-height);
         font-family: var(--sans-stack);
         font-size: var(--font-size-small);
         background: var(--grey-solid);

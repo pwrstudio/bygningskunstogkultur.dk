@@ -88,7 +88,7 @@
   @import "../../styles/variables.scss";
 
   .audio-container {
-    width: $text_width;
+    width: var(--text-width);
     margin-left: auto;
     margin-right: auto;
 
@@ -97,14 +97,14 @@
     }
 
     .audio {
-      height: $line-height * 3;
+      height: calc(var(--line-height) * 3);
       width: 100%;
       display: block;
       color: black;
-      line-height: $line-height;
+      line-height: var(--line-height);
       font-family: var(--sans-stack);
-      margin-bottom: $line-height;
-      margin-top: $line-height;
+      margin-bottom: var(--line-height);
+      margin-top: var(--line-height);
       user-select: none;
 
       cursor: pointer;
@@ -116,7 +116,7 @@
 
     .top-text,
     .bottom-text {
-      height: $line-height;
+      height: var(--line-height);
       font-size: var(--font-size-small);
       div {
         width: 50%;
@@ -124,7 +124,7 @@
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-        height: $line-height * 2;
+        height: calc(var(--line-height) * 2);
         &.right {
           float: right;
           text-align: right;
@@ -135,7 +135,7 @@
     progress {
       display: block;
       width: 100%;
-      height: $line-height * 2;
+      height: calc(var(--line-height) * 2);
       z-index: 80;
       -webkit-appearance: none;
       appearance: none;

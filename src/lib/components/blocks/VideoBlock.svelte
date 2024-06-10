@@ -145,15 +145,15 @@
   @import "../../variables.scss";
 
   .video {
-    width: $text_width;
+    width: var(--text-width);
     max-width: 100%;
     margin-left: auto;
     margin-right: auto;
     font-size: var(--font-size-small);
-    line-height: $line-height;
+    line-height: var(--line-height);
     font-family: var(--sans-stack);
-    margin-bottom: $line-height;
-    margin-top: $line-height;
+    margin-bottom: var(--line-height);
+    margin-top: var(--line-height);
     color: var(--white);
 
     position: relative;
@@ -243,8 +243,8 @@
       }
 
       &.padded {
-        padding-top: $line-height * 4;
-        padding-bottom: $line-height * 4;
+        padding-top: calc(var(--line-height) * 4);
+        padding-bottom: calc(var(--line-height) * 4);
       }
     }
   }
