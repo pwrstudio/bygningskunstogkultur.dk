@@ -7,6 +7,7 @@
     menuOpen,
     tableOfContentsOpen,
     newsExtended,
+    windowWidth,
   } from "$lib/modules/stores"
 
   import MenuNews from "$lib/components/menu/sections/MenuNews.svelte"
@@ -21,14 +22,11 @@
 
   let activeMenuSection: MenuSection = MenuSection.News
   let title = "XXX"
-  let pvw = 0
-  let vw: number
-  let ih: number
   let el: HTMLElement
 
   $: {
     if (landing) {
-      if (vw > 768 && !$menuOpen) {
+      if ($windowWidth > 768 && !$menuOpen) {
         menuOpen.set(true)
       }
     }
@@ -38,11 +36,11 @@
     menuOpen.set(!$menuOpen)
     newsExtended.set(false)
 
-    if (vw < 768 && $tableOfContentsOpen && $menuOpen) {
+    if ($windowWidth < 768 && $tableOfContentsOpen && $menuOpen) {
       tableOfContentsOpen.set(false)
     }
 
-    // if ($menuOpen && vw >= 768) {
+    // if ($menuOpen && $windowWidth >= 768) {
     //   if (!$menuItemActive) {
     //     menuItemActive.set("news")
     //   }
@@ -54,47 +52,41 @@
   }
 
   // afterUpdate(() => {
-  //   if (pvw < 768 && vw >= 768) {
+  //   if (p$windowWidth < 768 && $windowWidth >= 768) {
   //     menuOpen.set(true)
   //   }
-  //   pvw = vw
+  //   p$windowWidth = $windowWidth
   // })
 
   onMount(() => {
     // $activeRoute will change on navigation
     // if ($activeRoute.uri === "/") {
-    //   if (vw < 768) {
+    //   if ($windowWidth < 768) {
     //     menuOpen.set(false)
     //   }
     // }
-
-    // Switch the menu to off if the vw is mobile size
-    if (landing) {
-      if (pvw >= 768 && vw < 768) {
-        menuOpen.set(false)
-      } else if (pvw < 768 && vw >= 768) {
-        menuOpen.set(true)
-      }
-    }
-
-    // Set previous vw to current vw
-    pvw = vw
+    // Switch the menu to off if the $windowWidth is mobile size
+    // if (landing) {
+    //   if (p$windowWidth >= 768 && $windowWidth < 768) {
+    //     menuOpen.set(false)
+    //   } else if (p$windowWidth < 768 && $windowWidth >= 768) {
+    //     menuOpen.set(true)
+    //   }
+    // }
+    // Set previous $windowWidth to current $windowWidth
+    // p$windowWidth = $windowWidth
   })
 </script>
 
-<!-- WINDOW BINDINGS -->
-<svelte:window bind:innerWidth={vw} bind:innerHeight={ih} />
-
-<!-- class:peek={!$menuItemActive && vw < 768} -->
+<!-- class:peek={!$menuItemActive && $windowWidth < 768} -->
 <div
   class="menu"
   class:open={$menuOpen}
   class:single={!landing}
   class:extended={$newsExtended}
-  style="height: {ih + 'px'};"
 >
   <!-- DESKTOP MENU -->
-  {#if vw > 768}
+  {#if $windowWidth > 768}
     <!-- CONTENT -->
     <div class="menu-content" class:extended={$newsExtended} bind:this={el}>
       {#if activeMenuSection == MenuSection.News}
@@ -111,11 +103,11 @@
     <!-- svelte-ignore a11y-no-static-element-interactions -->
     <div
       class="menu-button"
-      class:disabled={landing && vw > 768}
+      class:disabled={landing && $windowWidth > 768}
       on:click={e => {
         if ($newsExtended) {
           newsExtended.set(false)
-        } else if (landing === false && vw > 768) {
+        } else if (landing === false && $windowWidth > 768) {
           toggleMenu()
         }
       }}
@@ -127,7 +119,7 @@
 
   <!-- SHARED -->
   {#if !$newsExtended}
-    <!-- class:hidden={$menuItemActive !== null && vw <= 768} -->
+    <!-- class:hidden={$menuItemActive !== null && $windowWidth <= 768} -->
     <ul class="menu-list">
       <!-- svelte-ignore a11y-click-events-have-key-events -->
       <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
@@ -166,7 +158,7 @@
         Kolofon
       </li>
     </ul>
-    {#if vw >= 768}
+    {#if $windowWidth >= 768}
       <div class="newsletter-signup">
         <MailingListForm />
       </div>
@@ -175,7 +167,7 @@
 
   <!-- MOBILE MENU -->
   <!-- svelte-ignore a11y-click-events-have-key-events -->
-  {#if vw <= 768}
+  {#if $windowWidth <= 768}
     <!-- CONTENT -->
     <div class="mobile-content">
       <!-- CONTENT -->

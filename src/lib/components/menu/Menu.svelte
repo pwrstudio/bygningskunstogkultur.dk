@@ -2,7 +2,7 @@
   import type { News, Colophon, About } from "$lib/types/sanity.types"
   import { MenuSection, PageType } from "$lib/enums"
 
-  import { menuOpen, newsExtended } from "$lib/modules/stores"
+  import { menuOpen, newsExtended, windowWidth } from "$lib/modules/stores"
 
   import MenuNews from "$lib/components/menu/sections/MenuNews.svelte"
   import MenuAbout from "$lib/components/menu/sections/MenuAbout.svelte"
@@ -16,8 +16,6 @@
 
   let activeMenuSection: MenuSection = MenuSection.News
   let menuContentElement: HTMLDivElement
-  let vw: number
-  let ih: number
 
   $: {
     if (pageType === PageType.Landing) {
@@ -33,7 +31,7 @@
   const handleSidebarClick = () => {
     if ($newsExtended) {
       newsExtended.set(false)
-    } else if (pageType !== PageType.Landing && vw > 768) {
+    } else if (pageType !== PageType.Landing && $windowWidth > 768) {
       // Disable closing the menu on landing page
       toggleMenu()
     }
@@ -47,11 +45,11 @@
     menuOpen.set(!$menuOpen)
     newsExtended.set(false)
 
-    // if (vw < 768 && $tableOfContentsOpen && $menuOpen) {
+    // if ($windowWidth < 768 && $tableOfContentsOpen && $menuOpen) {
     //   tableOfContentsOpen.set(false)
     // }
 
-    // if ($menuOpen && vw >= 768) {
+    // if ($menuOpen && $windowWidth >= 768) {
     //   if (!$menuItemActive) {
     //     menuItemActive.set("news")
     //   }
@@ -63,10 +61,7 @@
   }
 </script>
 
-<!-- WINDOW BINDINGS -->
-<svelte:window bind:innerWidth={vw} bind:innerHeight={ih} />
-
-<!-- class:peek={!$menuItemActive && vw < 768} -->
+<!-- class:peek={!$menuItemActive && $windowWidth < 768} -->
 <div class="menu" class:open={$menuOpen} class:extended={$newsExtended}>
   <!-- CONTENT -->
   <div class="menu-content" bind:this={menuContentElement}>
@@ -84,7 +79,7 @@
   <!-- svelte-ignore a11y-no-static-element-interactions -->
   <div
     class="menu-side"
-    class:disabled={pageType === PageType.Landing && vw > 768}
+    class:disabled={pageType === PageType.Landing && $windowWidth > 768}
     on:click={handleSidebarClick}
   >
     <h1 class="title">Kort nyt</h1>

@@ -2,30 +2,24 @@
   import { fade } from "svelte/transition"
   import { calculateArticleReadingTime } from "$lib/modules/utils"
   import type { Article, Issue } from "$lib/types/sanity.types"
-
-  export let issue: Issue
-
   import {
     tableOfContentsOpen,
     menuOpen,
     currentArticleSlug,
     newsExtended,
+    windowWidth,
   } from "$lib/modules/stores"
   import { goto } from "$app/navigation"
 
-  // let vw = window.innerWidth
-  // let ih = window.innerHeight
+  export let issue: Issue
 
   let inTransition = false
-  let vw = 0
-  let ih = 0
-
   let scrollParent: HTMLElement | null = null
   let show = new Array()
   let peek = false
 
   // $: {
-  //   peek = !$menuItemActive && vw < 768
+  //   peek = !$menuItemActive && $windowWidth < 768
   // }
 
   $: {
@@ -86,7 +80,7 @@
     inTransition = true
     tableOfContentsOpen.set(!$tableOfContentsOpen)
     newsExtended.set(false)
-    if (vw < 768 && $tableOfContentsOpen && $menuOpen) {
+    if ($windowWidth < 768 && $tableOfContentsOpen && $menuOpen) {
       menuOpen.set(false)
     }
     setTimeout(() => {
@@ -94,9 +88,6 @@
     }, 200)
   }
 </script>
-
-<!-- WINDOW BINDINGS -->
-<svelte:window bind:innerWidth={vw} bind:innerHeight={ih} />
 
 {#if issue.tableOfContents && issue.tableOfContents.length > 0}
   <div

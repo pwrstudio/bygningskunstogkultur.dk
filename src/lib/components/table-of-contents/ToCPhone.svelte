@@ -2,33 +2,24 @@
   import { fade } from "svelte/transition"
   import { tick } from "svelte"
   import { get } from "lodash-es"
-  import { scrollBack } from "$lib/modules/utils"
-  import { calculateArticleReadingTime } from "$lib/modules/utils"
+  import { scrollBack, calculateArticleReadingTime } from "$lib/modules/utils"
+  import { windowWidth } from "$lib/modules/stores"
 
   let inTransition = false
 
   import {
     tableOfContentsOpen,
-    tableOfContents,
     menuOpen,
-    hash,
     currentArticleSlug,
-    currentIssueSlug,
     newsExtended,
   } from "$lib/modules/stores"
-
-  // let vw = window.innerWidth
-  // let ih = window.innerHeight
-
-  let vw = 0
-  let ih = 0
 
   let scrollParent: HTMLElement | null = null
   let show = new Array()
   let peek = false
 
   // $: {
-  //   peek = !$menuItemActive && vw < 768
+  //   peek = !$menuItemActive && $windowWidth < 768
   // }
 
   $: {
@@ -91,7 +82,7 @@
     inTransition = true
     tableOfContentsOpen.set(!$tableOfContentsOpen)
     newsExtended.set(false)
-    if (vw < 768 && $tableOfContentsOpen && $menuOpen) {
+    if ($windowWidth < 768 && $tableOfContentsOpen && $menuOpen) {
       menuOpen.set(false)
     }
     setTimeout(() => {
@@ -99,9 +90,6 @@
     }, 200)
   }
 </script>
-
-<!-- WINDOW BINDINGS -->
-<svelte:window bind:innerWidth={vw} bind:innerHeight={ih} />
 
 {#if $tableOfContents}
   <div
@@ -113,7 +101,6 @@
     class:peek
     class:parentOpen={$menuOpen}
     class:parentExtended={$newsExtended}
-    style="height: {ih + 'px'};"
   >
     <ul class="bar-menu t-o-c">
       <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -163,7 +150,7 @@
       </li>
     </ul>
 
-    {#if vw < 768}
+    {#if $windowWidth < 768}
       <!-- svelte-ignore a11y-click-events-have-key-events -->
       <!-- svelte-ignore a11y-no-static-element-interactions -->
       <div class="bar-button" on:click={toggleToC}>

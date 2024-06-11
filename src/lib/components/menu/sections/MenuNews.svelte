@@ -3,16 +3,17 @@
   import { tick, createEventDispatcher } from "svelte"
   import { renderBlockText, urlFor } from "$lib/modules/sanity"
   import { formattedDate } from "$lib/modules/utils"
-  import { tableOfContentsOpen, newsExtended } from "$lib/modules/stores"
+  import {
+    tableOfContentsOpen,
+    newsExtended,
+    windowWidth,
+  } from "$lib/modules/stores"
   import ArrowRight from "$lib/components/graphics/ArrowRight.svelte"
   import FullNewsItem from "$lib/components/news/FullNewsItem.svelte"
 
   const dispatch = createEventDispatcher()
 
   export let news = [] as News[]
-
-  let vh: number
-  let vw: number
 
   let extendedPost: News | null = null
 
@@ -42,8 +43,6 @@
   }
 </script>
 
-<svelte:window bind:innerHeight={vh} bind:innerWidth={vw} />
-
 <div class:extended={$newsExtended}>
   <!-- EXTENDED POST -->
   {#if $newsExtended && extendedPost}
@@ -57,7 +56,9 @@
       <div class="news-item" id={item.slug.current}>
         <div
           class="content"
-          style="min-height: {vw >= 768 ? vh - 200 + 'px' : 'auto'}"
+          style="min-height: {$windowWidth >= 768
+            ? $windowWidth - 200 + 'px'
+            : 'auto'}"
         >
           <!-- IMAGE -->
           {#if item.mainImage?.asset}

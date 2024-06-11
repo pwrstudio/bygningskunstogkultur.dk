@@ -10,7 +10,7 @@
   import "swiper/css/navigation"
   import "swiper/css/pagination"
 
-  import { newsExtended } from "$lib/modules/stores"
+  import { newsExtended, windowWidth } from "$lib/modules/stores"
 
   import Cover from "$lib/components/covers/Cover.svelte"
   import ArrowRight from "$lib/components/graphics/ArrowRight.svelte"
@@ -18,7 +18,6 @@
 
   export let issues: Issue[] = []
 
-  let vw: number = 0
   let scale = 1
   let coverScale = 1
 
@@ -29,14 +28,14 @@
   let swiperMobile: Swiper
 
   $: {
-    if (768 < vw && vw < 1350) {
-      scale = mapValue(vw, 769, 1349, 0.2, 0.9)
+    if (768 < $windowWidth && $windowWidth < 1350) {
+      scale = mapValue($windowWidth, 769, 1349, 0.2, 0.9)
     } else {
       scale = 1
     }
 
-    if (vw < 400) {
-      coverScale = mapValue(vw, 80, 440, 0, 0.8)
+    if ($windowWidth < 400) {
+      coverScale = mapValue($windowWidth, 80, 440, 0, 0.8)
     }
   }
 
@@ -76,15 +75,13 @@
   }
 
   onMount(() => {
-    vw = window.innerWidth
-
-    if (768 < vw && vw < 1350) {
-      scale = mapValue(vw, 769, 1349, 0.2, 0.9)
+    if (768 < $windowWidth && $windowWidth < 1350) {
+      scale = mapValue($windowWidth, 769, 1349, 0.2, 0.9)
     } else {
       scale = 1
     }
-    if (vw < 400) {
-      coverScale = mapValue(vw, 80, 440, 0, 0.8)
+    if ($windowWidth < 400) {
+      coverScale = mapValue($windowWidth, 80, 440, 0, 0.8)
     }
 
     initializeSwipers()
@@ -94,8 +91,6 @@
     initializeSwipers()
   })
 </script>
-
-<svelte:window bind:innerWidth={vw} />
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->

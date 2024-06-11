@@ -4,6 +4,7 @@
   import { onMount } from "svelte"
   import Swiper from "swiper"
   import { Pagination, Navigation } from "swiper/modules"
+  import { windowWidth } from "$lib/modules/stores"
 
   import "swiper/swiper-bundle.css"
   import "swiper/css/navigation"
@@ -12,9 +13,6 @@
   export let slides = [] as Slide[]
   export let zoomable = false
   export let mobile = false
-
-  let vw = 0
-  let vh = 0
 
   let swiperContainer: HTMLDivElement
   let swiperInstance: Swiper
@@ -37,7 +35,7 @@
     }
   }
 
-  // Checks in zoom containers if the original file is big enough, else falls back to a double vw image
+  // Checks in zoom containers if the original file is big enough, else falls back to a double $windowWidth image
   const zoomImgUrl = (asset: SanityImageAsset) => {
     try {
       // Setup regex for original
@@ -46,7 +44,7 @@
 
       // Setup regex for Double
       const double = urlFor(asset)
-        .width(vw * 2)
+        .width($windowWidth * 2)
         .quality(90)
         .url()
       const doubleDims = /w=(\d+)/
@@ -88,9 +86,6 @@
   }
 
   onMount(() => {
-    vw = window.innerWidth
-    vh = window.innerHeight
-
     swiperInstance = new Swiper(swiperContainer, {
       modules: [Pagination, Navigation],
       pagination: {
@@ -109,8 +104,6 @@
   let zoomed = false
   let zoomLevel = 1
 </script>
-
-<svelte:window bind:innerWidth={vw} bind:innerHeight={vh} />
 
 <div class="slideshow" class:zoomable>
   <div class="swiper-container" bind:this={swiperContainer}>

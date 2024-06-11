@@ -1,4 +1,5 @@
 import type { Article, Issue, BlockContent, Footnote } from "$lib/types/sanity.types"
+import { PageType } from "$lib/enums"
 import { format, getYear } from "date-fns";
 import { flatMap } from "lodash-es"
 import { toPlainText } from "$lib/modules/sanity"
@@ -92,6 +93,23 @@ export function scrollToHash() {
         })
     } else {
         console.log("Element not found for hash: " + newHash)
+    }
+}
+
+export function getPageType(route: string): PageType {
+    console.log(route)
+    switch (route) {
+        case "/":
+            return PageType.Landing
+        case "/[issue]/[article]":
+            return PageType.Article
+        case "/nyhed/[slug]":
+            return PageType.News
+        case "/pdf-article/[slug]":
+        case "/pdf-issue/[slug]":
+            return PageType.Pdf
+        default:
+            return PageType.Error
     }
 }
 

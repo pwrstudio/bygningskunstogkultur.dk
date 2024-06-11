@@ -4,8 +4,13 @@
   import type { News, About, Colophon } from "$lib/types/sanity.types"
   import Menu from "$lib/components/menu/Menu.svelte"
   import ToC from "$lib/components/table-of-contents/ToC.svelte"
-
-  import { menuOpen, currentIssue } from "$lib/modules/stores"
+  import { getPageType } from "$lib/modules/utils"
+  import {
+    menuOpen,
+    currentIssue,
+    windowHeight,
+    windowWidth,
+  } from "$lib/modules/stores"
 
   export let data: {
     about: About
@@ -15,24 +20,14 @@
 
   const { colophon, news, about } = data
 
-  let vw: number
+  // Write window dimensions to reactive stores
+  let iH: number
+  let iW: number
+  $: windowHeight.set(iH)
+  $: windowWidth.set(iW)
+  // $: console.log("$windowWidth", $windowWidth)
+  // $: console.log("$windowHeight", $windowHeight)
 
-  const getPageType = (route: string): PageType => {
-    console.log(route)
-    switch (route) {
-      case "/":
-        return PageType.Landing
-      case "/[issue]/[article]":
-        return PageType.Article
-      case "/nyhed/[slug]":
-        return PageType.News
-      case "/pdf-article/[slug]":
-      case "/pdf-issue/[slug]":
-        return PageType.Pdf
-      default:
-        return PageType.Error
-    }
-  }
   $: pageType = getPageType($page.route?.id ?? "")
 
   const closeMenu = () => {
@@ -47,12 +42,12 @@
   {/if}
 {/if}
 
-<svelte:window bind:innerWidth={vw} />
+<svelte:window bind:innerWidth={iH} bind:innerHeight={iW} />
 
-{#if vw < 768 && $menuOpen}
+{#if $windowWidth < 768 && $menuOpen}
   <!-- svelte-ignore a11y-click-events-have-key-events -->
   <!-- svelte-ignore a11y-no-static-element-interactions -->
-  <div class="pseudo" on:click|preventDefault={closeMenu} />
+  <div class="pseudo" on:click={closeMenu} />
 {/if}
 
 <slot />
