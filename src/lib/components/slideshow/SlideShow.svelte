@@ -4,7 +4,6 @@
   import { onMount } from "svelte"
   import Swiper from "swiper"
   import { Pagination, Navigation } from "swiper/modules"
-  import { windowWidth } from "$lib/modules/stores"
 
   import "swiper/swiper-bundle.css"
   import "swiper/css/navigation"
@@ -32,38 +31,6 @@
       } else {
         swiperInstance.slideNext()
       }
-    }
-  }
-
-  // Checks in zoom containers if the original file is big enough, else falls back to a double $windowWidth image
-  const zoomImgUrl = (asset: SanityImageAsset) => {
-    try {
-      // Setup regex for original
-      const original = urlFor(asset).quality(90).url()
-      const originalDims = /-(\d+)x(\d+)/
-
-      // Setup regex for Double
-      const double = urlFor(asset)
-        .width($windowWidth * 2)
-        .quality(90)
-        .url()
-      const doubleDims = /w=(\d+)/
-
-      const originalDimensions = original.match(originalDims)
-      const doubleDimensions = double.match(doubleDims)
-
-      const originalW = originalDimensions[1]
-      const doubleW = doubleDimensions[1]
-
-      // Compare sizes...
-      if (Number(originalW) > Number(doubleW)) {
-        return original
-      } else {
-        return double
-      }
-    } catch (err) {
-      console.log(err)
-      return ""
     }
   }
 
@@ -121,7 +88,7 @@
               <img
                 class="slide-img zoomable"
                 class:zoomed
-                src={zoomImgUrl(slide.asset)}
+                src={urlFor(slide.asset).quality(90).url()}
                 alt={toPlainText(slide.caption?.content ?? [])}
               />
             </div>
