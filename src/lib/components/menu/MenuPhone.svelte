@@ -1,54 +1,42 @@
 <script lang="ts">
   import type { News, Colophon, About } from "$lib/types/sanity.types"
-  import { MenuSection } from "$lib/enums"
+  import { MenuSection, PageType } from "$lib/enums"
   import { onMount } from "svelte"
-
   import {
     menuOpen,
     tableOfContentsOpen,
     newsExtended,
-    windowWidth,
+    activeMenuSection,
   } from "$lib/modules/stores"
 
   import MenuNews from "$lib/components/menu/sections/MenuNews.svelte"
   import MenuAbout from "$lib/components/menu/sections/MenuAbout.svelte"
   import MenuColophon from "$lib/components/menu/sections/MenuColophon.svelte"
-  import MailingListForm from "$lib/components/menu/MailingListForm.svelte"
 
   export let news: News[]
   export let about: About
   export let colophon: Colophon
-  export let landing: Boolean = false
+  export let pageType: PageType
 
-  let activeMenuSection: MenuSection = MenuSection.News
   let title = "XXX"
   let el: HTMLElement
 
-  $: {
-    if (landing) {
-      if ($windowWidth > 768 && !$menuOpen) {
-        menuOpen.set(true)
-      }
-    }
+  // Menu should be closed on landing page on phone
+  $: if (pageType === PageType.Landing) {
+    menuOpen.set(false)
   }
 
   const toggleMenu = () => {
     menuOpen.set(!$menuOpen)
     newsExtended.set(false)
 
-    if ($windowWidth < 768 && $tableOfContentsOpen && $menuOpen) {
+    if ($tableOfContentsOpen && $menuOpen) {
       tableOfContentsOpen.set(false)
     }
 
-    // if ($menuOpen && $windowWidth >= 768) {
-    //   if (!$menuItemActive) {
-    //     menuItemActive.set("news")
-    //   }
-    // }
-
-    // if (!$menuOpen) {
-    //   menuItemActive.set(null)
-    // }
+    if (!$menuOpen) {
+      activeMenuSection.set(undefined)
+    }
   }
 
   // afterUpdate(() => {
@@ -78,45 +66,13 @@
   })
 </script>
 
-<!-- class:peek={!$menuItemActive && $windowWidth < 768} -->
 <div
   class="menu"
   class:open={$menuOpen}
-  class:single={!landing}
+  class:peek={!$activeMenuSection}
+  class:single={pageType !== PageType.Landing}
   class:extended={$newsExtended}
 >
-  <!-- DESKTOP MENU -->
-  {#if $windowWidth > 768}
-    <!-- CONTENT -->
-    <div class="menu-content" class:extended={$newsExtended} bind:this={el}>
-      {#if activeMenuSection == MenuSection.News}
-        <MenuNews {news} />
-      {:else if activeMenuSection == MenuSection.About}
-        <MenuAbout {about} />
-      {:else if activeMenuSection == MenuSection.Colophon}
-        <MenuColophon {colophon} />
-      {/if}
-    </div>
-
-    <!-- BUTTON -->
-    <!-- svelte-ignore a11y-click-events-have-key-events -->
-    <!-- svelte-ignore a11y-no-static-element-interactions -->
-    <div
-      class="menu-button"
-      class:disabled={landing && $windowWidth > 768}
-      on:click={e => {
-        if ($newsExtended) {
-          newsExtended.set(false)
-        } else if (landing === false && $windowWidth > 768) {
-          toggleMenu()
-        }
-      }}
-    >
-      <h1 class="title">Kort nyt</h1>
-      <h1 class="title bottom">Info</h1>
-    </div>
-  {/if}
-
   <!-- SHARED -->
   {#if !$newsExtended}
     <!-- class:hidden={$menuItemActive !== null && $windowWidth <= 768} -->
@@ -126,9 +82,9 @@
       <li
         class="menu-item title"
         id="news"
-        class:active={activeMenuSection == MenuSection.News}
+        class:active={$activeMenuSection == MenuSection.News}
         on:click={() => {
-          activeMenuSection = MenuSection.News
+          activeMenuSection.set(MenuSection.News)
         }}
       >
         På Instituttet
@@ -138,9 +94,9 @@
       <li
         class="menu-item title"
         id="about"
-        class:active={activeMenuSection == MenuSection.About}
+        class:active={$activeMenuSection == MenuSection.About}
         on:click={() => {
-          activeMenuSection = MenuSection.About
+          activeMenuSection.set(MenuSection.About)
         }}
       >
         Om magasinet
@@ -150,61 +106,54 @@
       <li
         class="menu-item title"
         id="colophon"
-        class:active={activeMenuSection == MenuSection.Colophon}
+        class:active={$activeMenuSection == MenuSection.Colophon}
         on:click={() => {
-          activeMenuSection = MenuSection.Colophon
+          activeMenuSection.set(MenuSection.Colophon)
         }}
       >
         Kolofon
       </li>
     </ul>
-    {#if $windowWidth >= 768}
-      <div class="newsletter-signup">
-        <MailingListForm />
-      </div>
-    {/if}
   {/if}
 
   <!-- MOBILE MENU -->
   <!-- svelte-ignore a11y-click-events-have-key-events -->
-  {#if $windowWidth <= 768}
+  <!-- CONTENT -->
+  <div class="mobile-content">
     <!-- CONTENT -->
-    <div class="mobile-content">
-      <!-- CONTENT -->
-      <div class="menu-content" class:extended={$newsExtended} bind:this={el}>
-        {#if activeMenuSection == MenuSection.News}
-          <MenuNews {news} />
-        {:else if activeMenuSection == MenuSection.About}
-          <MenuAbout {about} />
-        {:else if activeMenuSection == MenuSection.Colophon}
-          <MenuColophon {colophon} />
-        {/if}
-      </div>
-      <!-- TITLE -->
-      <!-- svelte-ignore a11y-click-events-have-key-events -->
-      <!-- svelte-ignore a11y-no-static-element-interactions -->
-      <!-- on:click|preventDefault={() => {
-          menuItemActive.set(null)
-        }} -->
-      <div class="ticker">
-        <div class="title">
-          {title}
-        </div>
-      </div>
+    <div class="menu-content" class:extended={$newsExtended} bind:this={el}>
+      {#if $activeMenuSection == MenuSection.News}
+        <MenuNews {news} />
+      {:else if $activeMenuSection == MenuSection.About}
+        <MenuAbout {about} />
+      {:else if $activeMenuSection == MenuSection.Colophon}
+        <MenuColophon {colophon} />
+      {/if}
     </div>
-    <!-- BUTTON -->
+    <!-- TITLE -->
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <!-- svelte-ignore a11y-no-static-element-interactions -->
-    <div class="menu-button" on:click|preventDefault={toggleMenu}>
-      <h1 class="title hamburger">
-        <div class="hamburger-cross-icon" class:open={$menuOpen}>
-          <span />
-          <span />
-          <span />
-        </div>
-      </h1>
+    <!-- on:click|preventDefault={() => {
+          menuItemActive.set(null)
+        }} -->
+    <div class="ticker">
+      <div class="title">
+        {title}
+      </div>
     </div>
-  {/if}
+  </div>
+  <!-- BUTTON -->
+  <!-- svelte-ignore a11y-click-events-have-key-events -->
+  <!-- svelte-ignore a11y-no-static-element-interactions -->
+  <div class="menu-button" on:click|preventDefault={toggleMenu}>
+    <h1 class="title hamburger">
+      <div class="hamburger-cross-icon" class:open={$menuOpen}>
+        <span />
+        <span />
+        <span />
+      </div>
+    </h1>
+  </div>
 </div>
 
 <style lang="scss">
@@ -317,7 +266,7 @@
       max-height: 100%;
       display: flex;
       flex-flow: row;
-      margin-right: -1 * var(--margin-xs); // hacky
+      margin-right: calc(-1 * var(--margin-xs)); // hacky
 
       .ticker {
         min-width: var(--margin);
@@ -375,32 +324,21 @@
     z-index: 10;
   }
 
-  .menu:not(.t-o-c) {
-    box-shadow: 0px -20px 20px var(--green);
-    @include screen-size("phone") {
-      box-shadow: unset;
-    }
-  }
-
   .hamburger {
-    display: none;
+    width: 100%;
+    color: inherit;
+    text-decoration: none;
+    font-weight: 900;
+    letter-spacing: 0.05em;
+    text-align: right;
+    display: inline-block;
 
-    @include screen-size("phone") {
-      width: 100%;
-      color: inherit;
-      text-decoration: none;
-      font-weight: 900;
-      letter-spacing: 0.05em;
-      text-align: right;
-      display: inline-block;
+    &:hover {
+      color: var(--grey-solid);
+    }
 
-      &:hover {
-        color: var(--grey-solid);
-      }
-
-      &:active {
-        color: var(--grey-solid);
-      }
+    &:active {
+      color: var(--grey-solid);
     }
 
     .hamburger-cross-icon {
@@ -457,21 +395,12 @@
     }
   }
 
-  .newsletter-signup {
-    margin: 0;
-    padding-top: 3px;
-    border-top: var(--border-black);
-  }
-
   .menu-content {
     box-sizing: border-box;
     padding-bottom: 0;
     flex-shrink: 1;
     overflow-y: scroll;
-
-    @include screen-size("phone") {
-      margin-top: calc(var(--margin) / 4);
-    }
+    margin-top: calc(var(--margin) / 4);
 
     .image {
       max-width: 100%;
@@ -530,10 +459,7 @@
     margin: 0;
     list-style-type: none;
     z-index: 10;
-    box-shadow: 0px -20px 20px var(--green);
-    @include screen-size("phone") {
-      box-shadow: unset;
-    }
+    box-shadow: unset;
 
     &.hidden {
       display: none;

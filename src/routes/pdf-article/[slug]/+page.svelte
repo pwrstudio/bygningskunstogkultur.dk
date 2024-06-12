@@ -11,7 +11,7 @@
 
   const issue = data.issue
 
-  // Make the article reactive to make sure the reload on page navigation
+  // Make the article reactive to reload data on page navigation
   $: article = data.article
 
   $: currentIssue.set(issue)

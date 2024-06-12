@@ -27,16 +27,14 @@
   let swiperDesktop: Swiper
   let swiperMobile: Swiper
 
-  $: {
-    if (768 < $windowWidth && $windowWidth < 1350) {
-      scale = mapValue($windowWidth, 769, 1349, 0.2, 0.9)
-    } else {
-      scale = 1
-    }
+  $: if (768 < $windowWidth && $windowWidth < 1350) {
+    scale = mapValue($windowWidth, 769, 1349, 0.2, 0.9)
+  } else {
+    scale = 1
+  }
 
-    if ($windowWidth < 400) {
-      coverScale = mapValue($windowWidth, 80, 440, 0, 0.8)
-    }
+  if ($windowWidth < 400) {
+    coverScale = mapValue($windowWidth, 80, 440, 0, 0.8)
   }
 
   async function initializeSwipers() {

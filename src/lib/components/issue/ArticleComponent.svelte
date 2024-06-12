@@ -121,6 +121,7 @@
     padding-left: calc(var(--menu-side-width) * 2);
 
     @include screen-size("phone") {
+      padding-left: 0;
       height: calc(100vh - var(--menu-side-width));
       flex-flow: column nowrap;
       height: auto;

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Slide, SanityImageAsset } from "$lib/types/sanity.types"
+  import type { Slide } from "$lib/types/sanity.types"
   import { urlFor, renderBlockText, toPlainText } from "$lib/modules/sanity"
   import { onMount } from "svelte"
   import Swiper from "swiper"
@@ -15,6 +15,8 @@
 
   let swiperContainer: HTMLDivElement
   let swiperInstance: Swiper
+  let zoomed = false
+  let zoomLevel = 1
 
   const toggleZoomButton = () => {
     if (swiperInstance.slides[swiperInstance.activeIndex]) {
@@ -67,9 +69,6 @@
       zoomed = false
     })
   })
-
-  let zoomed = false
-  let zoomLevel = 1
 </script>
 
 <div class="slideshow" class:zoomable>

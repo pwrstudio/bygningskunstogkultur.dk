@@ -1,88 +1,81 @@
 <script lang="ts">
+  import type { Article, Issue } from "$lib/types/sanity.types"
   import { fade } from "svelte/transition"
-  import { tick } from "svelte"
-  import { get } from "lodash-es"
-  import { scrollBack, calculateArticleReadingTime } from "$lib/modules/utils"
-  import { windowWidth } from "$lib/modules/stores"
-
-  let inTransition = false
-
+  import { calculateArticleReadingTime } from "$lib/modules/utils"
   import {
     tableOfContentsOpen,
     menuOpen,
     currentArticleSlug,
     newsExtended,
+    screenSizePhone,
+    activeMenuSection,
   } from "$lib/modules/stores"
+  import { goto } from "$app/navigation"
 
+  export let issue: Issue
+
+  let inTransition = false
   let scrollParent: HTMLElement | null = null
   let show = new Array()
   let peek = false
 
-  // $: {
-  //   peek = !$menuItemActive && $windowWidth < 768
-  // }
+  $: peek = !$activeMenuSection
 
-  $: {
-    if (!!$tableOfContents) {
-      // console.log($tableOfContents)
-      const max = 5
-      // const max = Math.min(5, $tableOfContents.length)
-      let placed = 0
+  $: if (issue.tableOfContents) {
+    const max = 5
+    // const max = Math.min(5, $tableOfContents.length)
+    let placed = 0
 
-      // Make the current active index true
-      show = $tableOfContents.map(item => {
-        return item.slug.current === $currentArticleSlug
-      }) // e.g. [false, false, true, false, false]
-      placed++ // 1
+    // Make the current active index true
+    show = issue.tableOfContents.map(item => {
+      return item.slug.current === $currentArticleSlug
+    }) // e.g. [false, false, true, false, false]
+    placed++ // 1
 
-      let activeIndex = show.indexOf(true)
+    let activeIndex = show.indexOf(true)
 
-      let direction = 1 // add
+    let direction = 1 // add
 
-      while (placed < max) {
-        if (show[activeIndex + direction] === undefined) {
-          direction = -1 * direction
-        }
-
-        let offset = 1
-        while (show[activeIndex + offset * direction] === true) {
-          offset++
-        }
-
-        if (show[activeIndex + offset * direction] === false) {
-          show[activeIndex + offset * direction] = true
-        }
-
+    while (placed < max) {
+      if (show[activeIndex + direction] === undefined) {
         direction = -1 * direction
-
-        // You're done, kiddo
-        placed++
       }
+
+      let offset = 1
+      while (show[activeIndex + offset * direction] === true) {
+        offset++
+      }
+
+      if (show[activeIndex + offset * direction] === false) {
+        show[activeIndex + offset * direction] = true
+      }
+
+      direction = -1 * direction
+
+      // You're done, kiddo
+      placed++
     }
   }
 
-  $: {
-    if ((!$tableOfContentsOpen && scrollParent) || (scrollParent && peek)) {
-      // console.log("reset")
-      // scrollParent.scrollTop = 0
-    }
+  $: if ((!$tableOfContentsOpen && scrollParent) || (scrollParent && peek)) {
+    console.log("reset")
+    scrollParent.scrollTop = 0
   }
 
-  const goToArticle = async article => {
-    const destination =
-      "/" + $currentIssueSlug + "/" + get(article, "slug.current", "")
+  const goToArticle = async (article: Article) => {
+    goto("/" + issue.slug.current + "/" + article.slug.current)
+    tableOfContentsOpen.set(false)
+  }
 
-    scrollBack(scrollParent, 0)
-    await tick()
-    // console.log(destination)
-    // navigate(destination)
+  const gotToLandingPage = () => {
+    goto("/")
   }
 
   const toggleToC = () => {
     inTransition = true
     tableOfContentsOpen.set(!$tableOfContentsOpen)
     newsExtended.set(false)
-    if ($windowWidth < 768 && $tableOfContentsOpen && $menuOpen) {
+    if ($screenSizePhone && $tableOfContentsOpen && $menuOpen) {
       menuOpen.set(false)
     }
     setTimeout(() => {
@@ -91,7 +84,7 @@
   }
 </script>
 
-{#if $tableOfContents}
+{#if issue.tableOfContents && issue.tableOfContents.length > 0}
   <div
     in:fade
     bind:this={scrollParent}
@@ -102,31 +95,25 @@
     class:parentOpen={$menuOpen}
     class:parentExtended={$newsExtended}
   >
-    <ul class="bar-menu t-o-c">
+    <ul class="toc-menu">
       <!-- svelte-ignore a11y-click-events-have-key-events -->
       <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-      <li
-        class="bar-menu-item title-item link"
-        on:click={e => {
-          navigate("/")
-        }}
-      >
+      <li class="toc-menu-item title-item link" on:click={gotToLandingPage}>
         TILBAGE TIL FORSIDE
       </li>
-      {#each $tableOfContents as article, index}
+      {#each issue.tableOfContents as article, index}
         <!-- svelte-ignore a11y-click-events-have-key-events -->
         <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
         <li
-          class="bar-menu-item title-item link"
-          class:active={$currentArticleSlug ===
-            get(article, "slug.current", "")}
+          class="toc-menu-item title-item link"
+          class:active={$currentArticleSlug === article.slug.current}
           on:click={e => {
             goToArticle(article)
           }}
         >
           <div class="title-text">
             {`${index + 1}. `}
-            {get(article, "title", "")}
+            {article.title}
           </div>
           {#if article.author}
             <div class="author">
@@ -141,95 +128,36 @@
       <!-- svelte-ignore a11y-click-events-have-key-events -->
       <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
       <li
-        class="bar-menu-item title-item link"
+        class="toc-menu-item title-item link"
         on:click={e => {
-          window.location = "/pdf-issue/" + $currentIssueSlug
+          goto("/pdf-issue/" + issue.slug.current)
         }}
       >
         <div class="title-text pdf">Hent udgaven som PDF</div>
       </li>
     </ul>
 
-    {#if $windowWidth < 768}
-      <!-- svelte-ignore a11y-click-events-have-key-events -->
-      <!-- svelte-ignore a11y-no-static-element-interactions -->
-      <div class="bar-button" on:click={toggleToC}>
-        <h1 class="title indhold">
-          <span> INDHOLD </span>
-        </h1>
-        {#each $tableOfContents as article, index}
-          <!-- svelte-ignore a11y-click-events-have-key-events -->
-          <!-- svelte-ignore a11y-no-static-element-interactions -->
-          <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-          <h1
-            class="title articleNumber"
-            class:active={$hash === get(article, "slug.current", "")}
-            on:click={e => {
-              // console.log("nav")
-              navigate(
-                "/" +
-                  $currentIssueSlug +
-                  "/" +
-                  get(article, "slug.current", ""),
-              )
-            }}
-          >
-            <span>{index + 1}</span>
-          </h1>
-        {/each}
-      </div>
-    {:else}
-      <div class="bar-button">
+    <!-- svelte-ignore a11y-click-events-have-key-events -->
+    <!-- svelte-ignore a11y-no-static-element-interactions -->
+    <div class="toc-button" on:click={toggleToC}>
+      <h1 class="title indhold">
+        <span> INDHOLD </span>
+      </h1>
+      {#each issue.tableOfContents as article, index}
         <!-- svelte-ignore a11y-click-events-have-key-events -->
         <!-- svelte-ignore a11y-no-static-element-interactions -->
         <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-        <h1 class="title indhold" on:click={toggleToC}>
-          <span> INDHOLD </span>
+        <h1
+          class="title articleNumber"
+          class:active={$currentArticleSlug === article.slug.current}
+          on:click={_ => {
+            goToArticle(article)
+          }}
+        >
+          <span>{index + 1}</span>
         </h1>
-        <ul class="bullets">
-          <!-- svelte-ignore a11y-click-events-have-key-events -->
-          <!-- svelte-ignore a11y-no-static-element-interactions -->
-          <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-          <li
-            class="bullet"
-            on:click={e => {
-              // console.log("nav")
-              navigate("/")
-            }}
-          >
-            ⌂
-          </li>
-          {#each $tableOfContents as article, index}
-            <!-- svelte-ignore a11y-click-events-have-key-events -->
-            <!-- svelte-ignore a11y-no-static-element-interactions -->
-            <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-            <li
-              class="bullet"
-              class:active={$currentArticleSlug ===
-                get(article, "slug.current", "")}
-              class:dots={(!show[index] && index === 1) ||
-                (!show[index] && index === show.length - 2)}
-              class:hidden={!show[index] &&
-                index !== 0 &&
-                index !== show.length - 1}
-              on:click={e => {
-                navigate(
-                  "/" +
-                    $currentIssueSlug +
-                    "/" +
-                    get(article, "slug.current", ""),
-                )
-              }}
-            >
-              {(!show[index] && index === 1) ||
-              (!show[index] && index === show.length - 2)
-                ? "..."
-                : index + 1}
-            </li>
-          {/each}
-        </ul>
-      </div>
-    {/if}
+      {/each}
+    </div>
   </div>
 {/if}
 
@@ -237,87 +165,87 @@
   @import "../../styles/variables.scss";
 
   .toc {
-    margin-left: var(--menu-side-width);
-    padding-left: calc(var(--margin) / 2);
+    z-index: 1000;
+    box-sizing: border-box;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: var(--extended-menu-width);
+    line-height: var(--line-height);
+    overflow: auto;
+    padding: var(--margin);
+    padding-right: var(--menu-side-width);
+    padding-left: calc(var(--menu-difference) + 42px);
+    padding-bottom: 32px;
+    font-family: var(--sans-stack);
+    font-size: var(--font-size-small);
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-between;
+    transition: transform 0.2s ease-out;
+    user-select: none;
+    transform: translateX(
+      calc((-1 * var(--extended-menu-width)) + var(--menu-side-width))
+    );
+    height: 100vh;
+
     background: var(--grey-solid);
     z-index: 999;
     pointer-events: initial;
     overflow: hidden;
-    width: $menu-width;
-    transform: translateX(
-      calc((-1 * var(--menu-side-width)) + var(--menu-side-width))
-    );
 
     &.disabled {
       pointer-events: none;
     }
 
-    .bar-menu-item {
+    .toc-menu-item {
       &:last-child {
-        @include screen-size("small") {
-          border-bottom: none;
-          padding-bottom: 56px;
-        }
+        border-bottom: none;
+        padding-bottom: 56px;
       }
     }
 
-    @include screen-size("phone") {
-      margin-left: unset;
-      padding-left: unset;
-      width: 100%;
-      transform: translateY(100%) translateY(calc(-2 * var(--menu-side-width)));
-      height: auto;
-      padding: var(--margin) calc(var(--margin) / 4) 0;
-    }
+    margin-left: unset;
+    padding-left: unset;
+    width: 100%;
+    transform: translateY(100%) translateY(calc(-2 * var(--menu-side-width)));
+    height: auto;
+    padding: var(--margin) calc(var(--margin) / 4) 0;
 
-    .bar-button {
+    .toc-button {
       justify-content: start;
 
       .title-item {
         margin-bottom: var(--title-letter-spacing);
 
         &:not(.indhold) {
-          @include screen-size("phone") {
-            display: none;
-          }
+          display: none;
         }
 
         &.indhold {
-          @include screen-size("phone") {
-            text-align: center;
-            width: 100%;
-          }
+          text-align: center;
+          width: 100%;
         }
       }
     }
 
     &.open {
       overflow: scroll;
-      transform: translateX(0);
-
-      @include screen-size("phone") {
-        transform: translateY(0);
-      }
+      transform: translateY(0);
     }
 
     &.parentOpen {
       transform: translateX(0);
 
       &.open {
-        transform: translateX(calc(var(--menu-width) - var(--menu-side-width)));
+        transform: translateX(0);
       }
 
-      @include screen-size("phone") {
-        &.open {
-          transform: translateX(0);
-        }
-
-        &.peek {
-          transform: translate(
-            0,
-            calc(100% - var(--menu-items-height) - var(--menu-items-width))
-          ) !important;
-        }
+      &.peek {
+        transform: translate(
+          0,
+          calc(100% - var(--menu-items-height) - var(--menu-items-width))
+        ) !important;
       }
     }
 
@@ -391,5 +319,57 @@
       content: "→";
       margin-right: 10px;
     }
+  }
+
+  .toc-button {
+    box-sizing: border-box;
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: var(--margin) 0;
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+    letter-spacing: var(--title-letter-spacing);
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    width: var(--menu-side-width);
+    cursor: pointer;
+
+    @include screen-size("phone") {
+      padding: 0 calc(var(--margin) / 4);
+      width: 100%;
+      height: var(--menu-side-width);
+      writing-mode: horizontal-tb;
+      text-orientation: upright;
+      align-items: flex-start;
+    }
+
+    .title {
+      cursor: pointer;
+    }
+  }
+
+  .toc-menu-item {
+    margin: 0;
+    padding: 16px 0 12px;
+    border-top: var(--border-black);
+    cursor: pointer;
+
+    &.active {
+      &:before {
+        content: "→";
+        margin-right: 10px;
+      }
+    }
+  }
+
+  .toc-menu {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+    z-index: 10;
   }
 </style>

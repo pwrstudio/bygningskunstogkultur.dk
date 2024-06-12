@@ -2,7 +2,13 @@
   import type { News, Colophon, About } from "$lib/types/sanity.types"
   import { MenuSection, PageType } from "$lib/enums"
 
-  import { menuOpen, newsExtended, windowWidth } from "$lib/modules/stores"
+  import {
+    menuOpen,
+    newsExtended,
+    windowWidth,
+    screenSizePhone,
+    activeMenuSection,
+  } from "$lib/modules/stores"
 
   import MenuNews from "$lib/components/menu/sections/MenuNews.svelte"
   import MenuAbout from "$lib/components/menu/sections/MenuAbout.svelte"
@@ -14,17 +20,17 @@
   export let colophon: Colophon
   export let pageType: PageType
 
-  let activeMenuSection: MenuSection = MenuSection.News
   let menuContentElement: HTMLDivElement
 
-  $: {
-    if (pageType === PageType.Landing) {
-      menuOpen.set(true)
-    }
+  // Default to showing news section
+  activeMenuSection.set(MenuSection.News)
+
+  $: if (!$screenSizePhone && pageType === PageType.Landing) {
+    menuOpen.set(true)
   }
 
   const changeMenuSection = (section: MenuSection) => {
-    activeMenuSection = section
+    activeMenuSection.set(section)
     scrollToTop()
   }
 
@@ -45,31 +51,24 @@
     menuOpen.set(!$menuOpen)
     newsExtended.set(false)
 
-    // if ($windowWidth < 768 && $tableOfContentsOpen && $menuOpen) {
-    //   tableOfContentsOpen.set(false)
-    // }
-
-    // if ($menuOpen && $windowWidth >= 768) {
-    //   if (!$menuItemActive) {
-    //     menuItemActive.set("news")
-    //   }
-    // }
-
-    // if (!$menuOpen) {
-    //   menuItemActive.set(null)
-    // }
+    if ($menuOpen) {
+      if (!$activeMenuSection) {
+        activeMenuSection.set(MenuSection.News)
+      }
+    } else {
+      activeMenuSection.set(undefined)
+    }
   }
 </script>
 
-<!-- class:peek={!$menuItemActive && $windowWidth < 768} -->
 <div class="menu" class:open={$menuOpen} class:extended={$newsExtended}>
   <!-- CONTENT -->
   <div class="menu-content" bind:this={menuContentElement}>
-    {#if activeMenuSection == MenuSection.News}
+    {#if $activeMenuSection == MenuSection.News}
       <MenuNews {news} on:scrollToTop={scrollToTop} />
-    {:else if activeMenuSection == MenuSection.About}
+    {:else if $activeMenuSection == MenuSection.About}
       <MenuAbout {about} />
-    {:else if activeMenuSection == MenuSection.Colophon}
+    {:else if $activeMenuSection == MenuSection.Colophon}
       <MenuColophon {colophon} />
     {/if}
   </div>
@@ -94,7 +93,7 @@
       <li
         class="menu-item title"
         id="news"
-        class:active={activeMenuSection == MenuSection.News}
+        class:active={$activeMenuSection == MenuSection.News}
         on:click={() => {
           changeMenuSection(MenuSection.News)
         }}
@@ -106,7 +105,7 @@
       <li
         class="menu-item title"
         id="about"
-        class:active={activeMenuSection == MenuSection.About}
+        class:active={$activeMenuSection == MenuSection.About}
         on:click={() => {
           changeMenuSection(MenuSection.About)
         }}
@@ -118,7 +117,7 @@
       <li
         class="menu-item title"
         id="colophon"
-        class:active={activeMenuSection == MenuSection.Colophon}
+        class:active={$activeMenuSection == MenuSection.Colophon}
         on:click={() => {
           changeMenuSection(MenuSection.Colophon)
         }}
@@ -162,15 +161,12 @@
     );
     background: var(--green);
 
+    @include screen-size("phone") {
+      display: none;
+    }
+
     &.open {
       transform: translate(calc(-1 * var(--menu-difference)), 0);
-
-      &.peek {
-        transform: translate(
-          0,
-          calc(100% - var(--menu-items-height))
-        ) !important;
-      }
     }
 
     &.extended {

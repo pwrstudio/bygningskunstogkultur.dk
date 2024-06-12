@@ -7,7 +7,7 @@
     menuOpen,
     currentArticleSlug,
     newsExtended,
-    windowWidth,
+    screenSizePhone,
   } from "$lib/modules/stores"
   import { goto } from "$app/navigation"
 
@@ -18,53 +18,45 @@
   let show = new Array()
   let peek = false
 
-  // $: {
-  //   peek = !$menuItemActive && $windowWidth < 768
-  // }
+  $: if (issue.tableOfContents) {
+    const max = 5
+    // const max = Math.min(5, $tableOfContents.length)
+    let placed = 0
 
-  $: {
-    if (issue.tableOfContents) {
-      const max = 5
-      // const max = Math.min(5, $tableOfContents.length)
-      let placed = 0
+    // Make the current active index true
+    show = issue.tableOfContents.map(item => {
+      return item.slug.current === $currentArticleSlug
+    }) // e.g. [false, false, true, false, false]
+    placed++ // 1
 
-      // Make the current active index true
-      show = issue.tableOfContents.map(item => {
-        return item.slug.current === $currentArticleSlug
-      }) // e.g. [false, false, true, false, false]
-      placed++ // 1
+    let activeIndex = show.indexOf(true)
 
-      let activeIndex = show.indexOf(true)
+    let direction = 1 // add
 
-      let direction = 1 // add
-
-      while (placed < max) {
-        if (show[activeIndex + direction] === undefined) {
-          direction = -1 * direction
-        }
-
-        let offset = 1
-        while (show[activeIndex + offset * direction] === true) {
-          offset++
-        }
-
-        if (show[activeIndex + offset * direction] === false) {
-          show[activeIndex + offset * direction] = true
-        }
-
+    while (placed < max) {
+      if (show[activeIndex + direction] === undefined) {
         direction = -1 * direction
-
-        // You're done, kiddo
-        placed++
       }
+
+      let offset = 1
+      while (show[activeIndex + offset * direction] === true) {
+        offset++
+      }
+
+      if (show[activeIndex + offset * direction] === false) {
+        show[activeIndex + offset * direction] = true
+      }
+
+      direction = -1 * direction
+
+      // You're done, kiddo
+      placed++
     }
   }
 
-  $: {
-    if ((!$tableOfContentsOpen && scrollParent) || (scrollParent && peek)) {
-      console.log("reset")
-      scrollParent.scrollTop = 0
-    }
+  $: if ((!$tableOfContentsOpen && scrollParent) || (scrollParent && peek)) {
+    console.log("reset")
+    scrollParent.scrollTop = 0
   }
 
   const goToArticle = async (article: Article) => {
@@ -80,7 +72,7 @@
     inTransition = true
     tableOfContentsOpen.set(!$tableOfContentsOpen)
     newsExtended.set(false)
-    if ($windowWidth < 768 && $tableOfContentsOpen && $menuOpen) {
+    if ($screenSizePhone && $tableOfContentsOpen && $menuOpen) {
       menuOpen.set(false)
     }
     setTimeout(() => {
@@ -100,7 +92,7 @@
     class:parentOpen={$menuOpen}
     class:parentExtended={$newsExtended}
   >
-    <ul class="toc-menu t-o-c">
+    <ul class="toc-menu">
       <!-- svelte-ignore a11y-click-events-have-key-events -->
       <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
       <li class="toc-menu-item title-item link" on:click={gotToLandingPage}>
@@ -166,10 +158,8 @@
             class:hidden={!show[index] &&
               index !== 0 &&
               index !== show.length - 1}
-            on:click={e => {
-              const destination =
-                "/" + issue.slug.current + "/" + article.slug.current
-              goto(destination)
+            on:click={_ => {
+              goToArticle(article)
             }}
           >
             {(!show[index] && index === 1) ||
@@ -187,6 +177,11 @@
   @import "../../styles/variables.scss";
 
   .toc {
+    display: none;
+    @include screen-size("phone") {
+      display: block;
+    }
+
     z-index: 1000;
     box-sizing: border-box;
     position: fixed;
@@ -335,15 +330,6 @@
     height: 100%;
     width: var(--menu-side-width);
     cursor: pointer;
-
-    @include screen-size("phone") {
-      padding: 0 calc(var(--margin) / 4);
-      width: 100%;
-      height: var(--menu-side-width);
-      writing-mode: horizontal-tb;
-      text-orientation: upright;
-      align-items: flex-start;
-    }
 
     .title {
       cursor: pointer;
