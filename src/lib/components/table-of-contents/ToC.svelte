@@ -62,6 +62,7 @@
   const goToArticle = async (article: Article) => {
     goto("/" + issue.slug.current + "/" + article.slug.current)
     tableOfContentsOpen.set(false)
+    menuOpen.set(false)
   }
 
   const gotToLandingPage = () => {
@@ -108,10 +109,16 @@
             goToArticle(article)
           }}
         >
+          <!-- TITLE -->
           <div class="title-text">
+            <!-- ARROW MARKER -->
+            {#if $currentArticleSlug === article.slug.current}
+              <div class="arrow-marker">→</div>
+            {/if}
             {`${index + 1}. `}
             {article.title}
           </div>
+          <!-- AUTHOR -->
           {#if article.author}
             <div class="author">
               {article.author}
@@ -308,8 +315,8 @@
 
   .pdf {
     &:before {
-      display: inline-block;
       content: "→";
+      display: inline-block;
       margin-right: 10px;
     }
   }
@@ -342,10 +349,14 @@
     border-top: var(--border-black);
     cursor: pointer;
 
+    .arrow-marker {
+      display: none;
+    }
+
     &.active {
-      &:before {
-        content: "→";
+      .arrow-marker {
         margin-right: 10px;
+        display: inline-block;
       }
     }
   }

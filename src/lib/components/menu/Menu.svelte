@@ -52,11 +52,7 @@
     newsExtended.set(false)
 
     if ($menuOpen) {
-      if (!$activeMenuSection) {
-        activeMenuSection.set(MenuSection.News)
-      }
-    } else {
-      activeMenuSection.set(undefined)
+      activeMenuSection.set(MenuSection.News)
     }
   }
 </script>
@@ -210,6 +206,7 @@
         &:before {
           content: "→";
           margin-right: 10px;
+          display: inline;
         }
       }
     }
