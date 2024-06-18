@@ -1,8 +1,8 @@
 export enum MenuSection {
-    None,
-    News,
-    About,
-    Colophon
+    None = '',
+    News = 'KORT NYT',
+    About = 'OM MAGASINET',
+    Colophon = 'KOLOFON'
 }
 
 export enum PageType {

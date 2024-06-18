@@ -52,7 +52,6 @@
 
       direction = -1 * direction
 
-      // You're done, kiddo
       placed++
     }
   }
@@ -168,14 +167,12 @@
     z-index: 1000;
     box-sizing: border-box;
     position: fixed;
-    top: 0;
+    bottom: 0;
     left: 0;
-    width: var(--extended-menu-width);
     line-height: var(--line-height);
     overflow: auto;
     padding: var(--margin);
     padding-right: var(--menu-side-width);
-    padding-left: calc(var(--menu-difference) + 42px);
     padding-bottom: 32px;
     font-family: var(--sans-stack);
     font-size: var(--font-size-small);
@@ -184,10 +181,6 @@
     justify-content: space-between;
     transition: transform 0.2s ease-out;
     user-select: none;
-    transform: translateX(
-      calc((-1 * var(--extended-menu-width)) + var(--menu-side-width))
-    );
-    height: 100vh;
 
     background: var(--grey-solid);
     z-index: 999;
@@ -208,7 +201,7 @@
     margin-left: unset;
     padding-left: unset;
     width: 100%;
-    transform: translateY(100%) translateY(calc(-2 * var(--menu-side-width)));
+    transform: translateY(calc(-1 * var(--menu-side-width)));
     height: auto;
     padding: var(--margin) calc(var(--margin) / 4) 0;
 
@@ -371,5 +364,6 @@
     margin: 0;
     list-style-type: none;
     z-index: 10;
+    display: none;
   }
 </style>

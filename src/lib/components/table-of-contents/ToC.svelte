@@ -55,7 +55,6 @@
   }
 
   $: if ((!$tableOfContentsOpen && scrollParent) || (scrollParent && peek)) {
-    console.log("reset")
     scrollParent.scrollTop = 0
   }
 

@@ -1,7 +1,6 @@
 <script lang="ts">
   import type { News, Colophon, About } from "$lib/types/sanity.types"
   import { MenuSection, PageType } from "$lib/enums"
-  import { onMount } from "svelte"
   import {
     menuOpen,
     tableOfContentsOpen,
@@ -18,9 +17,6 @@
   export let colophon: Colophon
   export let pageType: PageType
 
-  let title = "XXX"
-  let el: HTMLElement
-
   // Menu should be closed on landing page on phone
   $: if (pageType === PageType.Landing) {
     menuOpen.set(false)
@@ -28,42 +24,14 @@
 
   const toggleMenu = () => {
     menuOpen.set(!$menuOpen)
+    // Reset menu
     newsExtended.set(false)
+    activeMenuSection.set(MenuSection.None)
 
     if ($tableOfContentsOpen && $menuOpen) {
       tableOfContentsOpen.set(false)
     }
-
-    if (!$menuOpen) {
-      activeMenuSection.set(undefined)
-    }
   }
-
-  // afterUpdate(() => {
-  //   if (p$windowWidth < 768 && $windowWidth >= 768) {
-  //     menuOpen.set(true)
-  //   }
-  //   p$windowWidth = $windowWidth
-  // })
-
-  onMount(() => {
-    // $activeRoute will change on navigation
-    // if ($activeRoute.uri === "/") {
-    //   if ($windowWidth < 768) {
-    //     menuOpen.set(false)
-    //   }
-    // }
-    // Switch the menu to off if the $windowWidth is mobile size
-    // if (landing) {
-    //   if (p$windowWidth >= 768 && $windowWidth < 768) {
-    //     menuOpen.set(false)
-    //   } else if (p$windowWidth < 768 && $windowWidth >= 768) {
-    //     menuOpen.set(true)
-    //   }
-    // }
-    // Set previous $windowWidth to current $windowWidth
-    // p$windowWidth = $windowWidth
-  })
 </script>
 
 <div
@@ -74,15 +42,13 @@
   class:extended={$newsExtended}
 >
   <!-- SHARED -->
-  {#if !$newsExtended}
-    <!-- class:hidden={$menuItemActive !== null && $windowWidth <= 768} -->
+  {#if $activeMenuSection === MenuSection.None && !$newsExtended}
     <ul class="menu-list">
       <!-- svelte-ignore a11y-click-events-have-key-events -->
       <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
       <li
         class="menu-item title"
         id="news"
-        class:active={$activeMenuSection == MenuSection.News}
         on:click={() => {
           activeMenuSection.set(MenuSection.News)
         }}
@@ -94,7 +60,6 @@
       <li
         class="menu-item title"
         id="about"
-        class:active={$activeMenuSection == MenuSection.About}
         on:click={() => {
           activeMenuSection.set(MenuSection.About)
         }}
@@ -106,7 +71,6 @@
       <li
         class="menu-item title"
         id="colophon"
-        class:active={$activeMenuSection == MenuSection.Colophon}
         on:click={() => {
           activeMenuSection.set(MenuSection.Colophon)
         }}
@@ -121,7 +85,7 @@
   <!-- CONTENT -->
   <div class="mobile-content">
     <!-- CONTENT -->
-    <div class="menu-content" class:extended={$newsExtended} bind:this={el}>
+    <div class="menu-content" class:extended={$newsExtended}>
       {#if $activeMenuSection == MenuSection.News}
         <MenuNews {news} />
       {:else if $activeMenuSection == MenuSection.About}
@@ -138,7 +102,7 @@
         }} -->
     <div class="ticker">
       <div class="title">
-        {title}
+        {$activeMenuSection}
       </div>
     </div>
   </div>
@@ -256,9 +220,7 @@
       }
 
       &:last-child {
-        @include screen-size("small") {
-          border-bottom: none;
-        }
+        border-bottom: none;
       }
     }
 
@@ -297,23 +259,16 @@
         ) !important;
       }
 
-      @include screen-size("phone") {
-        transform: translate(0, 0);
-      }
+      transform: translate(0, 0);
 
       &.single {
-        @include screen-size("phone") {
-          transform: translate(0, var(--menu-side-width));
-        }
+        transform: translate(0, var(--menu-side-width));
       }
     }
 
     &.extended {
       transform: translate(0, 0);
-      padding-left: 42px;
-      @include screen-size("phone") {
-        padding-left: 12px;
-      }
+      padding-left: 12px;
     }
   }
 

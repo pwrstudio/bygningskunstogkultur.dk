@@ -1,13 +1,13 @@
 import { writable, derived } from 'svelte/store'
 import type { Writable, Readable } from 'svelte/store'
 import type { Issue } from '$lib/types/sanity.types'
-import type { MenuSection } from '$lib/enums'
+import { MenuSection } from '$lib/enums'
 
 // UI state
 export const menuOpen: Writable<boolean> = writable(false)
 export const tableOfContentsOpen: Writable<boolean> = writable(false)
 export const newsExtended: Writable<boolean> = writable(false)
-export const activeMenuSection: Writable<MenuSection | undefined> = writable(undefined)
+export const activeMenuSection: Writable<MenuSection> = writable(MenuSection.None)
 
 // Window dimensions
 export const windowWidth: Writable<number> = writable(0)
