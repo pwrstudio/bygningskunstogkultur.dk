@@ -365,7 +365,7 @@
 
     .news-item {
       position: relative;
-      min-height: 100%;
+      min-height: 100dvh;
       padding-bottom: calc(var(--margin) * 2);
 
       .content {

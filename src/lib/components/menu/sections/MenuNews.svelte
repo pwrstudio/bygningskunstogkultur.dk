@@ -124,7 +124,6 @@
   .read-more {
     width: 20px;
     height: 42px;
-    // background: red;
     cursor: pointer;
   }
 
@@ -136,7 +135,7 @@
 
   .news-item {
     position: relative;
-    min-height: 100%;
+    min-height: 100dvh;
     padding-bottom: calc(var(--margin) * 2);
 
     .content {

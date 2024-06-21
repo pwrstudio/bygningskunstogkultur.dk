@@ -7,16 +7,13 @@
     menuOpen,
     currentArticleSlug,
     newsExtended,
-    screenSizePhone,
   } from "$lib/modules/stores"
   import { goto } from "$app/navigation"
 
   export let issue: Issue
 
   let inTransition = false
-  let scrollParent: HTMLElement | null = null
   let show = new Array()
-  let peek = false
 
   $: if (issue.tableOfContents) {
     const max = 5
@@ -54,10 +51,6 @@
     }
   }
 
-  $: if ((!$tableOfContentsOpen && scrollParent) || (scrollParent && peek)) {
-    scrollParent.scrollTop = 0
-  }
-
   const goToArticle = async (article: Article) => {
     goto("/" + issue.slug.current + "/" + article.slug.current)
     tableOfContentsOpen.set(false)
@@ -72,9 +65,6 @@
     inTransition = true
     tableOfContentsOpen.set(!$tableOfContentsOpen)
     newsExtended.set(false)
-    if ($screenSizePhone && $tableOfContentsOpen && $menuOpen) {
-      menuOpen.set(false)
-    }
     setTimeout(() => {
       inTransition = false
     }, 200)
@@ -84,11 +74,9 @@
 {#if issue.tableOfContents && issue.tableOfContents.length > 0}
   <div
     in:fade
-    bind:this={scrollParent}
     class="toc"
     class:disabled={inTransition}
     class:open={$tableOfContentsOpen}
-    class:peek
     class:parentOpen={$menuOpen}
     class:parentExtended={$newsExtended}
   >
@@ -183,11 +171,6 @@
   @import "../../styles/variables.scss";
 
   .toc {
-    display: none;
-    @include screen-size("phone") {
-      display: block;
-    }
-
     z-index: 1000;
     box-sizing: border-box;
     position: fixed;
@@ -222,6 +205,10 @@
     transform: translateX(
       calc((-1 * var(--menu-width)) + var(--menu-side-width))
     );
+
+    @include screen-size("phone") {
+      display: none;
+    }
 
     &.disabled {
       pointer-events: none;

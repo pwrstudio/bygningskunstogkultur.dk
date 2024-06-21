@@ -126,6 +126,7 @@
       flex-flow: column nowrap;
       height: auto;
       overflow-y: auto;
+      padding-bottom: 80px;
     }
 
     .col {
@@ -184,10 +185,6 @@
 
         &.next {
           display: block;
-
-          @include screen-size("phone") {
-            display: none;
-          }
         }
       }
 
