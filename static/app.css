@@ -111,6 +111,7 @@
     text-rendering: optimizeLegibility;
     overscroll-behavior: none;
     overflow-y: hidden;
+    height: 100dvh;
   }
 
   @media screen and (max-width: 768px) { /* Assuming phone screen size is defined as max-width: 768px */
