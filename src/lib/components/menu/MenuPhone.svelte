@@ -97,9 +97,6 @@
     <!-- TITLE -->
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <!-- svelte-ignore a11y-no-static-element-interactions -->
-    <!-- on:click|preventDefault={() => {
-          menuItemActive.set(null)
-        }} -->
     <div class="ticker">
       <div class="title">
         {$activeMenuSection}
@@ -127,10 +124,8 @@
     z-index: 1000;
     box-sizing: border-box;
     position: fixed;
-    top: 0;
     left: 0;
-    height: 100vh;
-    width: var(--extended-menu-width);
+    height: 100dvh;
     line-height: var(--line-height);
     overflow: auto;
     padding: var(--margin);
@@ -144,16 +139,11 @@
     justify-content: space-between;
     transition: transform 0.2s ease-out;
     user-select: none;
-    transform: translateX(
-      calc((-1 * var(--extended-menu-width)) + var(--menu-side-width))
-    );
 
-    @include screen-size("phone") {
-      bottom: 0;
-      transform: translateY(calc(100% - var(--menu-side-width)));
-      width: 100vw;
-      padding: var(--menu-side-width) calc(var(--margin) / 4) 0;
-    }
+    top: 0;
+    transform: translateY(calc(100dvh - var(--menu-side-width)));
+    width: 100dvw;
+    padding: var(--menu-side-width) calc(var(--margin) / 4) 0;
 
     background: var(--green);
 
@@ -174,35 +164,22 @@
       display: flex;
       flex-flow: row nowrap;
       justify-content: space-between;
-      align-items: center;
       height: 100%;
-      width: var(--menu-side-width);
       cursor: pointer;
+
+      padding: 0 calc(var(--margin) / 4);
+      width: 100%;
+      height: var(--menu-side-width);
+      writing-mode: horizontal-tb;
+      text-orientation: upright;
+      align-items: flex-start;
 
       .title {
         cursor: pointer;
       }
 
-      @include screen-size("phone") {
-        padding: 0 calc(var(--margin) / 4);
-        width: 100%;
-        height: var(--menu-side-width);
-        writing-mode: horizontal-tb;
-        text-orientation: upright;
-        align-items: flex-start;
-      }
-
       .title:not(.title.hamburger) {
-        display: inline-block;
-        justify-self: flex-start;
-
-        @include screen-size("phone") {
-          display: none;
-        }
-
-        &.bottom {
-          margin-bottom: calc(-1 * var(--title-letter-spacing));
-        }
+        display: none;
       }
     }
 

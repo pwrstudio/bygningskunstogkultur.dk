@@ -27,12 +27,8 @@
   // Write window dimensions to reactive stores
   let iH: number
   let iW: number
-
   $: windowHeight.set(iH)
   $: windowWidth.set(iW)
-  // $: console.log("windowWidth", $windowWidth)
-  // $: console.log("windowHeight", $windowHeight)
-  // $: console.log("$screenSizePhone", $screenSizePhone)
 
   $: pageType = getPageType($page.route?.id ?? "")
 

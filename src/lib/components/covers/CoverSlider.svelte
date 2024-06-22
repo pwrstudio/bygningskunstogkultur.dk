@@ -33,9 +33,12 @@
     scale = 1
   }
 
-  if ($windowWidth < 400) {
+  $: if ($windowWidth < 400) {
     coverScale = mapValue($windowWidth, 80, 440, 0, 0.8)
   }
+
+  $: console.log("scale", scale)
+  $: console.log("coverScale", coverScale)
 
   async function initializeSwipers() {
     if (swiperDesktop) swiperDesktop.destroy()
@@ -116,9 +119,11 @@
     </div>
 
     <!-- SWIPER DESKTOP -->
-    <!-- class:scaled={scale !== 1}
-    style="transform: scale({scale})" -->
-    <div class="swiper-desktop">
+    <div
+      class="swiper-desktop"
+      class:scaled={scale !== 1}
+      style="transform: scale({scale})"
+    >
       <div class="swiper-container" bind:this={swiperDesktopElement}>
         <div class="swiper-wrapper">
           {#each issues as issue}

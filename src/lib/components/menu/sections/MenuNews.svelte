@@ -54,12 +54,7 @@
     </div>
     {#each news as item}
       <div class="news-item" id={item.slug.current}>
-        <div
-          class="content"
-          style="min-height: {$windowWidth >= 768
-            ? $windowWidth - 200 + 'px'
-            : 'auto'}"
-        >
+        <div class="content">
           <!-- IMAGE -->
           {#if item.mainImage?.asset}
             <img
@@ -135,7 +130,7 @@
 
   .news-item {
     position: relative;
-    min-height: 100dvh;
+    min-height: 80dvh;
     padding-bottom: calc(var(--margin) * 2);
 
     .content {
