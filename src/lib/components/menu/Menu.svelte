@@ -57,7 +57,12 @@
   }
 </script>
 
-<div class="menu" class:open={$menuOpen} class:extended={$newsExtended}>
+<div
+  class="menu"
+  class:open={$menuOpen}
+  class:extended={$newsExtended}
+  class:landing={pageType === PageType.Landing}
+>
   <!-- CONTENT -->
   <div class="menu-content" bind:this={menuContentElement}>
     {#if $activeMenuSection == MenuSection.News}
@@ -150,6 +155,10 @@
 
     @include screen-size("phone") {
       display: none;
+    }
+
+    &.landing {
+      transition: unset;
     }
 
     &.open {

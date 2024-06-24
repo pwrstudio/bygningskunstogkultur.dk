@@ -322,6 +322,7 @@
         padding-top: 1em;
         padding-bottom: 1em;
         cursor: pointer;
+        font-size: var(--font-size-small);
 
         &.hidden {
           display: none;
