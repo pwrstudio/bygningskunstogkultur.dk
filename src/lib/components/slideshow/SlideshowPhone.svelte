@@ -11,6 +11,7 @@
 
   export let slides = [] as Slide[]
   export let zoomable = false
+  export let mobile = false
 
   let swiperContainer: HTMLDivElement
   let swiperInstance: Swiper
@@ -35,24 +36,6 @@
     }
   }
 
-  const scrollThrough = (e: MouseEvent) => {
-    if (e.currentTarget) {
-      const rect = e.currentTarget.getBoundingClientRect()
-      const x = e.clientX - rect.left
-      const y = e.clientY - rect.top
-      const scrollW = e.currentTarget.scrollWidth
-      const scrollH = e.currentTarget.scrollHeight
-      const fracX = x / rect.width
-      const fracY = y / rect.height
-      const toX = fracX * (scrollW - rect.width)
-      const toY = fracY * (scrollH - rect.height)
-      if (zoomed) {
-        e.currentTarget.scrollLeft = toX
-        e.currentTarget.scrollTop = toY
-      }
-    }
-  }
-
   onMount(() => {
     swiperInstance = new Swiper(swiperContainer, {
       modules: [Pagination, Navigation],
@@ -61,6 +44,7 @@
         clickable: true,
       },
       spaceBetween: 20,
+      autoHeight: mobile,
     })
 
     swiperInstance.on("slideChange", () => {
@@ -77,11 +61,7 @@
         <!-- svelte-ignore a11y-click-events-have-key-events -->
         <div class="swiper-slide" on:click={toggleZoom}>
           {#if zoomable}
-            <div
-              class="zoom-container"
-              class:zoomed
-              on:mousemove={scrollThrough}
-            >
+            <div class="zoom-container" class:zoomed>
               <img
                 class="slide-img zoomable"
                 class:zoomed
@@ -114,7 +94,6 @@
     <div class="bottom">
       <!-- Pagination -->
       <div class={"custom-pagination"} />
-
       <!-- Zoom level -->
       {#if zoomable}
         <div class="zoomLevel">
@@ -133,15 +112,8 @@
   @import "../../styles/variables.scss";
 
   .slideshow {
-    height: 100%;
-
-    &.zoomable {
-      @include screen-size("small") {
-        height: 70%;
-        margin-top: 10px;
-        margin-bottom: 100px;
-      }
-    }
+    height: 60dvh;
+    position: relative;
 
     .zoomLevel {
       padding-top: var(--margin-xs);
@@ -153,8 +125,13 @@
 
     .bottom {
       height: var(--margin);
-      position: relative;
-      top: 40px;
+      position: absolute;
+      bottom: 0;
+      top: unset;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
     }
 
     .swiper-container {
@@ -181,7 +158,7 @@
     }
 
     :global(.swiper-wrapper) {
-      height: calc(90vh - var(--margin) * 2);
+      height: 100%;
     }
 
     :global(.swiper-slide) {
@@ -191,12 +168,22 @@
 
     :global(.img-container) {
       width: 100%;
-      height: 100%;
+      height: 80%;
       max-height: calc(100vh - var(--margin) * 2.5);
       display: flex;
       flex-flow: column nowrap;
       align-items: flex-start;
       justify-content: space-between;
+
+      @include screen-size("phone") {
+        justify-content: center;
+      }
+
+      :global(.slide-img) {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
     }
 
     :global(.zoom-container) {
@@ -207,13 +194,6 @@
       margin-left: 10px;
       height: calc(100% - 20px);
       width: calc(100% - 20px);
-    }
-
-    :global(.slide-img) {
-      max-width: 100%;
-      max-height: calc(100% - (var(--margin) * 2));
-      padding-bottom: var(--margin-xs);
-      background: white;
     }
 
     :global(.slide-img.contain) {
@@ -257,8 +237,9 @@
 
     .caption {
       bottom: 0;
-      bottom: 0;
       margin-right: 40px;
+      padding-top: 1em;
+      padding-inline: 1em;
       :global(p) {
         font-size: var(--font-size-small);
         line-height: 20px;
@@ -279,5 +260,6 @@
     flex-flow: row nowrap;
     justify-content: center;
     align-items: center;
+    width: auto;
   }
 </style>

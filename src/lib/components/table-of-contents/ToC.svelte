@@ -299,6 +299,7 @@
     .title {
       cursor: pointer;
       letter-spacing: var(--title-letter-spacing);
+      width: 100%;
     }
 
     .bullets,
@@ -310,6 +311,7 @@
       padding: 0;
       letter-spacing: 0;
       text-align: center;
+      width: 100%;
     }
 
     .bullets {
@@ -317,8 +319,9 @@
       flex-direction: column;
 
       .bullet {
-        margin-top: 1em;
-        margin-bottom: 1em;
+        padding-top: 1em;
+        padding-bottom: 1em;
+        cursor: pointer;
 
         &.hidden {
           display: none;

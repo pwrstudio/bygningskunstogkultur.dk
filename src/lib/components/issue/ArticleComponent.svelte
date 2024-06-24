@@ -1,11 +1,12 @@
 <script lang="ts">
+  import { fly } from "svelte/transition"
+  import { quintOut } from "svelte/easing"
   import type { Article, Issue } from "$lib/types/sanity.types"
   import { renderBlockText } from "$lib/modules/sanity"
   import { getNextArticle } from "$lib/modules/utils"
-
-  import { menuOpen } from "$lib/modules/stores"
-
+  import { menuOpen, tableOfContentsOpen } from "$lib/modules/stores"
   import Slideshow from "$lib/components/slideshow/SlideShow.svelte"
+  import SlideshowPhone from "$lib/components/slideshow/SlideshowPhone.svelte"
   import Meta from "$lib/components/issue/Meta.svelte"
   import ZoomMeta from "$lib/components/issue/ZoomMeta.svelte"
   import ArrowDown from "$lib/components/graphics/ArrowDown.svelte"
@@ -16,14 +17,24 @@
 
   const nextArticle: Article | null = getNextArticle(issue, article)
 
-  const closeMenu = () => {
+  const closeMenus = () => {
     menuOpen.set(false)
+    tableOfContentsOpen.set(false)
   }
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
-<div on:click={closeMenu} class="article">
+<div
+  on:click={closeMenus}
+  in:fly={{
+    duration: 700,
+    y: 1000,
+    opacity: 0,
+    easing: quintOut,
+  }}
+  class="article"
+>
   <div
     class="col"
     class:zoomableSlideshowLayout={article.zoomableSlideshowLayout}
@@ -45,7 +56,7 @@
         {#if !article.zoomableSlideshowLayout}
           <div class="col slideshow-mobile" class:slideshow={article.slideshow}>
             {#if article.slideshow}
-              <Slideshow mobile slides={article.slideshow} />
+              <SlideshowPhone slides={article.slideshow} />
             {/if}
           </div>
         {/if}
@@ -95,6 +106,9 @@
 
   .slideshow-mobile {
     display: none;
+    margin-bottom: 0 !important;
+    padding-bottom: 1em !important;
+    height: auto !important;
 
     @include screen-size("phone") {
       display: block;
