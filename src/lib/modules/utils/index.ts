@@ -24,6 +24,13 @@ export const formattedDate = (start: string, end?: string) => {
     return format(startDate, startFormat) + " – " + format(endDate, endFormat);
 };
 
+export const currentDateAndTime = (): string => {
+    const currentDate = new Date();
+    const startDate = currentDate.getTime();
+    return format(startDate, "HH:mm dd.MM.yyyy");
+};
+
+
 export function scrollBack(target: HTMLElement, delay: number) {
     if (!target) return
     setTimeout(() => {
@@ -105,8 +112,9 @@ export function getPageType(route: string): PageType {
             return PageType.Article
         case "/nyhed/[slug]":
             return PageType.News
-        case "/pdf-article/[slug]":
-        case "/pdf-issue/[slug]":
+        case "/pdf/article/[slug]":
+        case "/pdf/issue/[slug]":
+        case "/pdf/news/[slug]":
             return PageType.Pdf
         default:
             return PageType.Error

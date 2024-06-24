@@ -1,83 +1,64 @@
-<script>
-  // # # # # # # # # # # # # #
-  //
-  //  ISSUE PDF GEN
-  //
-  // # # # # # # # # # # # # #
-
-  // *** IMPORTS
-  import {
-    loadData,
-    urlFor,
-    renderBlockText,
-    calculateArticleReadingTime,
-  } from "../sanity.js"
+<script lang="ts">
+  import type { Colophon, Issue } from "$lib/types/sanity.types"
   import { onMount } from "svelte"
-  import get from "lodash/get"
-  import has from "lodash/has.js"
-  import isArray from "lodash/isArray.js"
-  import PrintArticle from "../Components/PrintArticle.svelte"
+  import { urlFor, renderBlockText } from "$lib/modules/sanity"
+  import { get, has, isArray } from "lodash-es"
+  import { calculateArticleReadingTime } from "$lib/modules/utils"
+  import PrintArticleComponent from "$lib/components/print/PrintArticleComponent.svelte"
+  import OutputInfo from "$lib/components/print/OutputInfo.svelte"
 
-  // *** PROPS
-  export let params = false
-  let issue = []
-  let colophon = {}
+  export let issue: Issue
+  export let colophon: Colophon
 
   onMount(async () => {
     document.getElementsByTagName("body")[0].style.overflow = "auto"
     document.getElementsByTagName("body")[0].style.height = "auto"
-
-    const args = get(params, "[*]", "").split("/")
-    let slug = args[0]
-    const query = "*[slug.current == $slug]{..., tableOfContents[]->{...}}[0]"
-    issue = await loadData(query, {
-      slug: slug,
-    })
-    const queryColophon = "*[_id == 'colophon']{...}[0]"
-    colophon = await loadData(queryColophon)
-    document.title = "MAGASIN FOR BYGNINGSKUNST OG KULTUR - " + issue.title
   })
 </script>
 
-{#if issue.title}
-  <div class="print-container">
-    <div class="print-info">
-      <div>Print this page to PDF (CMD + P) to save a copy of this issue.</div>
+<div class="print-container">
+  <!-- PRINT INFO -->
+  <div class="print-info">
+    <div>Print this page to PDF (CMD + P) to save a copy of this issue.</div>
+  </div>
+  <!-- COVER -->
+  <div class="cover">
+    <div class="text">
+      <div class="title">Magasin for Bygningskunst og Kultur</div>
+      <div class="date">{issue.title}</div>
     </div>
-    <!-- COVER -->
-    <div class="cover">
-      <div class="text">
-        <div class="title">Magasin for Bygningskunst og Kultur</div>
-        <div class="date">{issue.title}</div>
-      </div>
-      <div class="image">
-        <img src={urlFor(issue.mainImage.asset).quality(90).width(800).url()} />
-      </div>
+    <div class="image">
+      <img
+        src={urlFor(issue.mainImage?.asset).quality(90).width(800).url()}
+        alt={issue.title}
+      />
     </div>
-    <!-- COLOPHON -->
-    <div class="colophon">
-      {#if colophon.wideColumn}
-        <div class="content">
-          {#if has(colophon, "wideColumn.content") && isArray(colophon.wideColumn.content)}
-            <div class="paragraph">
-              {@html renderBlockText(colophon.wideColumn.content)}
+  </div>
+  <!-- COLOPHON -->
+  <div class="colophon">
+    {#if colophon.wideColumn}
+      <div class="content">
+        {#if has(colophon, "wideColumn.content") && isArray(colophon.wideColumn.content)}
+          <div class="paragraph">
+            {@html renderBlockText(colophon.wideColumn.content)}
+          </div>
+        {/if}
+        <div class="narrow-cols">
+          {#if has(colophon, "firstNarrowColumn.content") && isArray(colophon.firstNarrowColumn?.content)}
+            <div class="narrow-col">
+              {@html renderBlockText(colophon.firstNarrowColumn.content)}
             </div>
           {/if}
-          <div class="narrow-cols">
-            {#if has(colophon, "firstNarrowColumn.content") && isArray(colophon.firstNarrowColumn.content)}
-              <div class="narrow-col">
-                {@html renderBlockText(colophon.firstNarrowColumn.content)}
-              </div>
-            {/if}
-            {#if has(colophon, "secondNarrowColumn.content") && isArray(colophon.secondNarrowColumn.content)}
-              <div class="narrow-col">
-                {@html renderBlockText(colophon.secondNarrowColumn.content)}
-              </div>
-            {/if}
-          </div>
+          {#if has(colophon, "secondNarrowColumn.content") && isArray(colophon.secondNarrowColumn?.content)}
+            <div class="narrow-col">
+              {@html renderBlockText(colophon.secondNarrowColumn.content)}
+            </div>
+          {/if}
         </div>
-      {/if}
-    </div>
+      </div>
+    {/if}
+  </div>
+  {#if issue.tableOfContents}
     <!-- ToC -->
     <div class="toc">
       <ol>
@@ -99,34 +80,37 @@
         {/each}
       </ol>
     </div>
+    <!-- Articles -->
     {#each issue.tableOfContents as post}
-      <PrintArticle {post} {issue} />
+      <PrintArticleComponent {post} {issue} />
     {/each}
-  </div>
-{/if}
+  {/if}
+  <!-- OUTPUT INFO -->
+  <OutputInfo />
+</div>
 
 <style lang="scss">
-  @import "../variables.scss";
+  @import "../../styles/variables.scss";
 
   @page {
     @bottom-center {
       content: counter(page) "/" counter(pages);
-      font-family: $sans-stack;
-      font-size: $font_size_print;
+      font-family: var(--sans-stack);
+      font-size: var(--font-size-print);
     }
   }
 
   .print-container {
     padding: 2em;
-    font-family: $sans-stack;
-    font-size: $font_size_print;
+    font-family: var(--sans-stack);
+    font-size: var(--font-size-print);
     @media screen {
       max-width: 900px;
     }
   }
 
   .print-info {
-    background: $green;
+    background: var(--green);
     padding: 40px;
     height: 30vh;
     margin-bottom: 1em;
@@ -150,14 +134,14 @@
     }
 
     .text {
-      /* It will take the space it needs by default, no extra styles needed */
-
       .date {
         font-size: 48px;
+        line-height: 1em;
       }
 
       .title {
         font-size: 64px;
+        line-height: 1em;
       }
     }
 
@@ -218,14 +202,16 @@
   }
 
   :global(.print-container .colophon p) {
-    font-size: 12px;
+    font-size: 16px;
   }
 
   :global(.print-container .toc li) {
-    font-size: 12px;
+    font-size: 16px;
   }
 
   :global(.print-container .toc .bar-menu-item) {
     border-top: 1px solid black;
+    padding-top: 1em;
+    padding-bottom: 1em;
   }
 </style>

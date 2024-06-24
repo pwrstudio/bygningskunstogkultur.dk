@@ -60,7 +60,7 @@
     setTimeout(cancel, 200)
   }
 
-  function format(seconds) {
+  function format(seconds: number) {
     if (isNaN(seconds)) return "..."
 
     const minutes = Math.floor(seconds / 60)
@@ -142,7 +142,7 @@
 </figure>
 
 <style lang="scss">
-  @import "../../variables.scss";
+  @import "../../styles/variables.scss";
 
   .video {
     width: var(--text-width);

@@ -1,16 +1,12 @@
 <script lang="ts">
   import type { Article, Issue } from "$lib/types/sanity.types"
   import { renderBlockText, urlFor } from "$lib/modules/sanity"
-  import {
-    extractFootnotes,
-    calculateArticleReadingTime,
-  } from "$lib/modules/utils"
+  import { calculateArticleReadingTime } from "$lib/modules/utils"
   import { get } from "lodash-es"
+  import Footnotes from "$lib/components/issue/Footnotes.svelte"
 
   export let post: Article
   export let issue: Issue
-
-  let footnotes = extractFootnotes(get(post, "content.content", []))
 </script>
 
 <div class="print-article">
@@ -27,6 +23,8 @@
     <!-- BYLINE -->
     <div class="byline">
       <div class="text">
+        {@html renderBlockText(post.byline?.content ?? [])}
+
         {#if post.author}
           <div class="author">
             <p class="normal">{post.author}</p>
@@ -44,18 +42,9 @@
     {@html renderBlockText(get(post, "content.content", []))}
   </div>
   <!-- FOOTNOTES -->
-  {#if get(post, "content.content", false) && footnotes.length > 0}
-    <div class="footnotes">
-      <div class="footnotes-header">NOTER</div>
-      <ol>
-        {#each footnotes as footnote}
-          <li>
-            {@html renderBlockText(get(footnote, "content.content", []))}
-          </li>
-        {/each}
-      </ol>
-    </div>
-  {/if}
+  <div class="footnotes">
+    <Footnotes article={post} isPrint />
+  </div>
   <!-- IMAGES -->
   <div class="images">
     {#if post.slideshow && post.slideshow.length > 0}
@@ -76,7 +65,7 @@
 <style lang="scss">
   @import "../../styles/variables.scss";
 
-  .print-acticle {
+  .print-article {
     @media print {
       page-break-after: always;
     }
@@ -84,8 +73,8 @@
 
   header {
     width: 100%;
-    border-top: 2px solid black;
-    border-bottom: 2px solid black;
+    border-top: 1px solid var(--black);
+    border-bottom: 1px solid var(--black);
     padding-top: 0.5em;
     padding-bottom: 0.5em;
   }
@@ -114,15 +103,15 @@
     margin-top: 0.5em;
     font-size: 48px;
     margin-bottom: 0.5em;
+    line-height: normal;
   }
 
   .footnotes {
-    border-top: 1px solid black;
-    font-size: 13px;
+    border-top: 1px solid var(--black);
     padding-top: 1em;
     margin-top: 2em;
     padding-bottom: 1em;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid var(--black);
     margin-bottom: 2em;
   }
 

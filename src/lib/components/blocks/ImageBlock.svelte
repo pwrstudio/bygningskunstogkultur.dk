@@ -22,9 +22,10 @@
   <!-- CAPTION -->
   <div class="text">
     {#if has(block, "caption.content")}
+      <!-- svelte-ignore a11y-structure -->
       <figcaption>
         <!-- CAPTION -->
-        <span class="caption>">
+        <span class="caption">
           {@html renderBlockText(block.caption?.content ?? [])}
         </span>
       </figcaption>
@@ -63,7 +64,7 @@
     &.fullheight {
       width: 100%;
       max-height: unset;
-      height: calc(100vh - var(--$menu_bar_height));
+      height: calc(100vh - var(--menu-bar-height));
       display: flex;
       justify-content: center;
       align-items: center;

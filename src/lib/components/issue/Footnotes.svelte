@@ -5,6 +5,7 @@
   import { extractFootnotes, scrollToHash } from "$lib/modules/utils"
 
   export let article: Article
+  export let isPrint: boolean = false
 
   const footnotes = extractFootnotes(article.content?.content ?? [])
 
@@ -30,14 +31,16 @@
           {@html renderBlockText(footnote.content?.content ?? [])}
           <!-- svelte-ignore a11y-click-events-have-key-events -->
           <!-- svelte-ignore a11y-no-static-element-interactions -->
-          <span
-            class="back-link"
-            on:click={_ => {
-              backLink(footnote)
-            }}
-          >
-            ↩
-          </span>
+          {#if !isPrint}
+            <span
+              class="back-link"
+              on:click={_ => {
+                backLink(footnote)
+              }}
+            >
+              ↩
+            </span>
+          {/if}
         </li>
       {/each}
     </ol>

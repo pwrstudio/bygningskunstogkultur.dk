@@ -100,7 +100,7 @@
       <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
       <li
         class="toc-menu-item title-item link"
-        on:click={() => goto("/pdf-issue/" + issue.slug.current)}
+        on:click={() => goto("/pdf/issue/" + issue.slug.current)}
       >
         <div class="title-text pdf">Hent udgaven som PDF</div>
       </li>

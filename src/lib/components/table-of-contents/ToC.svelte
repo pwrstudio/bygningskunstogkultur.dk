@@ -121,7 +121,7 @@
       <li
         class="toc-menu-item title-item link"
         on:click={e => {
-          goto("/pdf-issue/" + issue.slug.current)
+          goto("/pdf/issue/" + issue.slug.current)
         }}
       >
         <div class="title-text pdf">Hent udgaven som PDF</div>

@@ -1,25 +1,21 @@
 <script lang="ts">
-  import { createEventDispatcher } from "svelte"
   import type { News } from "$lib/types/sanity.types"
+  import { onMount } from "svelte"
   import { urlFor, renderBlockText } from "$lib/modules/sanity"
   import { formattedDate } from "$lib/modules/utils"
-  import ArrowLeft from "$lib/components/graphics/ArrowLeft.svelte"
-  import Share from "$lib/components/share/Share.svelte"
-
-  const dispatch = createEventDispatcher()
+  import OutputInfo from "$lib/components/print/OutputInfo.svelte"
 
   export let news: News
 
-  const close = () => {
-    dispatch("close")
-  }
+  onMount(async () => {
+    document.getElementsByTagName("body")[0].style.overflow = "auto"
+    document.getElementsByTagName("body")[0].style.height = "auto"
+  })
 </script>
 
-<div class="full-news-item">
-  <!-- svelte-ignore a11y-click-events-have-key-events -->
-  <!-- svelte-ignore a11y-no-static-element-interactions -->
-  <div class="close-extended" on:click={close}>
-    <ArrowLeft />
+<div class="print-container">
+  <div class="print-info">
+    <div>Print this page to PDF (CMD + P) to save a copy of this issue.</div>
   </div>
   <div class="content">
     {#if news.mainImage?.asset}
@@ -47,11 +43,6 @@
         {/if}
       </span>
     </div>
-    <!-- SHARE -->
-    <div class="share">
-      <!-- SHARING -->
-      <Share article={news} />
-    </div>
     <!-- CONTENT -->
     {#if news.extendedContent?.content}
       <div class="paragraph">
@@ -63,10 +54,43 @@
       </div>
     {/if}
   </div>
+  <!-- OUTPUT INFO -->
+  <OutputInfo />
 </div>
 
 <style lang="scss">
   @import "../../styles/variables.scss";
+
+  @page {
+    @bottom-center {
+      content: counter(page) "/" counter(pages);
+      font-family: var(--sans-stack);
+      font-size: var(--font-size-print);
+    }
+  }
+
+  .print-container {
+    padding: 2em;
+    font-family: var(--sans-stack);
+    font-size: var(--font-size-print);
+    @media screen {
+      max-width: 900px;
+    }
+  }
+
+  .print-info {
+    background: var(--green);
+    padding: 40px;
+    height: 30vh;
+    margin-bottom: 1em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    @media print {
+      display: none;
+    }
+  }
 
   .image {
     mix-blend-mode: unset;
@@ -74,33 +98,16 @@
     max-height: 60vh;
   }
 
-  .share {
-    float: right;
-    padding-left: 10px;
+  .content {
+    margin-bottom: 1em;
   }
 
-  .full-news-item {
-    position: relative;
-    min-height: 100%;
-    padding-bottom: calc(var(--margin) * 2);
-    padding-left: 42px;
-    font-family: var(--sans-stack);
-
-    .close-extended {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 20px;
-      height: 42px;
-      cursor: pointer;
-    }
-
-    .header {
-      font-size: var(--font-size-small);
-      border-top: var(--border-black);
-      border-bottom: var(--border-black);
-      padding-top: 4px;
-      margin-bottom: var(--margin-xs);
-    }
+  .header {
+    margin-top: 1em;
+    border-bottom: 1px solid var(--black);
+    padding-top: 1em;
+    padding-bottom: 1em;
+    border-top: 1px solid var(--black);
+    margin-bottom: 1em;
   }
 </style>

@@ -8,6 +8,7 @@ export const queries = {
     about: "*[_id == 'about']{...}[0]",
     colophon: "*[_id == 'colophon']{...}[0]",
     singleIssue: "*[_type == 'issue' && slug.current == $slug][0] {..., tableOfContents[]->{...}}",
+    issueByArticle: "*[_type == 'issue' && references($id)][0]",
     singleArticle: "*[_type == 'article' && slug.current == $slug][0]",
     singleNews: "*[_type == 'news' && slug.current == $slug][0]",
 }
