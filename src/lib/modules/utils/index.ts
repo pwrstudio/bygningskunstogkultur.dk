@@ -96,7 +96,6 @@ export function scrollToHash() {
 }
 
 export function getPageType(route: string): PageType {
-    console.log(route)
     switch (route) {
         case "/":
             return PageType.Landing

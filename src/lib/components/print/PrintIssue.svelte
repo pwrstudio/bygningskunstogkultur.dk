@@ -2,7 +2,7 @@
   import type { Colophon, Issue } from "$lib/types/sanity.types"
   import { onMount } from "svelte"
   import { urlFor, renderBlockText } from "$lib/modules/sanity"
-  import { get, has, isArray } from "lodash-es"
+  import { has, isArray } from "lodash-es"
   import { calculateArticleReadingTime } from "$lib/modules/utils"
   import PrintArticleComponent from "$lib/components/print/PrintArticleComponent.svelte"
   import OutputInfo from "$lib/components/print/OutputInfo.svelte"
@@ -70,7 +70,7 @@
           <li class="bar-menu-item title-item link">
             <div class="title-text">
               {`${index + 1}. `}
-              {get(article, "title", "")}
+              {article.title ?? ""}
             </div>
             {#if article.author}
               <div class="author">

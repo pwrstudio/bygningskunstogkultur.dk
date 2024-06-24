@@ -2,7 +2,6 @@
   import type { Article, Issue } from "$lib/types/sanity.types"
   import { renderBlockText, urlFor } from "$lib/modules/sanity"
   import { calculateArticleReadingTime } from "$lib/modules/utils"
-  import { get } from "lodash-es"
   import Footnotes from "$lib/components/issue/Footnotes.svelte"
 
   export let post: Article
@@ -39,7 +38,7 @@
   </header>
   <!-- CONTENT -->
   <div class="content">
-    {@html renderBlockText(get(post, "content.content", []))}
+    {@html renderBlockText(post.content?.content ?? [])}
   </div>
   <!-- FOOTNOTES -->
   <div class="footnotes">
@@ -60,7 +59,7 @@
           />
           {#if slide.caption}
             <div class="caption">
-              {@html renderBlockText(get(slide, "caption.content", []))}
+              {@html renderBlockText(slide.caption?.content ?? [])}
             </div>
           {/if}
         </div>

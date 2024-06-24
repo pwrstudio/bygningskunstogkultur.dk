@@ -2,7 +2,7 @@
   import type { Issue } from "$lib/types/sanity.types"
   import Swiper from "swiper"
   import { Pagination, Navigation } from "swiper/modules"
-  import { onMount, afterUpdate } from "svelte"
+  import { onMount } from "svelte"
   import { get } from "lodash-es"
   import { mapValue } from "$lib/modules/utils"
   import { windowWidth } from "$lib/modules/stores"
@@ -15,10 +15,12 @@
   export let issues: Issue[] = []
 
   let coverScale = 1
+  let loaded = false
 
   let swiperMobileElement: HTMLDivElement
   let swiperMobile: Swiper
 
+  // Not exactly sure how this reactive statement works...
   $: if ($windowWidth < 400) {
     coverScale = mapValue($windowWidth, 80, 440, 0, 0.8)
   }
@@ -39,20 +41,15 @@
     })
   }
 
-  onMount(() => {
-    if ($windowWidth < 400) {
-      coverScale = mapValue($windowWidth, 80, 440, 0, 0.8)
-    }
-
+  onMount(async () => {
     initializeSwipers()
-  })
-
-  afterUpdate(() => {
-    initializeSwipers()
+    // Loading delay to avoid flickering
+    await new Promise(resolve => setTimeout(resolve, 100))
+    loaded = true
   })
 </script>
 
-<div class="coverslider">
+<div class="coverslider" class:loaded>
   <!-- ARROWS -->
   <div class="middle">
     <!-- SWIPER MOBILE -->
@@ -89,6 +86,12 @@
     user-select: none;
     padding: 0;
     overflow: hidden;
+
+    opacity: 0;
+    &.loaded {
+      opacity: 1;
+      transition: opacity 0.3s ease-out;
+    }
 
     .swiper-container {
       width: 100%;
@@ -129,19 +132,6 @@
       flex-flow: row nowrap;
       justify-content: center;
       align-items: center;
-
-      .custom-controls-prev-mobile,
-      .custom-controls-next-mobile {
-        width: 40px;
-        margin: 0 calc(var(--margin) / 2);
-        cursor: pointer;
-        flex-shrink: 0;
-      }
-
-      :global(.custom-controls-prev-mobile.swiper-button-disabled),
-      :global(.custom-controls-next-mobile.swiper-button-disabled) {
-        opacity: 0.2;
-      }
     }
   }
 </style>

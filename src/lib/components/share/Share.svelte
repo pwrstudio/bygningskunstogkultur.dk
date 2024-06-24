@@ -19,8 +19,6 @@
   export let article: Article | News
   export let issue: Issue | null = null
 
-  console.log("article", article)
-
   // SHARING LINKS
   const PDF_URL =
     (article._type === "news" ? "/pdf/news/" : "/pdf/article/") +

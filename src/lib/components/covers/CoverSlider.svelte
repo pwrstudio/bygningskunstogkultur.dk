@@ -1,8 +1,9 @@
 <script lang="ts">
+  import { fade } from "svelte/transition"
   import type { Issue } from "$lib/types/sanity.types"
   import Swiper from "swiper"
   import { Pagination, Navigation } from "swiper/modules"
-  import { onMount, afterUpdate } from "svelte"
+  import { onMount } from "svelte"
   import { mapValue } from "$lib/modules/utils"
 
   import "swiper/swiper-bundle.css"
@@ -19,16 +20,17 @@
 
   let scale = 1
   let coverScale = 1
+  let loaded = false
 
   let swiperDesktopElement: HTMLDivElement
   let swiperDesktop: Swiper
 
+  // Not exactly sure how these two reactive statements works...
   $: if (768 < $windowWidth && $windowWidth < 1350) {
     scale = mapValue($windowWidth, 769, 1349, 0.2, 0.9)
   } else {
     scale = 1
   }
-
   $: if ($windowWidth < 400) {
     coverScale = mapValue($windowWidth, 80, 440, 0, 0.8)
   }
@@ -52,25 +54,17 @@
     })
   }
 
-  onMount(() => {
-    if (768 < $windowWidth && $windowWidth < 1350) {
-      scale = mapValue($windowWidth, 769, 1349, 0.2, 0.9)
-    } else {
-      scale = 1
-    }
-    if ($windowWidth < 400) {
-      coverScale = mapValue($windowWidth, 80, 440, 0, 0.8)
-    }
-
+  onMount(async () => {
     initializeSwipers()
-  })
-
-  afterUpdate(() => {
-    initializeSwipers()
+    // Loading delay to avoid flickering
+    await new Promise(resolve => setTimeout(resolve, 100))
+    loaded = true
   })
 </script>
 
 <div
+  in:fade
+  class:loaded
   class="coverslider"
   on:click={e => {
     newsExtended.set(false)
@@ -152,6 +146,12 @@
     user-select: none;
     padding: 0;
     overflow: hidden;
+
+    opacity: 0;
+    &.loaded {
+      opacity: 1;
+      transition: opacity 0.3s ease-out;
+    }
 
     .swiper-container {
       width: var(--coverslider-2);
