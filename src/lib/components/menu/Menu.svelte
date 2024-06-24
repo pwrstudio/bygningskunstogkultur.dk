@@ -218,7 +218,7 @@
 
   .newsletter-signup {
     margin: 0;
-    padding-top: 3px;
+    padding-top: 16px;
     border-top: var(--border-black);
     flex-shrink: 0; // Do not allow it to shrink
   }
