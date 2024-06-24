@@ -95,16 +95,12 @@
     class:parentOpen={$menuOpen}
     class:parentExtended={$newsExtended}
   >
-    <ul class="toc-menu">
-      <!-- svelte-ignore a11y-click-events-have-key-events -->
-      <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-      <li class="toc-menu-item title-item link" on:click={gotToLandingPage}>
+    <div class="toc-menu">
+      <button class="toc-menu-item title-item link" on:click={gotToLandingPage}>
         TILBAGE TIL FORSIDE
-      </li>
+      </button>
       {#each issue.tableOfContents as article, index}
-        <!-- svelte-ignore a11y-click-events-have-key-events -->
-        <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-        <li
+        <button
           class="toc-menu-item title-item link"
           class:active={$currentArticleSlug === article.slug.current}
           on:click={e => {
@@ -129,37 +125,26 @@
           <div class="reading-time">
             {calculateArticleReadingTime(article) + " min"}
           </div>
-        </li>
+        </button>
       {/each}
-      <!-- svelte-ignore a11y-click-events-have-key-events -->
-      <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-      <li
+      <button
         class="toc-menu-item title-item link"
         on:click={e => {
           goto("/pdf/issue/" + issue.slug.current)
         }}
       >
         <div class="title-text pdf">Hent udgaven som PDF</div>
-      </li>
-    </ul>
+      </button>
+    </div>
 
     <div class="toc-button">
-      <!-- svelte-ignore a11y-click-events-have-key-events -->
-      <!-- svelte-ignore a11y-no-static-element-interactions -->
-      <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-      <h1 class="title indhold" on:click={toggleToC}>
+      <button class="title indhold" on:click={toggleToC}>
         <span>INDHOLD</span>
-      </h1>
-      <ul class="bullets">
-        <!-- svelte-ignore a11y-click-events-have-key-events -->
-        <!-- svelte-ignore a11y-no-static-element-interactions -->
-        <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-        <li class="bullet" on:click={gotToLandingPage}>⌂</li>
+      </button>
+      <div class="bullets">
+        <button class="bullet" on:click={gotToLandingPage}>⌂</button>
         {#each issue.tableOfContents as article, index}
-          <!-- svelte-ignore a11y-click-events-have-key-events -->
-          <!-- svelte-ignore a11y-no-static-element-interactions -->
-          <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-          <li
+          <button
             class="bullet"
             class:active={$currentArticleSlug === article.slug.current}
             class:dots={(!show[index] && index === 1) ||
@@ -175,9 +160,9 @@
             (!show[index] && index === show.length - 2)
               ? "..."
               : index + 1}
-          </li>
+          </button>
         {/each}
-      </ul>
+      </div>
     </div>
   </div>
 {/if}
@@ -254,35 +239,6 @@
       transform: translateX(260px);
     }
 
-    .bullets,
-    .bullets .bullet {
-      writing-mode: lr;
-      text-orientation: unset;
-      list-style-type: none;
-      margin: 0;
-      padding: 0;
-      letter-spacing: 0;
-      text-align: center;
-    }
-
-    .bullets {
-      .bullet {
-        margin-bottom: var(--title-letter-spacing);
-
-        &.hidden {
-          display: none;
-
-          &.dots {
-            display: inline-block;
-          }
-        }
-
-        &.active {
-          text-decoration: underline;
-        }
-      }
-    }
-
     .articleNumber {
       display: inline-block;
       width: 100%;
@@ -338,9 +294,44 @@
     height: 100%;
     width: var(--menu-side-width);
     cursor: pointer;
+    line-height: var(--line-height);
 
     .title {
       cursor: pointer;
+      letter-spacing: var(--title-letter-spacing);
+    }
+
+    .bullets,
+    .bullets .bullet {
+      writing-mode: lr;
+      text-orientation: unset;
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      letter-spacing: 0;
+      text-align: center;
+    }
+
+    .bullets {
+      display: flex;
+      flex-direction: column;
+
+      .bullet {
+        margin-top: 1em;
+        margin-bottom: 1em;
+
+        &.hidden {
+          display: none;
+
+          &.dots {
+            display: inline-block;
+          }
+        }
+
+        &.active {
+          text-decoration: underline;
+        }
+      }
     }
   }
 
@@ -349,6 +340,10 @@
     padding: 16px 0 12px;
     border-top: var(--border-black);
     cursor: pointer;
+    display: block;
+    width: 100%;
+    font-size: var(--font-size-small);
+    line-height: var(--line-height);
 
     .arrow-marker {
       display: none;

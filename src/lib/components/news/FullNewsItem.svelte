@@ -16,12 +16,13 @@
 </script>
 
 <div class="full-news-item">
-  <!-- svelte-ignore a11y-click-events-have-key-events -->
-  <!-- svelte-ignore a11y-no-static-element-interactions -->
-  <div class="close-extended" on:click={close}>
+  <!-- CLOSE  -->
+  <button class="close-extended" aria-label="Close news" on:click={close}>
     <ArrowLeft />
-  </div>
+  </button>
+
   <div class="content">
+    <!-- IMAGE  -->
     {#if news.mainImage?.asset}
       <img
         class="image"
@@ -34,6 +35,7 @@
           .url()}
       />
     {/if}
+
     <!-- HEADER -->
     <div class="header">
       <!-- TITLE -->
@@ -49,7 +51,6 @@
     </div>
     <!-- SHARE -->
     <div class="share">
-      <!-- SHARING -->
       <Share article={news} />
     </div>
     <!-- CONTENT -->

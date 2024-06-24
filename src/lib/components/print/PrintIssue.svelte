@@ -29,7 +29,11 @@
     </div>
     <div class="image">
       <img
-        src={urlFor(issue.mainImage?.asset).quality(90).width(800).url()}
+        src={urlFor(issue.mainImage?.asset)
+          .quality(90)
+          .width(800)
+          .auto("format")
+          .url()}
         alt={issue.title}
       />
     </div>

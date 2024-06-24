@@ -88,16 +88,15 @@
             </div>
           {/if}
           <!-- READ-MORE -->
-          <!-- svelte-ignore a11y-click-events-have-key-events -->
-          <!-- svelte-ignore a11y-no-static-element-interactions -->
-          <div
+          <button
+            aria-label="Læs mere"
             class="read-more"
             on:click={_ => {
               openExtendedPost(item)
             }}
           >
             <ArrowRight />
-          </div>
+          </button>
         </div>
       </div>
     {/each}

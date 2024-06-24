@@ -1,6 +1,4 @@
 <svg
-  id="Layer_1"
-  data-name="Layer 1"
   xmlns="http://www.w3.org/2000/svg"
   xmlns:xlink="http://www.w3.org/1999/xlink"
   viewBox="0 0 33.24 64.33"
@@ -21,7 +19,7 @@
         stroke-width: 1.5px;
       }
     </style>
-    <clipPath id="clip-path">
+    <clipPath>
       <rect class="cls-1" width="33.24" height="64.33" />
     </clipPath>
   </defs>

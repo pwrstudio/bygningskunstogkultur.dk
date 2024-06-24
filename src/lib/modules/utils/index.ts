@@ -30,14 +30,6 @@ export const currentDateAndTime = (): string => {
     return format(startDate, "HH:mm dd.MM.yyyy");
 };
 
-
-export function scrollBack(target: HTMLElement, delay: number) {
-    if (!target) return
-    setTimeout(() => {
-        target.scrollTop = 0
-    }, delay)
-}
-
 export function extractFootnotes(mainContent: BlockContent) {
     let a = flatMap(mainContent.filter(c => c._type == "block").map(x => x.markDefs))
     let footnotes: Footnote[] = a.filter(x => x._type === "footnote")

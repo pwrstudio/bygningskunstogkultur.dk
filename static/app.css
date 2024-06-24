@@ -102,6 +102,16 @@
   *::-moz-selection {
     background: rgba(230, 230, 230, 1);
   }
+
+  button {
+    background: transparent;
+    border: none;
+    outline: none;
+    padding: 0;
+    text-align: left;
+    font-weight: normal;
+    font-family: var(--sans-stack);
+  }
   
   body {
     font-size: var(--font-size-normal);

@@ -105,8 +105,6 @@
 
   {#if !block.autoPlay}
     <div class="controls" style="opacity: {duration && showControls ? 1 : 0}">
-      <!-- <progress value={time / duration || 0} /> -->
-
       <div class="buttons">
         {#if paused}
           <svg

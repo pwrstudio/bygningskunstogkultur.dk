@@ -26,20 +26,19 @@
   <div class="footnotes">
     <div class="footnotes-header">NOTER</div>
     <ol>
-      {#each footnotes as footnote}
+      {#each footnotes as footnote, index}
         <li id={"note-" + footnote._key}>
           {@html renderBlockText(footnote.content?.content ?? [])}
-          <!-- svelte-ignore a11y-click-events-have-key-events -->
-          <!-- svelte-ignore a11y-no-static-element-interactions -->
           {#if !isPrint}
-            <span
+            <button
+              aria-label={"Go to footnote " + index + 1}
               class="back-link"
               on:click={_ => {
                 backLink(footnote)
               }}
             >
               ↩
-            </span>
+            </button>
           {/if}
         </li>
       {/each}

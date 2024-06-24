@@ -40,7 +40,7 @@
   {/if}
 
   <!-- // SOUNDCLOUD -->
-  {#if block.url.includes("soundcloud")}
+  {#if block.url && block.url.includes("soundcloud")}
     <div class="soundcloud-container">
       <iframe
         width="100%"

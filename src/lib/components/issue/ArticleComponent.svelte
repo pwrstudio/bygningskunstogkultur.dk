@@ -23,7 +23,7 @@
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
-<div on:click={closeMenu} class="article" id={article.slug?.current ?? ""}>
+<div on:click={closeMenu} class="article">
   <div
     class="col"
     class:zoomableSlideshowLayout={article.zoomableSlideshowLayout}

@@ -50,11 +50,13 @@
   <div class="block main-text" class:extended in:fade>
     {@html renderBlockText(shortText)}
     {#if mainTextLength > TEXT_LIMIT}
-      <!-- svelte-ignore a11y-no-static-element-interactions -->
-      <!-- svelte-ignore a11y-click-events-have-key-events -->
-      <div class="read-more" on:click={toggleExtended}>
+      <button
+        class="read-more"
+        aria-label={extended ? "Read less" : "Read more"}
+        on:click={toggleExtended}
+      >
         {extended ? "READ LESS" : "READ MORE"}
-      </div>
+      </button>
       {#if extended}
         <div class="extended-text" in:fade>
           {@html renderBlockText(extendedText)}

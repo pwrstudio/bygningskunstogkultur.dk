@@ -1,6 +1,5 @@
 <svg
   class="icon"
-  id="Layer_1"
   data-name="Layer 1"
   xmlns="http://www.w3.org/2000/svg"
   xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -22,7 +21,7 @@
         stroke-width: 1.5px;
       }
     </style>
-    <clipPath id="clip-path">
+    <clipPath>
       <rect class="cls-1" width="64.33" height="33.24" />
     </clipPath>
   </defs>

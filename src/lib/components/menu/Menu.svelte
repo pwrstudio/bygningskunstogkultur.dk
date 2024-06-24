@@ -83,44 +83,35 @@
 
   {#if !$newsExtended}
     <!-- MENU LIST -->
-    <ul class="menu-list">
-      <!-- svelte-ignore a11y-click-events-have-key-events -->
-      <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-      <li
+    <div class="menu-list">
+      <button
         class="menu-item title"
-        id="news"
         class:active={$activeMenuSection == MenuSection.News}
         on:click={() => {
           changeMenuSection(MenuSection.News)
         }}
       >
         På Instituttet
-      </li>
-      <!-- svelte-ignore a11y-click-events-have-key-events -->
-      <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-      <li
+      </button>
+      <button
         class="menu-item title"
-        id="about"
         class:active={$activeMenuSection == MenuSection.About}
         on:click={() => {
           changeMenuSection(MenuSection.About)
         }}
       >
         Om magasinet
-      </li>
-      <!-- svelte-ignore a11y-click-events-have-key-events -->
-      <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-      <li
+      </button>
+      <button
         class="menu-item title"
-        id="colophon"
         class:active={$activeMenuSection == MenuSection.Colophon}
         on:click={() => {
           changeMenuSection(MenuSection.Colophon)
         }}
       >
         Kolofon
-      </li>
-    </ul>
+      </button>
+    </div>
 
     <!-- NEWSLETTER FORM -->
     <div class="newsletter-signup">
@@ -201,6 +192,8 @@
       padding: 16px 0 12px;
       border-top: var(--border-black);
       cursor: pointer;
+      display: block;
+      width: 100%;
 
       &.active {
         &:before {

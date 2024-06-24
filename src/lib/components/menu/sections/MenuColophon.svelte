@@ -4,30 +4,32 @@
   export let colophon: Colophon
 </script>
 
-<div id="colophon-bottom" class="news-item">
-  <div class="content">
-    {#if colophon?.wideColumn?.content}
-      <div class="paragraph">
-        {@html renderBlockText(colophon.wideColumn.content)}
+<div class="content">
+  {#if colophon?.wideColumn?.content}
+    <div class="paragraph">
+      {@html renderBlockText(colophon.wideColumn.content)}
+    </div>
+  {/if}
+  <div class="narrow-cols">
+    {#if colophon?.firstNarrowColumn?.content}
+      <div class="narrow-col">
+        {@html renderBlockText(colophon.firstNarrowColumn.content)}
       </div>
     {/if}
-    <div class="narrow-cols">
-      {#if colophon?.firstNarrowColumn?.content}
-        <div class="narrow-col">
-          {@html renderBlockText(colophon.firstNarrowColumn.content)}
-        </div>
-      {/if}
-      {#if colophon?.secondNarrowColumn?.content}
-        <div class="narrow-col">
-          {@html renderBlockText(colophon.secondNarrowColumn.content)}
-        </div>
-      {/if}
-    </div>
+    {#if colophon?.secondNarrowColumn?.content}
+      <div class="narrow-col">
+        {@html renderBlockText(colophon.secondNarrowColumn.content)}
+      </div>
+    {/if}
   </div>
 </div>
 
 <style lang="scss">
   @import "../../../styles/variables.scss";
+
+  .content {
+    padding-bottom: 4em;
+  }
 
   .narrow-cols {
     border-top: var(--border-black);

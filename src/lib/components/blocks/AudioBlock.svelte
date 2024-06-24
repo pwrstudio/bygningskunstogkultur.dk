@@ -55,11 +55,11 @@
 </script>
 
 <div class="audio-container">
-  <!-- svelte-ignore a11y-no-static-element-interactions -->
   <div
     on:mousemove={handleMousemove}
     on:mousedown={handleMousedown}
     class="audio"
+    role="presentation"
   >
     <audio
       class="audio-player"

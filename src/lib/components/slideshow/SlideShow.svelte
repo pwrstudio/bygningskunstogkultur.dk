@@ -87,7 +87,7 @@
               <img
                 class="slide-img zoomable"
                 class:zoomed
-                src={urlFor(slide.asset).quality(90).url()}
+                src={urlFor(slide.asset).quality(90).auto("format").url()}
                 alt={toPlainText(slide.caption?.content ?? [])}
               />
             </div>
@@ -95,7 +95,11 @@
             <div class="img-container">
               <img
                 class="slide-img contain"
-                src={urlFor(slide.asset).quality(90).width(1200).url()}
+                src={urlFor(slide.asset)
+                  .quality(90)
+                  .width(1200)
+                  .auto("format")
+                  .url()}
                 alt={toPlainText(slide.caption?.content ?? [])}
               />
               {#if slide.caption}

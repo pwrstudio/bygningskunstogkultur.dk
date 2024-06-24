@@ -65,37 +65,33 @@
 </script>
 
 <div class="social">
-  <a href={PDF_URL} target="_blank">
+  <a href={PDF_URL} aria-label="Download PDF" target="_blank">
     <Fa icon={faFilePdf} />
   </a>
-  <a href={FACEBOOK} target="_blank">
+  <a href={FACEBOOK} aria-label="Share on Facebook" target="_blank">
     <Fa icon={faFacebookSquare} />
   </a>
-  <a href={TWITTER} target="_blank">
+  <a href={TWITTER} aria-label="Share on Twitter" target="_blank">
     <Fa icon={faTwitterSquare} />
   </a>
-  <a href={LINKEDIN} target="_blank">
+  <a href={LINKEDIN} aria-label="Share on LinkedIn" target="_blank">
     <Fa icon={faLinkedin} />
   </a>
-  <a href={EMAIL} target="_blank">
+  <a href={EMAIL} aria-label="Share by Email" target="_blank">
     <Fa icon={faEnvelope} />
   </a>
-  <!-- svelte-ignore a11y-click-events-have-key-events -->
-  <!-- svelte-ignore a11y-no-static-element-interactions -->
-  <span class="copy" on:click={copyLink}>
+  <button aria-label="Copy url" class="copy" on:click={copyLink}>
     {#if copied}
       <Fa icon={faCheck} />
     {:else}
       <Fa icon={faLink} />
     {/if}
-  </span>
+  </button>
   <!-- Native share dialog if available (mobile) -->
   {#if browser && navigator?.share}
-    <!-- svelte-ignore a11y-click-events-have-key-events -->
-    <!-- svelte-ignore a11y-no-static-element-interactions -->
-    <span on:click={nativeShare}>
+    <button aria-label="Share page" on:click={nativeShare}>
       <Fa icon={faShareAltSquare} />
-    </span>
+    </button>
   {/if}
 </div>
 

@@ -43,45 +43,35 @@
 >
   <!-- SHARED -->
   {#if $activeMenuSection === MenuSection.None && !$newsExtended}
-    <ul class="menu-list">
-      <!-- svelte-ignore a11y-click-events-have-key-events -->
-      <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-      <li
+    <div class="menu-list">
+      <button
         class="menu-item title"
-        id="news"
         on:click={() => {
           activeMenuSection.set(MenuSection.News)
         }}
       >
         På Instituttet
-      </li>
-      <!-- svelte-ignore a11y-click-events-have-key-events -->
-      <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-      <li
+      </button>
+      <button
         class="menu-item title"
-        id="about"
         on:click={() => {
           activeMenuSection.set(MenuSection.About)
         }}
       >
         Om magasinet
-      </li>
-      <!-- svelte-ignore a11y-click-events-have-key-events -->
-      <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-      <li
+      </button>
+      <button
         class="menu-item title"
-        id="colophon"
         on:click={() => {
           activeMenuSection.set(MenuSection.Colophon)
         }}
       >
         Kolofon
-      </li>
-    </ul>
+      </button>
+    </div>
   {/if}
 
   <!-- MOBILE MENU -->
-  <!-- svelte-ignore a11y-click-events-have-key-events -->
   <!-- CONTENT -->
   <div class="mobile-content">
     <!-- CONTENT -->
@@ -95,18 +85,14 @@
       {/if}
     </div>
     <!-- TITLE -->
-    <!-- svelte-ignore a11y-click-events-have-key-events -->
-    <!-- svelte-ignore a11y-no-static-element-interactions -->
     <div class="ticker">
       <div class="title">
         {$activeMenuSection}
       </div>
     </div>
   </div>
-  <!-- BUTTON -->
-  <!-- svelte-ignore a11y-click-events-have-key-events -->
-  <!-- svelte-ignore a11y-no-static-element-interactions -->
-  <div class="menu-button" on:click|preventDefault={toggleMenu}>
+  <!-- HAMBURGER / CLOSE-->
+  <button class="menu-button" on:click={toggleMenu}>
     <h1 class="title hamburger">
       <div class="hamburger-cross-icon" class:open={$menuOpen}>
         <span />
@@ -114,7 +100,7 @@
         <span />
       </div>
     </h1>
-  </div>
+  </button>
 </div>
 
 <style lang="scss">
@@ -188,6 +174,8 @@
       padding: 16px 0 12px;
       border-top: var(--border-black);
       cursor: pointer;
+      display: block;
+      width: 100%;
 
       &.active {
         &:before {

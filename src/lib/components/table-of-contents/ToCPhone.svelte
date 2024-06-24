@@ -56,25 +56,16 @@
     class:peek={$menuOpen && !$activeMenuSection}
     class:parentOpen={$menuOpen && $activeMenuSection}
   >
-    <!-- svelte-ignore a11y-click-events-have-key-events -->
-    <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-    <!-- svelte-ignore a11y-no-static-element-interactions -->
-    <div class="toc-button" on:click={toggleToC}>
-      <h1 class="title indhold">
-        <span>INDHOLD</span>
-      </h1>
-    </div>
-
-    <ul class="toc-menu">
-      <!-- svelte-ignore a11y-click-events-have-key-events -->
-      <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-      <li class="toc-menu-item title-item link" on:click={gotToLandingPage}>
+    <!-- ToC TOGGLE -->
+    <button class="toc-button" on:click={toggleToC}>INDHOLD</button>
+    <div class="toc-menu">
+      <!-- BACK BUTTON -->
+      <button class="toc-menu-item title-item link" on:click={gotToLandingPage}>
         TILBAGE TIL FORSIDE
-      </li>
+      </button>
       {#each issue.tableOfContents as article, index}
-        <!-- svelte-ignore a11y-click-events-have-key-events -->
-        <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-        <li
+        <!-- MENU ITEMS -->
+        <button
           class="toc-menu-item title-item link"
           class:active={$currentArticleSlug === article.slug.current}
           on:click={() => goToArticle(article)}
@@ -95,17 +86,16 @@
           <div class="reading-time">
             {calculateArticleReadingTime(article) + " min"}
           </div>
-        </li>
+        </button>
       {/each}
-      <!-- svelte-ignore a11y-click-events-have-key-events -->
-      <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-      <li
+      <!-- PDF BUTTON -->
+      <button
         class="toc-menu-item title-item link"
         on:click={() => goto("/pdf/issue/" + issue.slug.current)}
       >
         <div class="title-text pdf">Hent udgaven som PDF</div>
-      </li>
-    </ul>
+      </button>
+    </div>
   </div>
 {/if}
 
@@ -162,6 +152,8 @@
       height: var(--menu-side-width);
       writing-mode: horizontal-tb;
       align-items: flex-start;
+      padding-bottom: 30px;
+      line-height: var(--menu-side-width);
 
       .title {
         cursor: pointer;
@@ -188,6 +180,9 @@
         padding: 16px 0 12px;
         border-top: var(--border-black);
         cursor: pointer;
+        display: block;
+        width: 100%;
+        line-height: var(--line-height);
 
         .arrow-marker {
           display: none;

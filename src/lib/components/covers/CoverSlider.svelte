@@ -93,13 +93,12 @@
   })
 </script>
 
-<!-- svelte-ignore a11y-click-events-have-key-events -->
-<!-- svelte-ignore a11y-no-static-element-interactions -->
 <div
   class="coverslider"
   on:click={e => {
     newsExtended.set(false)
   }}
+  role="presentation"
 >
   <!-- TITLE -->
   <div class="top">
