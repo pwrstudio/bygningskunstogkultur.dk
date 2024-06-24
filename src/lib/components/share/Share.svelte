@@ -66,29 +66,31 @@
   <a href={PDF_URL} aria-label="Download PDF" target="_blank">
     <Fa icon={faFilePdf} />
   </a>
-  <a href={FACEBOOK} aria-label="Share on Facebook" target="_blank">
-    <Fa icon={faFacebookSquare} />
-  </a>
-  <a href={TWITTER} aria-label="Share on Twitter" target="_blank">
-    <Fa icon={faTwitterSquare} />
-  </a>
-  <a href={LINKEDIN} aria-label="Share on LinkedIn" target="_blank">
-    <Fa icon={faLinkedin} />
-  </a>
-  <a href={EMAIL} aria-label="Share by Email" target="_blank">
-    <Fa icon={faEnvelope} />
-  </a>
-  <button aria-label="Copy url" class="copy" on:click={copyLink}>
-    {#if copied}
-      <Fa icon={faCheck} />
-    {:else}
-      <Fa icon={faLink} />
-    {/if}
-  </button>
   <!-- Native share dialog if available (mobile) -->
   {#if browser && navigator?.share}
     <button aria-label="Share page" on:click={nativeShare}>
       <Fa icon={faShareAltSquare} />
+    </button>
+  {:else}
+    <!-- Otherwise separate share buttons -->
+    <a href={FACEBOOK} aria-label="Share on Facebook" target="_blank">
+      <Fa icon={faFacebookSquare} />
+    </a>
+    <a href={TWITTER} aria-label="Share on Twitter" target="_blank">
+      <Fa icon={faTwitterSquare} />
+    </a>
+    <a href={LINKEDIN} aria-label="Share on LinkedIn" target="_blank">
+      <Fa icon={faLinkedin} />
+    </a>
+    <a href={EMAIL} aria-label="Share by Email" target="_blank">
+      <Fa icon={faEnvelope} />
+    </a>
+    <button aria-label="Copy url" class="copy" on:click={copyLink}>
+      {#if copied}
+        <Fa icon={faCheck} />
+      {:else}
+        <Fa icon={faLink} />
+      {/if}
     </button>
   {/if}
 </div>
@@ -110,7 +112,7 @@
 
     @include screen-size("small") {
       :global(svg) {
-        padding-inline: 7px;
+        padding-inline: 10px;
         height: 1.5em !important;
       }
     }
