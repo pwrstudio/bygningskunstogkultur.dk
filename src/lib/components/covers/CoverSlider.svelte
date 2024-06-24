@@ -3,7 +3,6 @@
   import Swiper from "swiper"
   import { Pagination, Navigation } from "swiper/modules"
   import { onMount, afterUpdate } from "svelte"
-  import { get } from "lodash-es"
   import { mapValue } from "$lib/modules/utils"
 
   import "swiper/swiper-bundle.css"
@@ -161,12 +160,6 @@
 
     :global(.swiper-slide) {
       width: 400px !important;
-    }
-
-    @include screen-size("phone") {
-      :global(.swiper-container) {
-        width: var(--coverslider-1);
-      }
     }
 
     .title {

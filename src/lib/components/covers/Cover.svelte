@@ -7,7 +7,7 @@
   export let issue: Issue
   export let scale = 1
 
-  // ratio of the photo is 460 / 370
+  // Ratio of the cover image is 460 / 370
   const ratio = 460 / 370
 </script>
 
