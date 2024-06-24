@@ -147,6 +147,7 @@
       box-sizing: border-box;
       width: 50%;
       padding: var(--margin) calc(var(--margin) / 4);
+      padding-bottom: 8em;
       height: 100vh;
       overflow-y: scroll;
       scroll-behavior: smooth;
@@ -199,6 +200,7 @@
 
         &.next {
           display: block;
+          margin-top: 2em;
         }
       }
 

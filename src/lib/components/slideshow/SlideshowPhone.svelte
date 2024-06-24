@@ -239,7 +239,7 @@
       padding-top: 1em;
       padding-inline: 1em;
       :global(p) {
-        font-size: var(--font-size-smaller);
+        font-size: var(--font-size-semi-small);
         line-height: 16px;
       }
       :global(p a) {

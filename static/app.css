@@ -112,6 +112,7 @@
     text-align: left;
     font-weight: normal;
     font-family: var(--sans-stack);
+    color: var(--black);
   }
   
   body {
