@@ -50,7 +50,7 @@
   - Show ToC if currentIssue is set (ie. we are on an issue/article page)   
   - Show mobile menu and Toc component if on phone
 -->
-{#if ![PageType.News, PageType.Pdf].includes(pageType)}
+{#if ![PageType.News, PageType.Pdf, PageType.Error].includes(pageType)}
   {#if $screenSizePhone}
     <MenuPhone {news} {about} {colophon} {pageType} />
   {:else}
