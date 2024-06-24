@@ -36,7 +36,6 @@
         clickable: true,
       },
       slidesPerView: 1,
-      centeredSlides: true,
       spaceBetween: 10,
     })
   }

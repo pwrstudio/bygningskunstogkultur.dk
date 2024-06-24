@@ -39,16 +39,15 @@
 
   .landing {
     background: var(--grey-solid);
-    width: calc(100% - var(--menu-width));
-    height: 100vh;
+    width: calc(100dvw - var(--menu-width));
+    height: 100dvh;
     position: relative;
     float: right;
-    transition: width 0.2s ease-out;
+    overflow: hidden;
 
     @include screen-size("phone") {
-      height: calc(100% - var(--menu-side-width));
-      width: 100vw;
-      overflow: hidden;
+      height: 100dvh;
+      width: 100dvw;
     }
   }
 </style>

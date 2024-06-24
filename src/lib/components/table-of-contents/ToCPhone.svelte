@@ -123,6 +123,12 @@
     z-index: 999;
     transform: translateY(calc(100% - var(--menu-side-width)));
 
+    button {
+      font-family: var(--sans-stack);
+      font-size: var(--font-size-small);
+      color: var(--black);
+    }
+
     &.disabled {
       pointer-events: none;
     }
