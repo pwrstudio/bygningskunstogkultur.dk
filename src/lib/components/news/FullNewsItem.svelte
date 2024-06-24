@@ -72,7 +72,7 @@
   .image {
     mix-blend-mode: unset;
     max-width: 100%;
-    max-height: 60vh;
+    max-height: 50dvh;
   }
 
   .share {

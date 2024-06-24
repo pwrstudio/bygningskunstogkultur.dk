@@ -3,11 +3,7 @@
   import { tick, createEventDispatcher } from "svelte"
   import { renderBlockText, urlFor } from "$lib/modules/sanity"
   import { formattedDate } from "$lib/modules/utils"
-  import {
-    tableOfContentsOpen,
-    newsExtended,
-    windowWidth,
-  } from "$lib/modules/stores"
+  import { tableOfContentsOpen, newsExtended } from "$lib/modules/stores"
   import ArrowRight from "$lib/components/graphics/ArrowRight.svelte"
   import FullNewsItem from "$lib/components/news/FullNewsItem.svelte"
 

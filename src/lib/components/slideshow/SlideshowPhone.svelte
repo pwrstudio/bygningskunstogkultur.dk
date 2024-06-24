@@ -57,9 +57,7 @@
   <div class="swiper-container" bind:this={swiperContainer}>
     <div class="swiper-wrapper">
       {#each slides as slide}
-        <!-- svelte-ignore a11y-no-static-element-interactions -->
-        <!-- svelte-ignore a11y-click-events-have-key-events -->
-        <div class="swiper-slide" on:click={toggleZoom}>
+        <div class="swiper-slide" on:click={toggleZoom} role="presentation">
           {#if zoomable}
             <div class="zoom-container" class:zoomed>
               <img
@@ -167,7 +165,7 @@
     :global(.img-container) {
       width: 100%;
       height: 80%;
-      max-height: calc(100vh - var(--margin) * 2.5);
+      max-height: calc(100dvh - var(--margin) * 2.5);
       display: flex;
       flex-flow: column nowrap;
       align-items: flex-start;
@@ -229,7 +227,7 @@
     }
 
     :global(.slide-img.is-svg.zoomed) {
-      width: 200vw;
+      width: 200dvw;
       height: auto;
     }
 

@@ -23,8 +23,6 @@
   }
 </script>
 
-<!-- svelte-ignore a11y-click-events-have-key-events -->
-<!-- svelte-ignore a11y-no-static-element-interactions -->
 <div
   on:click={closeMenus}
   in:fly={{
@@ -34,6 +32,7 @@
     easing: quintOut,
   }}
   class="article"
+  role="presentation"
 >
   <div
     class="col"
@@ -136,7 +135,7 @@
 
     @include screen-size("phone") {
       padding-left: 0;
-      height: calc(100vh - var(--menu-side-width));
+      height: calc(100dvh - var(--menu-side-width));
       flex-flow: column nowrap;
       height: auto;
       overflow-y: auto;
@@ -148,7 +147,7 @@
       width: 50%;
       padding: var(--margin) calc(var(--margin) / 4);
       padding-bottom: 8em;
-      height: 100vh;
+      height: 100dvh;
       overflow-y: scroll;
       scroll-behavior: smooth;
 

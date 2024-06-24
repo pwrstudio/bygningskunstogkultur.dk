@@ -207,7 +207,6 @@
         position: relative;
 
         &.scaled {
-          width: 100%;
           position: absolute;
         }
       }

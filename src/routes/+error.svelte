@@ -9,7 +9,7 @@
   .error {
     padding-left: calc(var(--menu-side-width) + var(--margin));
     padding-top: var(--margin);
-    height: 100vh;
+    height: 100dvh;
     font-size: 3rem;
     font-family: var(--sans-stack);
     font-size: var(--font-size-large);

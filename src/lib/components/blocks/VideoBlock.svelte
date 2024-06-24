@@ -232,7 +232,7 @@
       justify-content: center;
       align-items: center;
       img {
-        max-height: 80vh;
+        max-height: 80dvh;
       }
 
       .video-player {

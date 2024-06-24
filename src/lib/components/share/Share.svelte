@@ -63,34 +63,38 @@
 </script>
 
 <div class="social">
+  <!-- PDF -->
   <a href={PDF_URL} aria-label="Download PDF" target="_blank">
     <Fa icon={faFilePdf} />
   </a>
-  <!-- Native share dialog if available (mobile) -->
+  <!-- FACEBOOK -->
+  <a href={FACEBOOK} aria-label="Share on Facebook" target="_blank">
+    <Fa icon={faFacebookSquare} />
+  </a>
+  <!-- TWITTER / X -->
+  <a href={TWITTER} aria-label="Share on Twitter" target="_blank">
+    <Fa icon={faTwitterSquare} />
+  </a>
+  <!-- LINKEDIN -->
+  <a href={LINKEDIN} aria-label="Share on LinkedIn" target="_blank">
+    <Fa icon={faLinkedin} />
+  </a>
+  <!-- EMAIL -->
+  <a href={EMAIL} aria-label="Share by Email" target="_blank">
+    <Fa icon={faEnvelope} />
+  </a>
+  <!-- COPY URL -->
+  <button aria-label="Copy url" class="copy" on:click={copyLink}>
+    {#if copied}
+      <Fa icon={faCheck} />
+    {:else}
+      <Fa icon={faLink} />
+    {/if}
+  </button>
+  <!-- NATIVE SHARE -->
   {#if browser && navigator?.share}
     <button aria-label="Share page" class="native" on:click={nativeShare}>
       <Fa icon={faShareAltSquare} />
-    </button>
-  {:else}
-    <!-- Otherwise separate share buttons -->
-    <a href={FACEBOOK} aria-label="Share on Facebook" target="_blank">
-      <Fa icon={faFacebookSquare} />
-    </a>
-    <a href={TWITTER} aria-label="Share on Twitter" target="_blank">
-      <Fa icon={faTwitterSquare} />
-    </a>
-    <a href={LINKEDIN} aria-label="Share on LinkedIn" target="_blank">
-      <Fa icon={faLinkedin} />
-    </a>
-    <a href={EMAIL} aria-label="Share by Email" target="_blank">
-      <Fa icon={faEnvelope} />
-    </a>
-    <button aria-label="Copy url" class="copy" on:click={copyLink}>
-      {#if copied}
-        <Fa icon={faCheck} />
-      {:else}
-        <Fa icon={faLink} />
-      {/if}
     </button>
   {/if}
 </div>
@@ -102,7 +106,7 @@
     white-space: nowrap;
     flex-shrink: 0;
 
-    .copy {
+    button {
       cursor: pointer;
     }
 
@@ -110,15 +114,26 @@
       height: 1.1em !important;
     }
 
+    :global(.copy svg) {
+      height: 1.6em !important;
+    }
+
+    :global(.native svg) {
+      height: 1.6em !important;
+    }
+
     @include screen-size("small") {
       :global(svg) {
-        padding-inline: 10px;
+        padding-inline: 8px;
         height: 1.5em !important;
       }
 
+      :global(.copy svg) {
+        height: 1.8em !important;
+      }
+
       :global(.native svg) {
-        padding-inline: 10px;
-        height: 3em !important;
+        height: 2.2em !important;
       }
     }
   }

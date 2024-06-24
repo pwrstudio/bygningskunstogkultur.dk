@@ -193,7 +193,7 @@
     transform: translateX(
       calc((-1 * var(--extended-menu-width)) + var(--menu-side-width))
     );
-    height: 100vh;
+    height: 100dvh;
 
     margin-left: var(--menu-side-width);
     padding-left: calc(var(--margin) / 2);

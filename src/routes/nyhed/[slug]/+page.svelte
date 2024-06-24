@@ -25,14 +25,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    width: 100vw;
+    height: 100dvh;
+    width: 100dvw;
     background: var(--green);
   }
 
   .single-news-item {
     width: 100%;
-    height: 100vh;
+    height: 100dvh;
     overflow-y: scroll;
     max-width: 800px;
     padding-top: 40px;

@@ -57,21 +57,21 @@
       justify-content: center;
       align-items: center;
       img {
-        max-height: 80vh;
+        max-height: 80dvh;
       }
     }
 
     &.fullheight {
       width: 100%;
       max-height: unset;
-      height: calc(100vh - var(--menu-bar-height));
+      height: calc(100dvh - var(--menu-bar-height));
       display: flex;
       justify-content: center;
       align-items: center;
       padding-bottom: 0;
       padding-top: 0;
       img {
-        max-height: 90vh;
+        max-height: 90dvh;
       }
     }
 

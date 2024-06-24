@@ -75,16 +75,14 @@
   </div>
 
   <!-- MENU SIDEBAR -->
-  <!-- svelte-ignore a11y-click-events-have-key-events -->
-  <!-- svelte-ignore a11y-no-static-element-interactions -->
-  <div
+  <button
     class="menu-side"
     class:disabled={pageType === PageType.Landing && $windowWidth > 768}
     on:click={handleSidebarClick}
   >
     <h1 class="title">Kort nyt</h1>
     <h1 class="title bottom">Info</h1>
-  </div>
+  </button>
 
   {#if !$newsExtended}
     <!-- MENU LIST -->
@@ -134,7 +132,7 @@
     position: fixed;
     top: 0;
     left: 0;
-    height: 100vh;
+    height: 100dvh;
     width: var(--extended-menu-width);
     line-height: var(--line-height);
     overflow: hidden; // Ensure no overflow issues
@@ -241,6 +239,7 @@
     height: 100%;
     width: var(--menu-side-width);
     cursor: pointer;
+    font-size: var(--font-size-small);
 
     .title {
       cursor: pointer;

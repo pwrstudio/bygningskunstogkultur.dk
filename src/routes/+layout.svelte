@@ -79,8 +79,8 @@
     border: 0;
     outline: none;
     position: fixed;
-    width: 100vw;
-    height: 100vh;
+    width: 100dvw;
+    height: 100dvh;
     z-index: 10;
     top: 0;
     left: 0;

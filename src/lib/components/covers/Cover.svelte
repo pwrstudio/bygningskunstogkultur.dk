@@ -12,10 +12,10 @@
 </script>
 
 <a
+  in:fade
   class="cover"
   class:empty={!issue.tableOfContents || issue.tableOfContents.length == 0}
   style="transform: scale({scale});"
-  in:fade
   href="/{issue.slug.current}"
 >
   <div class="inner">
@@ -93,9 +93,6 @@
         width: 100%;
         height: auto;
       }
-    }
-
-    @include screen-size("small") {
     }
   }
 </style>
