@@ -68,7 +68,7 @@
   </a>
   <!-- Native share dialog if available (mobile) -->
   {#if browser && navigator?.share}
-    <button aria-label="Share page" on:click={nativeShare}>
+    <button aria-label="Share page" class="native" on:click={nativeShare}>
       <Fa icon={faShareAltSquare} />
     </button>
   {:else}
@@ -114,6 +114,11 @@
       :global(svg) {
         padding-inline: 10px;
         height: 1.5em !important;
+      }
+
+      :global(.native svg) {
+        padding-inline: 10px;
+        height: 3em !important;
       }
     }
   }

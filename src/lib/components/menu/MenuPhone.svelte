@@ -133,6 +133,12 @@
 
     background: var(--green);
 
+    button {
+      font-family: var(--sans-stack);
+      font-size: var(--font-size-small);
+      color: var(--black);
+    }
+
     :global(p.normal) {
       font-size: var(--font-size-small);
       line-height: var(--line-height-small);

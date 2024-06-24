@@ -108,7 +108,11 @@
     }
 
     .bottom {
-      height: 10%;
+      position: fixed;
+      bottom: var(--menu-side-width);
+      left: 0;
+      width: 100dvw;
+      height: calc(2 * var(--menu-side-width));
       display: flex;
       flex-flow: row nowrap;
       justify-content: center;

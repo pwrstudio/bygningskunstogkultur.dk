@@ -97,11 +97,9 @@
       <!-- Zoom level -->
       {#if zoomable}
         <div class="zoomLevel">
-          <!-- svelte-ignore a11y-click-events-have-key-events -->
-          <!-- svelte-ignore a11y-no-static-element-interactions -->
-          <span class="button" on:click={toggleZoomButton}>
+          <button class="button" on:click={toggleZoomButton}>
             {`${zoomLevel * 100}%`}[±]
-          </span>
+          </button>
         </div>
       {/if}
     </div>
@@ -241,8 +239,8 @@
       padding-top: 1em;
       padding-inline: 1em;
       :global(p) {
-        font-size: var(--font-size-small);
-        line-height: 20px;
+        font-size: var(--font-size-smaller);
+        line-height: 16px;
       }
       :global(p a) {
         text-decoration: underline;
