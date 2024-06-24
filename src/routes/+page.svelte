@@ -1,14 +1,19 @@
 <script lang="ts">
   import { onDestroy } from "svelte"
   import type { Issue } from "$lib/types/sanity.types"
-  import CoverSlider from "$lib/components/covers/CoverSlider.svelte"
   import MetaData from "$lib/components/metadata/MetaData.svelte"
+  import CoverSlider from "$lib/components/covers/CoverSlider.svelte"
+  import CoverSliderPhone from "$lib/components/covers/CoverSliderPhone.svelte"
+  import {
+    menuOpen,
+    newsExtended,
+    currentIssue,
+    screenSizePhone,
+  } from "$lib/modules/stores"
 
   export let data: { issues: Issue[] }
 
   const { issues } = data
-
-  import { menuOpen, newsExtended, currentIssue } from "$lib/modules/stores"
 
   // No current issue as we are on the landing page
   currentIssue.set(undefined)
@@ -22,7 +27,11 @@
 <MetaData />
 
 <div class="landing">
-  <CoverSlider {issues} />
+  {#if $screenSizePhone}
+    <CoverSliderPhone {issues} />
+  {:else}
+    <CoverSlider {issues} />
+  {/if}
 </div>
 
 <style lang="scss">

@@ -61,7 +61,7 @@
     <div class="toc-menu">
       <!-- BACK BUTTON -->
       <button class="toc-menu-item title-item link" on:click={gotToLandingPage}>
-        TILBAGE TIL FORSIDE
+        ← TILBAGE TIL FORSIDE
       </button>
       {#each issue.tableOfContents as article, index}
         <!-- MENU ITEMS -->

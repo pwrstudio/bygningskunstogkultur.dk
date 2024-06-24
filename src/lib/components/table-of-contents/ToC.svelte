@@ -97,7 +97,7 @@
   >
     <div class="toc-menu">
       <button class="toc-menu-item title-item link" on:click={gotToLandingPage}>
-        TILBAGE TIL FORSIDE
+        ← TILBAGE TIL FORSIDE
       </button>
       {#each issue.tableOfContents as article, index}
         <button

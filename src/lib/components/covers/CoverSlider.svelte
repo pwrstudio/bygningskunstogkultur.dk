@@ -22,10 +22,7 @@
   let coverScale = 1
 
   let swiperDesktopElement: HTMLDivElement
-  let swiperMobileElement: HTMLDivElement
-
   let swiperDesktop: Swiper
-  let swiperMobile: Swiper
 
   $: if (768 < $windowWidth && $windowWidth < 1350) {
     scale = mapValue($windowWidth, 769, 1349, 0.2, 0.9)
@@ -37,12 +34,8 @@
     coverScale = mapValue($windowWidth, 80, 440, 0, 0.8)
   }
 
-  $: console.log("scale", scale)
-  $: console.log("coverScale", coverScale)
-
   async function initializeSwipers() {
     if (swiperDesktop) swiperDesktop.destroy()
-    if (swiperMobile) swiperMobile.destroy()
 
     swiperDesktop = new Swiper(swiperDesktopElement, {
       modules: [Navigation, Pagination],
@@ -56,21 +49,6 @@
         clickable: true,
       },
       slidesPerView: 2,
-      spaceBetween: 10.5,
-    })
-
-    swiperMobile = new Swiper(swiperMobileElement, {
-      modules: [Navigation, Pagination],
-      touchRatio: 1,
-      navigation: {
-        prevEl: ".custom-controls-prev-mobile",
-        nextEl: ".custom-controls-next-mobile",
-      },
-      pagination: {
-        el: ".custom-pagination-mobile",
-        clickable: true,
-      },
-      slidesPerView: 1,
       spaceBetween: 10.5,
     })
   }
@@ -113,9 +91,6 @@
     <div class="custom-controls-prev" class:absolutely={scale !== 1}>
       <ArrowLeft />
     </div>
-    <div class="custom-controls-prev-mobile">
-      <ArrowLeft />
-    </div>
 
     <!-- SWIPER DESKTOP -->
     <div
@@ -134,21 +109,7 @@
       </div>
     </div>
 
-    <!-- SWIPER MOBILE -->
-    <div class="swiper-mobile" bind:this={swiperMobileElement}>
-      <div class="swiper-wrapper">
-        {#each issues.filter(issue => get(issue, "tableOfContents", []).length > 0) as issue}
-          <div class="swiper-slide">
-            <Cover {issue} scale={coverScale} />
-          </div>
-        {/each}
-      </div>
-    </div>
-
     <div class="custom-controls-next" class:absolutely={scale !== 1}>
-      <ArrowRight />
-    </div>
-    <div class="custom-controls-next-mobile">
       <ArrowRight />
     </div>
   </div>
@@ -156,7 +117,6 @@
   <!-- PAGINATION -->
   <div class="bottom">
     <div class="custom-pagination" />
-    <div class="custom-pagination-mobile" />
   </div>
 </div>
 
@@ -172,17 +132,6 @@
     }
 
     display: block;
-  }
-
-  .custom-controls-prev-mobile,
-  .custom-controls-next-mobile,
-  .custom-pagination-mobile,
-  .swiper-mobile {
-    display: none;
-
-    @include screen-size("phone") {
-      display: block;
-    }
   }
 
   .custom-controls-prev.absolutely {
@@ -271,9 +220,7 @@
       }
 
       .custom-controls-prev,
-      .custom-controls-next,
-      .custom-controls-prev-mobile,
-      .custom-controls-next-mobile {
+      .custom-controls-next {
         width: 40px;
         margin: 0 calc(var(--margin) / 2);
         cursor: pointer;
@@ -281,9 +228,7 @@
       }
 
       :global(.custom-controls-prev.swiper-button-disabled),
-      :global(.custom-controls-next.swiper-button-disabled),
-      :global(.custom-controls-prev-mobile.swiper-button-disabled),
-      :global(.custom-controls-next-mobile.swiper-button-disabled) {
+      :global(.custom-controls-next.swiper-button-disabled) {
         opacity: 0.2;
       }
     }
