@@ -16,6 +16,7 @@
   let inTransition = false
   let scrollParent: HTMLElement | null = null
 
+  // Scroll the ToC to top when it is closed
   $: if (
     (!$tableOfContentsOpen && scrollParent) ||
     (scrollParent && !activeMenuSection)

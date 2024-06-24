@@ -7,30 +7,34 @@
     menuOpen,
     currentArticleSlug,
     newsExtended,
+    activeMenuSection,
   } from "$lib/modules/stores"
   import { goto } from "$app/navigation"
 
   export let issue: Issue
 
+  let scrollParent: HTMLElement | null = null
   let inTransition = false
-  let show = new Array()
+  let show: boolean[] = new Array()
 
-  $: if (issue.tableOfContents) {
-    const max = 5
-    // const max = Math.min(5, $tableOfContents.length)
+  function setNumeralMenuInSideBar(
+    toc: Article[] | undefined,
+    currentSlug: string | undefined,
+    maxNumbers: number = 5,
+  ) {
+    if (!toc || !currentSlug) return
+
     let placed = 0
 
     // Make the current active index true
-    show = issue.tableOfContents.map(item => {
-      return item.slug.current === $currentArticleSlug
-    }) // e.g. [false, false, true, false, false]
+    show = toc.map(item => item.slug.current === currentSlug)
     placed++ // 1
 
     let activeIndex = show.indexOf(true)
 
     let direction = 1 // add
 
-    while (placed < max) {
+    while (placed < maxNumbers) {
       if (show[activeIndex + direction] === undefined) {
         direction = -1 * direction
       }
@@ -46,9 +50,19 @@
 
       direction = -1 * direction
 
-      // You're done, kiddo
       placed++
     }
+  }
+
+  // Update the numeral mini menu when the current article changes
+  $: setNumeralMenuInSideBar(issue.tableOfContents, $currentArticleSlug)
+
+  // Scroll the ToC to top when it is closed
+  $: if (
+    (!$tableOfContentsOpen && scrollParent) ||
+    (scrollParent && !activeMenuSection)
+  ) {
+    scrollParent.scrollTop = 0
   }
 
   const goToArticle = async (article: Article) => {
@@ -73,6 +87,7 @@
 
 {#if issue.tableOfContents && issue.tableOfContents.length > 0}
   <div
+    bind:this={scrollParent}
     in:fade
     class="toc"
     class:disabled={inTransition}
