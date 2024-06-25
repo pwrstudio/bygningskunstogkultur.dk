@@ -14,7 +14,7 @@
 
 ## Types
 
-Types generated from Sanity schemas. In sanity repository run:
+Types generated from Sanity schemas. In [the sanity repository](https://github.com/pwrstudio/mbk-admin) run:
 
 ```
 sanity schema extract
