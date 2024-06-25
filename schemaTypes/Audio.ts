@@ -1,5 +1,5 @@
 import { MdAudiotrack } from "react-icons/md"
-import AudioPreview from '../components/AudioPreview'
+import { AudioPreview } from '../components/AudioPreview'
 
 export default {
     name: 'audioBlock',
@@ -19,10 +19,12 @@ export default {
             description: 'File format: mp3'
         }
     ],
+    components: {
+        preview: AudioPreview
+    },
     preview: {
         select: {
             audio: 'audioFile'
-        },
-        component: AudioPreview
+        }
     }
 }

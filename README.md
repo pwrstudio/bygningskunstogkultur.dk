@@ -1,9 +1,25 @@
-# Sanity Clean Content Studio
+# Magasin for Bygningskunst og Kultur (admin)
 
-Congratulations, you have now installed the Sanity Content Studio, an open source real-time content editing environment connected to the Sanity backend.
+## Development
 
-Now you can do the following things:
+1. Clone the repository
+2. Run `pnpm install`
+3. Run `pnpm dev`
+4. Access the dashboard at `http://localhost:3333`
 
-- [Read “getting started” in the docs](https://www.sanity.io/docs/introduction/getting-started?utm_source=readme)
-- [Join the community Slack](https://slack.sanity.io/?utm_source=readme)
-- [Extend and build plugins](https://www.sanity.io/docs/content-studio/extending?utm_source=readme)
+## Deployment
+
+Run `sanity deploy`
+
+## Backup
+
+Run `sanity dataset export production ./backup_DATE.tar.gz`
+
+## Types
+
+Generate types for the frontend by running the following commands:
+
+```
+sanity schema extract
+sanity typegen generate
+```

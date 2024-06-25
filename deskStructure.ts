@@ -1,5 +1,3 @@
-import S from "@sanity/desk-tool/structure-builder";
-
 // ICONS
 import {
     MdHome,
@@ -7,9 +5,9 @@ import {
     MdEmail,
     MdNote,
     MdLibraryBooks,
-  } from "react-icons/md"
+} from "react-icons/md"
 
-export default () =>
+export default (S: any) =>
     S.list()
         .title("Magasin for Bygningskunst og Kultur")
         .items([

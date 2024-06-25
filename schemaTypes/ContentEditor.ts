@@ -1,38 +1,7 @@
-import React from 'react'
 
-// ICONS
-import {
-    MdImage,
-    MdHighlight,
-    MdAccountBox,
-    MdShortText,
-  } from "react-icons/md"
-
-
-const highlightRender = props => (
-    <span style={{ backgroundColor: 'yellow' }}>{props.children}</span>
-)
-
-const interviewNameRender = props => (
-    <span style={{ backgroundColor: 'lightgrey', fontWeight: 'bold' }}>{props.children}</span>
-)
-
-const alignCenterRender = props => (
-    <p style={{ textAlign: 'center' }}>{props.children}</p>
-)
-
-const alignRightRender = props => (
-    <p style={{ textAlign: 'right' }}>{props.children}</p>
-)
-
-const footNoteRender = props => (
-    <span style={{ background: 'rgba(0,0,255,0.2)' }}>{props.children}</span>
-)
-
-const noteRender = props => (
-    <p style={{ fontSize: '0.8em' }}>{props.children}</p>
-)
-
+import { MdImage, MdShortText } from "react-icons/md"
+import { alignCenterRender, alignRightRender, noteRender, footNoteRender } from './decorators'
+import { component } from "sanity/structure"
 
 export default {
     type: 'object',
@@ -49,14 +18,14 @@ export default {
                     styles: [
                         { title: 'Normal', value: 'normal' },
                         {
-                            title: 'Center aligned', value: 'center-aligned', blockEditor: {
-                                render: alignCenterRender
-                            }
+                            title: 'Center aligned',
+                            value: 'center-aligned',
+                            component: alignCenterRender
                         },
                         {
-                            title: 'Right aligned', value: 'right-aligned', blockEditor: {
-                                render: alignRightRender
-                            }
+                            title: 'Right aligned',
+                            value: 'right-aligned',
+                            component: alignRightRender
                         },
                         { title: 'H1', value: 'h1' },
                         { title: 'H2', value: 'h2' },
@@ -64,9 +33,9 @@ export default {
                         { title: 'H4', value: 'h4' },
                         { title: 'Quote', value: 'blockquote' },
                         {
-                            title: 'Note', value: 'note', blockEditor: {
-                                render: noteRender
-                            }
+                            title: 'Note',
+                            value: 'note',
+                            component: noteRender
                         }
                     ],
                     marks: {
@@ -79,14 +48,6 @@ export default {
                                 title: 'Emphasis',
                                 value: 'em'
                             },
-                            // {
-                            //     title: 'Interview name',
-                            //     value: 'interviewName',
-                            //     blockEditor: {
-                            //         icon: MdAccountBox,
-                            //         render: interviewNameRender
-                            //     }
-                            // }
                         ],
                         annotations: [
                             {
@@ -104,10 +65,8 @@ export default {
                                 name: 'footnote',
                                 type: 'object',
                                 title: 'Footnote',
-                                blockEditor: {
-                                    icon: MdShortText,
-                                    render: footNoteRender
-                                },
+                                component: footNoteRender,
+                                icon: MdShortText,
                                 fields: [
                                     {
                                         title: 'Footnote text',
@@ -126,26 +85,17 @@ export default {
                         {
                             title: 'Caption',
                             name: 'caption',
-                            type: 'simpleEditor',
-                            options: {
-                                isHighlighted: true
-                            }
+                            type: 'simpleEditor'
                         },
                         {
                             name: 'attribution',
                             type: 'string',
-                            title: 'Attribution',
-                            options: {
-                                isHighlighted: true
-                            }
+                            title: 'Attribution'
                         },
                         {
                             title: 'Fullbredd',
                             name: 'fullWidth',
-                            type: 'boolean',
-                            options: {
-                                isHighlighted: true
-                            }
+                            type: 'boolean'
                         },
                     ]
                 },

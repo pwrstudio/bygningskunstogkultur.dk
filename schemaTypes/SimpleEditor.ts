@@ -1,10 +1,3 @@
-// ICONS
-import { MdHighlight } from "react-icons/md"
-
-const highlightRender = props => (
-    <span style={{ backgroundColor: 'yellow' }}>{props.children}</span>
-)
-
 export default {
     type: 'object',
     name: 'simpleEditor',
@@ -13,9 +6,6 @@ export default {
             title: 'Simple editor',
             name: 'content',
             type: 'array',
-            options: {
-                isHighlighted: true
-            },
             of: [
                 {
                     type: 'block',

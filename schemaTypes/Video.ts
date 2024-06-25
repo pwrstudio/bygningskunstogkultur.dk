@@ -1,6 +1,6 @@
 // ICONS
 import { MdVideocam } from "react-icons/md"
-import VideoPreview from '../components/VideoPreview'
+import { VideoPreview } from '../components/VideoPreview'
 
 export default {
     name: 'videoBlock',
@@ -30,12 +30,14 @@ export default {
             type: 'simpleEditor',
         },
     ],
+    components: {
+        preview: VideoPreview
+    },
     preview: {
         select: {
             video: 'videoFile',
             caption: 'caption',
             attribution: 'attribution'
-        },
-        component: VideoPreview
+        }
     }
 }

@@ -2,7 +2,6 @@ export default {
     title: 'Colophon',
     name: 'colophon',
     type: 'document',
-    __experimental_actions: [/*'create',*/ 'update', /*'delete',*/ 'publish'],
     fields: [
         {
             title: 'Title',
