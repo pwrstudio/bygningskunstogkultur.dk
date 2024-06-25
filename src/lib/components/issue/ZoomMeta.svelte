@@ -99,7 +99,7 @@
 
     .article-title {
       font-family: var(--display-stack);
-      font-size: var(--font-size-large) r;
+      font-size: var(--font-size-larger);
       line-height: var(--line-height-larger);
       font-weight: normal;
       margin: 0 0 var(--margin-xs);

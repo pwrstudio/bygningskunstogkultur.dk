@@ -145,14 +145,17 @@
     .col {
       box-sizing: border-box;
       width: 50%;
-      padding: var(--margin) calc(var(--margin) / 4);
-      padding-bottom: 8em;
       height: 100dvh;
       overflow-y: scroll;
       scroll-behavior: smooth;
+      padding-left: var(--margin);
+      padding-top: var(--margin);
+      padding-right: var(--margin);
 
       @include screen-size("phone") {
         width: 100%;
+        padding: var(--margin) calc(var(--margin) / 4);
+        padding-bottom: 8em;
       }
 
       &.zoomableSlideshowLayout {
@@ -200,6 +203,8 @@
         &.next {
           display: block;
           margin-top: 2em;
+          text-decoration: none;
+          margin-bottom: 6em;
         }
       }
 

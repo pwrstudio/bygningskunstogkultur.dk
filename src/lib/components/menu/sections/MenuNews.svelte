@@ -17,6 +17,7 @@
     extendedPost = item
     tableOfContentsOpen.set(false)
     newsExtended.set(true)
+    console.log("dispatching")
     dispatch("scrollToTop")
   }
 

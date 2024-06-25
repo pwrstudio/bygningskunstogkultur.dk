@@ -17,9 +17,16 @@
   export let colophon: Colophon
   export let pageType: PageType
 
+  let menuContentElement: HTMLDivElement
+
   // Menu should be closed on landing page on phone
   $: if (pageType === PageType.Landing) {
     menuOpen.set(false)
+  }
+
+  const scrollToTop = () => {
+    console.log("scrolling to top")
+    menuContentElement.scrollTo(0, 0)
   }
 
   const toggleMenu = () => {
@@ -75,9 +82,13 @@
   <!-- CONTENT -->
   <div class="mobile-content">
     <!-- CONTENT -->
-    <div class="menu-content" class:extended={$newsExtended}>
+    <div
+      class="menu-content"
+      class:extended={$newsExtended}
+      bind:this={menuContentElement}
+    >
       {#if $activeMenuSection == MenuSection.News}
-        <MenuNews {news} />
+        <MenuNews {news} on:scrollToTop={scrollToTop} />
       {:else if $activeMenuSection == MenuSection.About}
         <MenuAbout {about} />
       {:else if $activeMenuSection == MenuSection.Colophon}
@@ -114,10 +125,8 @@
     height: 100dvh;
     line-height: var(--line-height);
     overflow: auto;
-    padding: var(--margin);
     padding-right: var(--menu-side-width);
     padding-left: calc(var(--menu-difference) + 42px);
-    padding-bottom: 32px;
     font-family: var(--sans-stack);
     font-size: var(--font-size-small);
     display: flex;

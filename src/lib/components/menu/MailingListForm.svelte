@@ -49,6 +49,8 @@
   @import "../../styles/variables.scss";
 
   .mailing-list-form {
+    padding-bottom: 32px;
+
     .button {
       height: 3em;
       border: 1px solid var(--black);
@@ -62,6 +64,7 @@
       font-family: var(--sans-stack);
       font-size: var(--font-size-small);
     }
+
     .main-group {
       input {
         display: block;

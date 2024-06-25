@@ -139,8 +139,18 @@
   a,
   .link {
     color: inherit;
-    text-decoration: none;
     cursor: pointer;
+  }
+
+  p a,
+  p .link {
+    text-decoration: underline;
+  }
+
+
+  p a:hover,
+  p .link:hover {
+    text-decoration: none;
   }
   
   p.normal {

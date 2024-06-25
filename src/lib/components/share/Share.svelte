@@ -115,7 +115,7 @@
     }
 
     :global(.copy svg) {
-      height: 1.6em !important;
+      height: 1.2em !important;
     }
 
     :global(.native svg) {
@@ -123,6 +123,14 @@
     }
 
     @include screen-size("small") {
+      width: 100%;
+      padding-top: 0.5em;
+      border-top: var(--border-black);
+      margin-top: 1em;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+
       :global(svg) {
         padding-inline: 8px;
         height: 1.5em !important;

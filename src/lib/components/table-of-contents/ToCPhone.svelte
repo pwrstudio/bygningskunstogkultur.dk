@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { onMount } from "svelte"
   import type { Article, Issue } from "$lib/types/sanity.types"
   import { fade } from "svelte/transition"
   import { calculateArticleReadingTime } from "$lib/modules/utils"
@@ -13,6 +14,7 @@
 
   export let issue: Issue
 
+  let loaded = false
   let inTransition = false
   let scrollParent: HTMLElement | null = null
 
@@ -44,6 +46,12 @@
       inTransition = false
     }, 200)
   }
+
+  onMount(async () => {
+    // Loading delay to avoid flickering
+    await new Promise(resolve => setTimeout(resolve, 100))
+    loaded = true
+  })
 </script>
 
 {#if issue.tableOfContents && issue.tableOfContents.length > 0}
@@ -51,6 +59,7 @@
     in:fade
     bind:this={scrollParent}
     class="bar toc"
+    class:loaded
     class:disabled={inTransition}
     class:open={$tableOfContentsOpen}
     class:peek={$menuOpen && !$activeMenuSection}
@@ -119,9 +128,16 @@
     background: var(--grey-solid);
     pointer-events: initial;
     overflow: hidden;
-    transition: transform 0.2s ease-out;
+    transition:
+      opacity 0.3s ease-out,
+      transform 0.2s ease-out;
     z-index: 999;
     transform: translateY(calc(100% - var(--menu-side-width)));
+
+    opacity: 0;
+    &.loaded {
+      opacity: 1;
+    }
 
     button {
       font-family: var(--sans-stack);

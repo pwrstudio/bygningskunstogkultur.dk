@@ -44,6 +44,7 @@
   }
 
   const scrollToTop = () => {
+    console.log("scrolling to top")
     menuContentElement.scrollTo(0, 0)
   }
 
@@ -136,10 +137,8 @@
     width: var(--extended-menu-width);
     line-height: var(--line-height);
     overflow: hidden; // Ensure no overflow issues
-    padding-top: var(--margin);
     padding-right: var(--menu-side-width);
     padding-left: calc(var(--menu-difference) + 42px);
-    padding-bottom: 32px;
     font-family: var(--sans-stack);
     font-size: var(--font-size-small);
     display: flex;
@@ -178,6 +177,7 @@
     flex-grow: 1; // Allow it to take up remaining space
     flex-shrink: 1; // Allow it to shrink if needed
     overflow-y: auto; // Allow vertical scrolling if content overflows
+    padding-top: var(--margin);
 
     :global(p.normal) {
       font-size: var(--font-size-small);

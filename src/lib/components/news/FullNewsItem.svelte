@@ -38,21 +38,21 @@
 
     <!-- HEADER -->
     <div class="header">
-      <!-- TITLE -->
-      <span>
-        {news.title}
-      </span>
-      <!-- PUBLICATION DATE -->
-      <span>
-        {#if news.publicationDate}
-          {@html formattedDate(news.publicationDate)}
-        {/if}
-      </span>
-    </div>
-    <!-- SHARE -->
-    <div class="share">
+      <div class="header-inner">
+        <!-- TITLE -->
+        <div>
+          {news.title}
+        </div>
+        <!-- PUBLICATION DATE -->
+        <div>
+          {#if news.publicationDate}
+            {@html formattedDate(news.publicationDate)}
+          {/if}
+        </div>
+      </div>
       <Share article={news} />
     </div>
+
     <!-- CONTENT -->
     {#if news.extendedContent?.content}
       <div class="paragraph">
@@ -69,23 +69,19 @@
 <style lang="scss">
   @import "../../styles/variables.scss";
 
-  .image {
-    mix-blend-mode: unset;
-    max-width: 100%;
-    max-height: 50dvh;
-  }
-
-  .share {
-    float: right;
-    padding-left: 10px;
-  }
-
   .full-news-item {
     position: relative;
     min-height: 100%;
     padding-bottom: calc(var(--margin) * 2);
     padding-left: 42px;
     font-family: var(--sans-stack);
+    max-width: 80dvw;
+
+    .image {
+      mix-blend-mode: unset;
+      max-width: 100%;
+      max-height: 50dvh;
+    }
 
     .close-extended {
       position: absolute;
@@ -101,7 +97,20 @@
       border-top: var(--border-black);
       border-bottom: var(--border-black);
       padding-top: 4px;
-      margin-bottom: var(--margin-xs);
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 1em;
+
+      .header-inner {
+        margin-bottom: var(--margin-xs);
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+      }
+
+      :global(.social) {
+        margin-top: 0;
+      }
     }
   }
 </style>
