@@ -115,6 +115,8 @@
     }
 
     :global(.copy svg) {
+      position: relative;
+      top: -3px;
       height: 1.2em !important;
     }
 
@@ -141,6 +143,8 @@
       }
 
       :global(.native svg) {
+        position: relative;
+        top: -3px;
         height: 2.2em !important;
       }
     }
