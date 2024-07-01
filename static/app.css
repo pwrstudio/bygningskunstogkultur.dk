@@ -172,6 +172,7 @@
     justify-content: space-between;
   }
   
+  .print-article,
   .article {
     counter-reset: fnoteCounter;
   }
