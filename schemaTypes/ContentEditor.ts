@@ -1,7 +1,6 @@
 
-import { MdImage, MdShortText } from "react-icons/md"
+import { MdImage, MdShortText, MdInsertLink } from "react-icons/md"
 import { alignCenterRender, alignRightRender, noteRender, footNoteRender } from './decorators'
-import { component } from "sanity/structure"
 
 export default {
     type: 'object',
@@ -75,6 +74,21 @@ export default {
                                     },
                                 ]
                             },
+                            {
+                                name: 'pageLink',
+                                type: 'object',
+                                icon: MdInsertLink,
+                                title: 'Page link',
+                                fields: [
+                                    {
+                                        name: 'reference',
+                                        type: 'reference',
+                                        to: [
+                                            { type: 'page' },
+                                        ]
+                                    }
+                                ]
+                            }
                         ]
                     },
                 },

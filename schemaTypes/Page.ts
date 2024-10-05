@@ -1,0 +1,39 @@
+import { MdEditDocument} from "react-icons/md"
+
+export default {
+  title: 'Page',
+  name: 'page',
+  icon: MdEditDocument,
+  type: 'document',
+  fields: [
+    {
+      title: 'Title',
+      name: 'title',
+      type: 'string',
+      validation: (Rule: any) => Rule.required()
+    },
+    {
+      title: 'Content',
+      name: 'content',
+      type: 'contentEditor'
+    },
+    {
+        title: 'PDF File',
+        name: 'pdf',
+        type: 'file',
+        options: {
+          accept: '.pdf',
+        }
+    },
+    {
+      title: 'Slug',
+      name: 'slug',
+      type: 'slug',
+      options: {
+        source: 'title',
+        maxLength: 200
+      },
+      validation: (Rule: any) => Rule.required()
+    },
+  ],
+}

@@ -5,6 +5,7 @@ import {
     MdEmail,
     MdNote,
     MdLibraryBooks,
+    MdEditDocument,
 } from "react-icons/md"
 
 export default (S: any) =>
@@ -60,5 +61,15 @@ export default (S: any) =>
                         .id('colophon')
                         .schemaType("colophon")
                         .documentId("colophon")
+                ),
+            S.divider(),
+            S.listItem()
+                .title('Pages')
+                .icon(MdEditDocument)
+                .child(
+                    S.documentList()
+                        .title('Pages')
+                        .filter('_type == $type')
+                        .params({ type: 'page' })
                 ),
         ]);

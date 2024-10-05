@@ -1,6 +1,7 @@
 import ContentEditor from './ContentEditor'
 import About from './About'
 import Article from './Article'
+import Page from './Page'
 import Audio from './Audio'
 import Colophon from './Colophon'
 import Embed from './Embed'
@@ -14,6 +15,7 @@ export const schemaTypes = [
     SimpleEditor,
     About,
     Article,
+    Page,
     Audio,
     Colophon,
     Embed,
