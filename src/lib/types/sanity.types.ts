@@ -98,6 +98,26 @@ export type News = {
     slug: Slug;
 };
 
+export type Page = {
+    _id: string;
+    _type: "page";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    title?: string;
+    content?: ContentEditor;
+    pdf?: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
+      };
+      _type: "file";
+    };
+    slug?: Slug;
+};
+
 export type Issue = {
     _id: string;
     _type: "issue";

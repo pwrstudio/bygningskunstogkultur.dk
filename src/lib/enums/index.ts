@@ -10,5 +10,6 @@ export enum PageType {
     Article,
     News,
     Pdf,
-    Error
+    Error,
+    Page
 }

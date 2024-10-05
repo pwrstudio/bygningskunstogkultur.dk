@@ -59,6 +59,13 @@ const serializers = {
                 { target: '_blank', rel: 'noreferrer', href: props.mark.href },
                 props.children
             ),
+        pageLink: (props: any) => {
+                return h(
+                    'a',
+                    { href: `/page/${props.mark?.slug ?? ''}` },
+                    props.children
+                )
+            },
         interviewName: (props: any) =>
             h(
                 'span',

@@ -30,6 +30,8 @@
   $: windowHeight.set(iH)
   $: windowWidth.set(iW)
 
+  const NoMenuPages = [PageType.News, PageType.Pdf, PageType.Error]
+
   $: pageType = getPageType($page.route?.id ?? "")
 
   // Make sure table of content is closed when navigating to an article
@@ -50,7 +52,7 @@
   - Show ToC if currentIssue is set (ie. we are on an issue/article page)   
   - Show mobile menu and Toc component if on phone
 -->
-{#if ![PageType.News, PageType.Pdf, PageType.Error].includes(pageType)}
+{#if !NoMenuPages.includes(pageType)}
   {#if $screenSizePhone}
     <MenuPhone {news} {about} {colophon} {pageType} />
   {:else}

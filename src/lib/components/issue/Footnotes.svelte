@@ -1,13 +1,13 @@
 <script lang="ts">
-  import type { Article, Footnote } from "$lib/types/sanity.types"
+  import type { Article, Footnote, Page } from "$lib/types/sanity.types"
   import { onMount } from "svelte"
   import { renderBlockText } from "$lib/modules/sanity"
   import { extractFootnotes, scrollToHash } from "$lib/modules/utils"
 
-  export let article: Article
+  export let article: Article | Page
   export let isPrint: boolean = false
 
-  const footnotes = extractFootnotes(article.content?.content ?? [])
+  $: footnotes = extractFootnotes(article.content?.content ?? [])
 
   function backLink(footnote: Footnote) {
     let backLinkTarget = document.querySelector("#" + "link-" + footnote._key)

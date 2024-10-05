@@ -1,10 +1,10 @@
 <script lang="ts">
-  import type { Article, News } from "$lib/types/sanity.types"
+  import type { Article, News, Page } from "$lib/types/sanity.types"
   import { truncate } from "lodash-es"
   import { toPlainText, urlFor } from "$lib/modules/sanity"
   import { defaultMetadata } from "./defaultMetadata"
 
-  export let post: Article | News | null = null
+  export let post: Article | News | Page | null = null
 
   let title = (post?.title ? post.title + " | " : "") + defaultMetadata.title
 

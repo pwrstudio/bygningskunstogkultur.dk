@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Article, Issue, News } from "$lib/types/sanity.types"
+  import type { Article, Issue, News, Page } from "$lib/types/sanity.types"
   import { browser } from "$app/environment"
   import Fa from "svelte-fa"
   import copy from "copy-to-clipboard"
@@ -16,7 +16,7 @@
     faFilePdf,
   } from "@fortawesome/free-solid-svg-icons"
 
-  export let article: Article | News
+  export let article: Article | News | Page
   export let issue: Issue | null = null
 
   // SHARING LINKS

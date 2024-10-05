@@ -148,6 +148,10 @@
     text-decoration: underline;
   }
 
+  figure img {
+    max-width: 90%;
+  }
+
 
   p a:hover,
   p .link:hover {

@@ -17,7 +17,6 @@
     extendedPost = item
     tableOfContentsOpen.set(false)
     newsExtended.set(true)
-    console.log("dispatching")
     dispatch("scrollToTop")
   }
 
@@ -46,9 +45,9 @@
     <FullNewsItem news={extendedPost} on:close={closeExtendedPost} />
   {:else}
     <!-- LOGO -->
-    <div class="kadk-logo">
+    <a href="/" class="kadk-logo">
       <img alt="logo" src="/img/logo.svg" />
-    </div>
+    </a>
     {#each news as item}
       <div class="news-item" id={item.slug.current}>
         <div class="content">
@@ -106,6 +105,7 @@
   .kadk-logo {
     width: 100%;
     margin-bottom: var(--margin-xs);
+    display: block;
     img {
       display: block;
       width: 100%;

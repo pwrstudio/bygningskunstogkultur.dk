@@ -44,7 +44,6 @@
   }
 
   const scrollToTop = () => {
-    console.log("scrolling to top")
     menuContentElement.scrollTo(0, 0)
   }
 

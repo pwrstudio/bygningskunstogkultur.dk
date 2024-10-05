@@ -1,4 +1,4 @@
-import type { Article, Issue, BlockContent, Footnote } from "$lib/types/sanity.types"
+import type { Article, Issue, BlockContent, Footnote, Page } from "$lib/types/sanity.types"
 import { PageType } from "$lib/enums"
 import { format, getYear } from "date-fns";
 import { flatMap } from "lodash-es"
@@ -36,7 +36,7 @@ export function extractFootnotes(mainContent: BlockContent) {
     return footnotes
 }
 
-export function calculateArticleReadingTime(article: Article) {
+export function calculateArticleReadingTime(article: Article | Page) {
     const blockContent = article?.content?.content
     if (!blockContent) return 0
     const wordsPerMinute = 200 // average reading speed
@@ -101,6 +101,8 @@ export function getPageType(route: string): PageType {
             return PageType.Landing
         case "/[issue]/[article]":
             return PageType.Article
+        case "/page/[slug]":
+            return PageType.Page
         case "/nyhed/[slug]":
             return PageType.News
         case "/pdf/article/[slug]":
