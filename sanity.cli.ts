@@ -4,5 +4,6 @@ export default defineCliConfig({
     api: {
         projectId: 'yesqrmft',
         dataset: 'production'
-    }
+    },
+    studioHost: 'mbk-admin'
 })
