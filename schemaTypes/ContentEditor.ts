@@ -1,6 +1,6 @@
 
 import { MdImage, MdShortText, MdInsertLink } from "react-icons/md"
-import { alignCenterRender, alignRightRender, noteRender, footNoteRender } from './decorators'
+import { alignCenterRender, alignRightRender, noteRender, footNoteRender, pageLinkRender } from './decorators'
 
 export default {
     type: 'object',

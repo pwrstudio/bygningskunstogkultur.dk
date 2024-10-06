@@ -21,3 +21,7 @@ export const footNoteRender = (props: any) => (
 export const noteRender = (props: any) => (
     <p style={{ fontSize: '0.8em' }}>{props.children}</p>
 )
+
+export const pageLinkRender = (props: any) => (
+    <span style={{ backgroundColor: 'yellow' }}>{props.children}</span>
+)
