@@ -2,6 +2,7 @@ import { defineConfig } from 'sanity'
 import { structureTool } from 'sanity/structure'
 import { schemaTypes } from './schemaTypes'
 import deskStructure from './deskStructure'
+import { PreviewAction } from './actions'
 
 export default defineConfig({
     name: 'default',
@@ -26,8 +27,8 @@ export default defineConfig({
             }
             return prev;
         },
+        actions: [PreviewAction]
     },
-
     schema: {
         types: schemaTypes,
     },

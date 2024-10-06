@@ -104,6 +104,7 @@ export type Issue = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
+  editorialState?: "live" | "preview";
   title?: string;
   publicationDate?: string;
   mainImage?: {

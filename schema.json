@@ -514,6 +514,23 @@
           "type": "string"
         }
       },
+      "editorialState": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "union",
+          "of": [
+            {
+              "type": "string",
+              "value": "live"
+            },
+            {
+              "type": "string",
+              "value": "preview"
+            }
+          ]
+        },
+        "optional": true
+      },
       "title": {
         "type": "objectAttribute",
         "value": {

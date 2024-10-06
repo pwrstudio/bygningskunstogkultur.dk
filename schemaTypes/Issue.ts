@@ -1,11 +1,26 @@
-// ICONS
 import { MdNote } from "react-icons/md"
 
 export default {
     title: 'Issue',
     name: 'issue',
+    icon: MdNote,
     type: 'document',
+    initialValue: {
+        editorialState: "preview"
+    },
     fields: [
+        {
+            title: "Editorial state",
+            name: "editorialState",
+            type: "string",
+            options: {
+                list: [
+                    { title: "Live", value: "live" },
+                    { title: "Preview", value: "preview" },
+                ],
+                layout: "radio"
+            },
+        },
         {
             title: 'Title',
             name: 'title',
