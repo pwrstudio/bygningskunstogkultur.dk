@@ -226,12 +226,6 @@ export type Article = {
   slug?: Slug;
 };
 
-export type Slug = {
-  _type: "slug";
-  current?: string;
-  source?: string;
-};
-
 export type About = {
   _id: string;
   _type: "about";
@@ -242,50 +236,21 @@ export type About = {
   content?: ContentEditor;
 };
 
-export type ContentEditor = {
-  _type: "contentEditor";
-  content?: Array<{
-    children?: Array<{
-      marks?: Array<string>;
-      text?: string;
-      _type: "span";
-      _key: string;
-    }>;
-    style?: "normal" | "center-aligned" | "right-aligned" | "h1" | "h2" | "h3" | "h4" | "blockquote" | "note";
-    listItem?: "bullet" | "number";
-    markDefs?: Array<{
-      href?: string;
-      _type: "link";
-      _key: string;
-    } | {
-      content?: SimpleEditor;
-      _type: "footnote";
-      _key: string;
-    }>;
-    level?: number;
-    _type: "block";
-    _key: string;
-  } | {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    caption?: SimpleEditor;
-    attribution?: string;
-    fullWidth?: boolean;
-    _type: "image";
-    _key: string;
-  } | ({
-    _key: string;
-  } & VideoBlock) | ({
-    _key: string;
-  } & AudioBlock) | ({
-    _key: string;
-  } & EmbedBlock)>;
+export type Page = {
+  _id: string;
+  _type: "page";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  content?: ContentEditor;
+  slug?: Slug;
+};
+
+export type Slug = {
+  _type: "slug";
+  current?: string;
+  source?: string;
 };
 
 export type SanityFileAsset = {
@@ -365,6 +330,61 @@ export type SanityImageMetadata = {
   blurHash?: string;
   hasAlpha?: boolean;
   isOpaque?: boolean;
+};
+
+export type ContentEditor = {
+  _type: "contentEditor";
+  content?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal" | "center-aligned" | "right-aligned" | "h1" | "h2" | "h3" | "h4" | "blockquote" | "note";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    } | {
+      content?: SimpleEditor;
+      _type: "footnote";
+      _key: string;
+    } | {
+      reference?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "page";
+      };
+      _type: "pageLink";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  } | {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    caption?: SimpleEditor;
+    attribution?: string;
+    fullWidth?: boolean;
+    _type: "image";
+    _key: string;
+  } | ({
+    _key: string;
+  } & VideoBlock) | ({
+    _key: string;
+  } & AudioBlock) | ({
+    _key: string;
+  } & EmbedBlock)>;
 };
 
 export type SimpleEditor = {

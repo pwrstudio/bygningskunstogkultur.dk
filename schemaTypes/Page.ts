@@ -18,14 +18,6 @@ export default {
       type: 'contentEditor'
     },
     {
-        title: 'PDF File',
-        name: 'pdf',
-        type: 'file',
-        options: {
-          accept: '.pdf',
-        }
-    },
-    {
       title: 'Slug',
       name: 'slug',
       type: 'slug',
