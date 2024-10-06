@@ -3,6 +3,10 @@
  *  https://www.sanity.io/docs/groq
  */
 
+import { PUBLIC_ENVIRONMENT } from "$env/static/public"
+
+const editorialStateFilter = PUBLIC_ENVIRONMENT === "preview" ? '' : '&& editorialState == "live"'
+
 const resolvePageLinks = `{
         ...,
         content {
@@ -40,7 +44,7 @@ const resolvePageLinksColophon = `{
 
 export const queries = {
     news: `*[_type == 'news']${resolvePageLinks} | order(publicationDate desc)`,
-    issues: "*[_type == 'issue'] | order(publicationDate desc)",
+    issues: `*[_type == 'issue' ${editorialStateFilter}] | order(publicationDate desc)`,
     about: `*[_id == 'about']{...}[0]${resolvePageLinks}`,
     colophon: `*[_id == 'colophon']{...}[0]${resolvePageLinksColophon}`,
     singleIssue: `*[_type == 'issue' && slug.current == $slug][0] {..., tableOfContents[]->${resolvePageLinks}}`,
