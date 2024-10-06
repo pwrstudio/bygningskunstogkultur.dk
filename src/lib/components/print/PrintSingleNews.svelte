@@ -4,6 +4,7 @@
   import { urlFor, renderBlockText } from "$lib/modules/sanity"
   import { formattedDate } from "$lib/modules/utils"
   import OutputInfo from "$lib/components/print/OutputInfo.svelte"
+  import PrintInfo from "$lib/components/print/PrintInfo.svelte"
 
   export let news: News
 
@@ -14,9 +15,8 @@
 </script>
 
 <div class="print-container">
-  <div class="print-info">
-    <div>Print this page to PDF (CMD + P) to save a copy of this issue.</div>
-  </div>
+  <!-- PRINT INFO -->
+  <PrintInfo />
   <div class="content">
     {#if news.mainImage?.asset}
       <img
@@ -75,20 +75,6 @@
     font-size: var(--font-size-print);
     @media screen {
       max-width: 900px;
-    }
-  }
-
-  .print-info {
-    background: var(--green);
-    padding: 40px;
-    height: 30vh;
-    margin-bottom: 1em;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    @media print {
-      display: none;
     }
   }
 

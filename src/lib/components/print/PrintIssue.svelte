@@ -6,6 +6,7 @@
   import { calculateArticleReadingTime } from "$lib/modules/utils"
   import PrintArticleComponent from "$lib/components/print/PrintArticleComponent.svelte"
   import OutputInfo from "$lib/components/print/OutputInfo.svelte"
+  import PrintInfo from "$lib/components/print/PrintInfo.svelte"
 
   export let issue: Issue
   export let colophon: Colophon
@@ -18,9 +19,7 @@
 
 <div class="print-container">
   <!-- PRINT INFO -->
-  <div class="print-info">
-    <div>Print this page to PDF (CMD + P) to save a copy of this issue.</div>
-  </div>
+  <PrintInfo />
   <!-- COVER -->
   <div class="cover">
     <div class="text">
@@ -110,20 +109,6 @@
     font-size: var(--font-size-print);
     @media screen {
       max-width: 900px;
-    }
-  }
-
-  .print-info {
-    background: var(--green);
-    padding: 40px;
-    height: 30vh;
-    margin-bottom: 1em;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    @media print {
-      display: none;
     }
   }
 

@@ -1,12 +1,12 @@
 <script lang="ts">
-  import type { Article, Issue } from "$lib/types/sanity.types"
+  import type { Page } from "$lib/types/sanity.types"
   import { onMount } from "svelte"
-  import PrintArticleComponent from "$lib/components/print/PrintArticleComponent.svelte"
+
+  import PrintPageComponent from "$lib/components/print/PrintPageComponent.svelte"
   import OutputInfo from "$lib/components/print/OutputInfo.svelte"
   import PrintInfo from "$lib/components/print/PrintInfo.svelte"
 
-  export let issue: Issue
-  export let post: Article
+  export let page: Page
 
   onMount(async () => {
     document.getElementsByTagName("body")[0].style.overflow = "auto"
@@ -18,7 +18,7 @@
   <!-- PRINT INFO -->
   <PrintInfo />
   <!-- CONTENT -->
-  <PrintArticleComponent {post} {issue} />
+  <PrintPageComponent {page} />
   <!-- OUTPUT INFO -->
   <OutputInfo />
 </div>

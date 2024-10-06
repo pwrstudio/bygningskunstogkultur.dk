@@ -106,15 +106,6 @@ export type Page = {
     _rev: string;
     title?: string;
     content?: ContentEditor;
-    pdf?: {
-      asset?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
-      };
-      _type: "file";
-    };
     slug?: Slug;
 };
 
