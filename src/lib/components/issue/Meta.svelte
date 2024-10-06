@@ -7,7 +7,7 @@
   import Share from "$lib/components/share/Share.svelte"
 
   export let article: Article
-  export let issue: Issue
+  export let issue: Issue | undefined | null
 
   const readingTime = calculateArticleReadingTime(article)
 </script>
@@ -17,7 +17,7 @@
   <div class="header">
     <span>Magasin for Bygningskunst og Kultur</span>
     <span class="right">
-      {issue.title}
+      {issue?.title ?? ""}
     </span>
   </div>
 

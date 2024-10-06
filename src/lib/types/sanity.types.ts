@@ -117,6 +117,7 @@ export type Issue = {
     _rev: string;
     title?: string;
     publicationDate?: string;
+    editorialState?: "live" | "preview";
     mainImage?: {
         asset?: {
             _ref: string;

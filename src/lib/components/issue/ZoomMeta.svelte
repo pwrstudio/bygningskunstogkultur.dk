@@ -8,7 +8,7 @@
   import Footnotes from "$lib/components/issue/Footnotes.svelte"
 
   export let article: Article
-  export let issue: Issue
+  export let issue: Issue | undefined | null
 
   let extended = false
   const toggleExtended = () => (extended = !extended)
@@ -17,7 +17,7 @@
   let mainTextLength = toPlainText(article.content?.content ?? []).length
 
   const [shortText, extendedText] = splitTextBlocks(
-    article.content?.content ?? [],
+    article.content?.content ?? []
   )
 </script>
 
@@ -27,7 +27,7 @@
     <div class="header">
       <span>Magasin for Bygningskunst og Kultur</span>
       <span class="right">
-        {issue.title}
+        {issue?.title ?? ""}
       </span>
     </div>
 

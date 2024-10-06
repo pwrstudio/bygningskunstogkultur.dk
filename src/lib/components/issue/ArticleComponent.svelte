@@ -13,9 +13,11 @@
   import Footnotes from "$lib/components/issue/Footnotes.svelte"
 
   export let article: Article
-  export let issue: Issue
+  export let issue: Issue | undefined = undefined
 
-  const nextArticle: Article | null = getNextArticle(issue, article)
+  const nextArticle: Article | null = issue
+    ? getNextArticle(issue, article)
+    : null
 
   const closeMenus = () => {
     menuOpen.set(false)
