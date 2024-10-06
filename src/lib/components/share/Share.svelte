@@ -19,27 +19,46 @@
   export let article: Article | News | Page
   export let issue: Issue | null = null
 
+  const BASE_URL = "https://bygningskunstogkultur.dk"
+
+  function getUrl(article: Article | News | Page): string {
+    switch (article._type) {
+      case "news":
+        return `${BASE_URL}/nyhed/${article.slug?.current ?? ""}`
+      case "article":
+        return `${BASE_URL}/${issue?.slug?.current ?? ""}/${article.slug?.current ?? ""}`
+      case "page":
+        return `${BASE_URL}/page/${article.slug?.current ?? ""}`
+      default:
+        return BASE_URL
+    }
+  }
+
+  function getPdfUrl(article: Article | News | Page): string {
+    switch (article._type) {
+      case "news":
+        return `${BASE_URL}/pdf/news/${article.slug?.current ?? ""}`
+      case "article":
+        return `${BASE_URL}/pdf/article/${article.slug?.current ?? ""}`
+      case "page":
+        return `${BASE_URL}/pdf/page/${article.slug?.current ?? ""}`
+      default:
+        return BASE_URL
+    }
+  }
+
   // SHARING LINKS
-  const PDF_URL =
-    (article._type === "news" ? "/pdf/news/" : "/pdf/article/") +
-    article.slug.current
+  const PDF_URL = getPdfUrl(article)
 
-  const URL = issue
-    ? "https://bygningskunstogkultur.dk/" +
-      issue.slug.current +
-      "/" +
-      article.slug.current
-    : "https://bygningskunstogkultur.dk/nyhed/" + article.slug.current
+  const URL = getUrl(article)
 
-  const LINKEDIN = "https://www.linkedin.com/shareArticle?mini=true&url=" + URL
+  const LINKEDIN = `https://www.linkedin.com/shareArticle?mini=true&url=${URL}`
 
-  const FACEBOOK =
-    "https://facebook.com/sharer/sharer.php?u=" + URL + "&t=" + article.title
+  const FACEBOOK = `https://facebook.com/sharer/sharer.php?u=${URL}&t=${article.title}`
 
-  const TWITTER =
-    "http://twitter.com/share?url=" + URL + "&text=" + article.title
+  const TWITTER = `http://twitter.com/share?url=${URL}&text=${article.title}`
 
-  const EMAIL = "mailto:?subject=" + article.title + "&body=" + URL
+  const EMAIL = `mailto:?subject=${article.title}&body=${URL}`
 
   const nativeShare = () => {
     if (navigator?.share) {
