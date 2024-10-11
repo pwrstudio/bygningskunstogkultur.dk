@@ -11,13 +11,13 @@
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^3.2.5",
-		"@sveltejs/kit": "^2.6.1",
+		"@sveltejs/kit": "^2.6.4",
 		"@sveltejs/vite-plugin-svelte": "^3.1.2",
 		"@types/lodash-es": "^4.17.12",
 		"svelte": "^4.2.19",
 		"svelte-check": "^4.0.4",
 		"tslib": "^2.7.0",
-		"typescript": "^5.6.2",
+		"typescript": "^5.6.3",
 		"vite": "^5.4.8"
 	},
 	"dependencies": {
@@ -31,7 +31,7 @@
 		"date-fns": "^4.1.0",
 		"get-video-id": "^4.1.7",
 		"lodash-es": "^4.17.21",
-		"sass": "^1.79.4",
+		"sass": "^1.79.5",
 		"swiper": "^11.1.14"
 	},
 	"type": "module"
