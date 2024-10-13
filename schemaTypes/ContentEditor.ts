@@ -9,6 +9,7 @@ export default {
     fields: [
         {
             title: 'Content editor',
+            description: 'Pressing enter will create a new paragraph. Pressing shift+enter will create a new line in the same paragraph.',
             name: 'content',
             type: 'array',
             of: [
