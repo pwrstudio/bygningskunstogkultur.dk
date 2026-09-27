@@ -19,12 +19,13 @@ jobs:
           node-version: 24
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      # Documents only: assets (~2 GB of audio/video) would exceed the artifact storage quota.
-      # Take a full export manually from time to time: pnpm sanity dataset export production <file>.tar.gz
+      # Documents only (--raw keeps asset references intact; --no-assets would strip them).
+      # Asset files (~2 GB of video) would exceed the artifact storage quota, so take a
+      # full export manually from time to time: pnpm sanity dataset export production <file>.tar.gz
       - name: Export dataset
         env:
           SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
-        run: pnpm sanity dataset export production backups/backup.tar.gz --no-assets
+        run: pnpm sanity dataset export production backups/backup.tar.gz --raw
       - name: Upload backup.tar.gz
         uses: actions/upload-artifact@v7
         with:
