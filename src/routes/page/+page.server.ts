@@ -1,7 +1,7 @@
-import { redirect } from '@sveltejs/kit';
+import { redirect } from "@sveltejs/kit"
 
 /** @type {import('./$types').PageLoad} */
 export async function load() {
-    // Redirect to the front page
-    redirect(301, "/");
+  // Redirect to the front page
+  redirect(301, "/")
 }

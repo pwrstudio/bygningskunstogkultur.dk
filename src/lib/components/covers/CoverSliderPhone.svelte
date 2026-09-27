@@ -43,7 +43,7 @@
   onMount(async () => {
     initializeSwipers()
     // Loading delay to avoid flickering
-    await new Promise(resolve => setTimeout(resolve, 100))
+    await new Promise((resolve) => setTimeout(resolve, 100))
     loaded = true
   })
 </script>
@@ -55,7 +55,7 @@
     <div class="swiper-mobile">
       <div class="swiper-container" bind:this={swiperMobileElement}>
         <div class="swiper-wrapper">
-          {#each issues.filter(issue => get(issue, "tableOfContents", []).length > 0) as issue}
+          {#each issues.filter((issue) => get(issue, "tableOfContents", []).length > 0) as issue}
             <div class="swiper-slide">
               <Cover {issue} scale={coverScale} />
             </div>

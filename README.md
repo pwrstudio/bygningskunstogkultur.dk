@@ -28,4 +28,5 @@ Types generated from Sanity schemas. In [the sanity repository](https://github.c
 sanity schema extract
 sanity typegen generate
 ```
+
 Minor changes have been made in this repo to the generate types to extract sub-types.

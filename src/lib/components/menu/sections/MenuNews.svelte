@@ -87,7 +87,7 @@
           <button
             aria-label="Læs mere"
             class="read-more"
-            on:click={_ => {
+            on:click={(_) => {
               openExtendedPost(item)
             }}
           >

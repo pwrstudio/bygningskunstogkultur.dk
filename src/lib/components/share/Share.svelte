@@ -69,7 +69,7 @@
           url: URL,
         })
         .then(() => console.log("Successful share"))
-        .catch(error => console.log("Error sharing", error))
+        .catch((error) => console.log("Error sharing", error))
     }
   }
 

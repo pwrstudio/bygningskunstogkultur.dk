@@ -66,7 +66,7 @@
     if (block.autoPlay) {
       let promise = videoEl.play()
       if (promise !== undefined) {
-        promise.catch(err => {
+        promise.catch((err) => {
           console.log(err)
         })
       }

@@ -17,7 +17,7 @@
   let mainTextLength = toPlainText(article.content?.content ?? []).length
 
   const [shortText, extendedText] = splitTextBlocks(
-    article.content?.content ?? []
+    article.content?.content ?? [],
   )
 </script>
 

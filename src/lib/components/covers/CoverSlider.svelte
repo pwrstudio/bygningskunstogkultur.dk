@@ -57,7 +57,7 @@
   onMount(async () => {
     initializeSwipers()
     // Loading delay to avoid flickering
-    await new Promise(resolve => setTimeout(resolve, 100))
+    await new Promise((resolve) => setTimeout(resolve, 100))
     loaded = true
   })
 </script>
@@ -66,7 +66,7 @@
   in:fade
   class:loaded
   class="coverslider"
-  on:click={e => {
+  on:click={(e) => {
     newsExtended.set(false)
   }}
   role="presentation"

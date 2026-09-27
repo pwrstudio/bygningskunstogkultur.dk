@@ -27,7 +27,7 @@
     let placed = 0
 
     // Make the current active index true
-    show = toc.map(item => item.slug.current === currentSlug)
+    show = toc.map((item) => item.slug.current === currentSlug)
     placed++ // 1
 
     let activeIndex = show.indexOf(true)
@@ -103,7 +103,7 @@
         <button
           class="toc-menu-item title-item link"
           class:active={$currentArticleSlug === article.slug.current}
-          on:click={e => {
+          on:click={(e) => {
             goToArticle(article)
           }}
         >
@@ -129,7 +129,7 @@
       {/each}
       <button
         class="toc-menu-item title-item link"
-        on:click={e => {
+        on:click={(e) => {
           goto("/pdf/issue/" + issue.slug.current)
         }}
       >
@@ -152,7 +152,7 @@
             class:hidden={!show[index] &&
               index !== 0 &&
               index !== show.length - 1}
-            on:click={_ => {
+            on:click={(_) => {
               goToArticle(article)
             }}
           >

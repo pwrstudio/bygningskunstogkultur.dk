@@ -4,11 +4,13 @@ import type { Colophon, Issue } from "$lib/types/sanity.types"
 
 /** @type {import('./$types').PageLoad} */
 export async function load({ params }) {
-    const issue: Issue = await loadData(queries.singleIssue, { slug: params.slug })
-    const colophon: Colophon = await loadData(queries.colophon, {})
+  const issue: Issue = await loadData(queries.singleIssue, {
+    slug: params.slug,
+  })
+  const colophon: Colophon = await loadData(queries.colophon, {})
 
-    return {
-        issue,
-        colophon
-    };
+  return {
+    issue,
+    colophon,
+  }
 }

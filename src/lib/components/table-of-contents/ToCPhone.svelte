@@ -49,7 +49,7 @@
 
   onMount(async () => {
     // Loading delay to avoid flickering
-    await new Promise(resolve => setTimeout(resolve, 100))
+    await new Promise((resolve) => setTimeout(resolve, 100))
     loaded = true
   })
 </script>

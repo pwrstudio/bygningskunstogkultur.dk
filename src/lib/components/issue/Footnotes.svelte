@@ -33,7 +33,7 @@
             <button
               aria-label={"Go to footnote " + index + 1}
               class="back-link"
-              on:click={_ => {
+              on:click={(_) => {
                 backLink(footnote)
               }}
             >

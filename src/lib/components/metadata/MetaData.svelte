@@ -19,12 +19,7 @@
   const mainImage = post && "mainImage" in post ? post.mainImage : undefined
 
   let image = mainImage
-    ? urlFor(mainImage)
-        .quality(80)
-        .height(627)
-        .width(1200)
-        .auto("format")
-        .url()
+    ? urlFor(mainImage).quality(80).height(627).width(1200).auto("format").url()
     : defaultMetadata.image
 </script>
 

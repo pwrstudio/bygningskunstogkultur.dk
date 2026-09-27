@@ -4,10 +4,14 @@ import type { Article, Issue } from "$lib/types/sanity.types"
 
 /** @type {import('./$types').PageLoad} */
 export async function load({ params }) {
-    const article: Article = await loadData(queries.singleArticle, { slug: params.slug })
-    const issue: Issue = await loadData(queries.issueByArticle, { id: article._id })
-    return {
-        article,
-        issue
-    };
+  const article: Article = await loadData(queries.singleArticle, {
+    slug: params.slug,
+  })
+  const issue: Issue = await loadData(queries.issueByArticle, {
+    id: article._id,
+  })
+  return {
+    article,
+    issue,
+  }
 }
