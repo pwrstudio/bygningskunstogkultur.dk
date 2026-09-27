@@ -1,26 +1,32 @@
 import getVideoId from "get-video-id";
 
 export const EmbedPreview = (props: any) => {
-    const { value } = props
+    const { url } = props
+
+    if (typeof url !== 'string') {
+        return <div style={{ padding: '10px' }}>No URL</div>
+    }
 
     // YOUTUBE
-    if (value.url.includes('youtube')) {
+    if (url.includes('youtube')) {
         return (
-            <iframe style={{ padding: '10px' }} width='480' height='320' src={'https://www.youtube.com/embed/' + getVideoId(value.url).id} />
+            <iframe title='YouTube' style={{ padding: '10px' }} width='480' height='320' src={'https://www.youtube.com/embed/' + getVideoId(url).id} />
         )
     }
 
     // VIMEO
-    if (value.url.includes('vimeo')) {
+    if (url.includes('vimeo')) {
         return (
-            <iframe style={{ padding: '10px' }} width='480' height='320' src={'https://player.vimeo.com/video/' + getVideoId(value.url).id} />
+            <iframe title='Vimeo' style={{ padding: '10px' }} width='480' height='320' src={'https://player.vimeo.com/video/' + getVideoId(url).id} />
         )
     }
 
     // SOUNDCLOUD
-    if (value.url.includes('soundcloud')) {
+    if (url.includes('soundcloud')) {
         return (
-            <iframe style={{ padding: '10px' }} width='480' height='320' src={'https://w.soundcloud.com/player/?url=' + value.url} />
+            <iframe title='SoundCloud' style={{ padding: '10px' }} width='480' height='320' src={'https://w.soundcloud.com/player/?url=' + url} />
         )
     }
+
+    return <div style={{ padding: '10px' }}>{url}</div>
 }

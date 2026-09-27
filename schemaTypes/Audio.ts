@@ -24,7 +24,7 @@ export default {
     },
     preview: {
         select: {
-            audio: 'audioFile'
+            audioUrl: 'audioFile.asset.url'
         }
     }
 }

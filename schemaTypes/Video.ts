@@ -35,7 +35,7 @@ export default {
     },
     preview: {
         select: {
-            video: 'videoFile',
+            videoUrl: 'videoFile.asset.url',
             caption: 'caption',
             attribution: 'attribution'
         }
