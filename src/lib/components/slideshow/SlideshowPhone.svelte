@@ -91,7 +91,7 @@
     <!-- Bottom -->
     <div class="bottom">
       <!-- Pagination -->
-      <div class={"custom-pagination"} />
+      <div class={"custom-pagination"}></div>
       <!-- Zoom level -->
       {#if zoomable}
         <div class="zoomLevel">
@@ -105,7 +105,7 @@
 </div>
 
 <style lang="scss">
-  @import "../../styles/variables.scss";
+  @use "../../styles/variables.scss" as *;
 
   .slideshow {
     height: 60dvh;

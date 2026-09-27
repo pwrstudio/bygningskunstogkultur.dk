@@ -1,6 +1,6 @@
 import { createClient } from "@sanity/client"
 import blocksToHtml from '@sanity/block-content-to-html'
-import imageUrlBuilder from '@sanity/image-url'
+import { createImageUrlBuilder } from '@sanity/image-url'
 import getVideoId from "get-video-id";
 import { has } from "lodash-es"
 import type { BlockContent } from "$lib/types/sanity.types";
@@ -47,7 +47,7 @@ export const toPlainText = (blocks: BlockContent) => {
     )
 }
 
-const builder = imageUrlBuilder(client)
+const builder = createImageUrlBuilder(client)
 
 export const urlFor = (source: any) => builder.image(source)
 

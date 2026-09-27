@@ -1,3 +1,7 @@
+@use "sass:map";
+@use "sass:meta";
+@use "sass:string";
+
 $breakpoints: (
   "phone-small": (
     max-width: 400px
@@ -24,9 +28,12 @@ $breakpoints: (
 /// @param {String} $breakpoint - Breakpoint
 /// @requires $breakpoints
 @mixin screen-size($breakpoint) {
-  $raw-query: map-get($breakpoints, $breakpoint);
+  $raw-query: map.get($breakpoints, $breakpoint);
   @if $raw-query {
-    $query: if(type-of($raw-query) == "string", unquote($raw-query), inspect($raw-query));
+    $query: meta.inspect($raw-query);
+    @if meta.type-of($raw-query) == "string" {
+      $query: string.unquote($raw-query);
+    }
     @media #{$query} {
       @content;
     }

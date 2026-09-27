@@ -102,19 +102,25 @@
     </div>
   </div>
   <!-- HAMBURGER / CLOSE-->
-  <button class="menu-button" on:click={toggleMenu}>
+  <button
+    class="menu-button"
+    aria-label={$menuOpen ? "Close menu" : "Open menu"}
+    on:click={toggleMenu}
+  >
+    <!-- Icon only; the button's aria-label names it -->
+    <!-- svelte-ignore a11y_missing_content -->
     <h1 class="title hamburger">
       <div class="hamburger-cross-icon" class:open={$menuOpen}>
-        <span />
-        <span />
-        <span />
+        <span></span>
+        <span></span>
+        <span></span>
       </div>
     </h1>
   </button>
 </div>
 
 <style lang="scss">
-  @import "../../styles/variables.scss";
+  @use "../../styles/variables.scss" as *;
 
   .menu {
     z-index: 1000;
@@ -191,13 +197,6 @@
       display: block;
       width: 100%;
 
-      &.active {
-        &:before {
-          content: "→";
-          margin-right: 10px;
-        }
-      }
-
       &:last-child {
         border-bottom: none;
       }
@@ -249,13 +248,6 @@
       transform: translate(0, 0);
       padding-left: 12px;
     }
-  }
-
-  .menu-button .menu-menu {
-    padding: 0;
-    margin: 0;
-    list-style-type: none;
-    z-index: 10;
   }
 
   .hamburger {
@@ -335,57 +327,6 @@
     flex-shrink: 1;
     overflow-y: scroll;
     margin-top: calc(var(--margin) / 4);
-
-    .image {
-      max-width: 100%;
-      mix-blend-mode: multiply;
-      max-height: 260px;
-    }
-
-    .news-item {
-      position: relative;
-      min-height: 100dvh;
-      padding-bottom: calc(var(--margin) * 2);
-
-      .content {
-        background: var(--green);
-      }
-
-      .header {
-        font-size: var(--font-size-small);
-        border-top: var(--border-black);
-        border-bottom: var(--border-black);
-        padding-top: 4px;
-        margin-bottom: var(--margin-xs);
-      }
-    }
-
-    &.extended {
-      .image {
-        mix-blend-mode: unset;
-        max-height: 500px;
-        width: 100%;
-        object-fit: cover;
-      }
-
-      .share {
-        float: right;
-        padding-left: 10px;
-      }
-
-      .news-item {
-        padding-left: 42px;
-
-        .close-extended {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 20px;
-          height: 42px;
-          cursor: pointer;
-        }
-      }
-    }
   }
 
   .menu-list {
@@ -394,9 +335,5 @@
     list-style-type: none;
     z-index: 10;
     box-shadow: unset;
-
-    &.hidden {
-      display: none;
-    }
   }
 </style>

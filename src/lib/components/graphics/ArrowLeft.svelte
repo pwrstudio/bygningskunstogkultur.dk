@@ -7,7 +7,7 @@
 </svg>
 
 <style lang="scss">
-  @import "../../styles/variables.scss";
+  @use "../../styles/variables.scss" as *;
 
   polyline.cls-1 {
     stroke-width: 2px;

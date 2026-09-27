@@ -68,13 +68,13 @@
 {/if}
 
 {#if $screenSizePhone && $menuOpen}
-  <button class="pseudo" on:click={closeMenu} />
+  <button class="pseudo" aria-label="Close menu" on:click={closeMenu}></button>
 {/if}
 
 <slot />
 
 <style lang="scss">
-  @import "../lib/styles/variables.scss";
+  @use "../lib/styles/variables.scss" as *;
 
   .pseudo {
     background: transparent;

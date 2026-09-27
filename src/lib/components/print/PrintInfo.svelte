@@ -3,7 +3,7 @@
 </div>
 
 <style lang="scss">
-  @import "../../styles/variables.scss";
+  @use "../../styles/variables.scss" as *;
 
   .print-info {
     background: var(--green);

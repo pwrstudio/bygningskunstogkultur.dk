@@ -103,7 +103,7 @@
 </div>
 
 <style lang="scss">
-  @import "../../styles/variables.scss";
+  @use "../../styles/variables.scss" as *;
 
   .slideshow-mobile {
     display: none;
@@ -184,11 +184,6 @@
 
           &.main {
             padding-left: var(--margin-xs);
-
-            .content {
-              padding-top: 6px;
-              border-top: var(--border-black);
-            }
           }
         }
       }

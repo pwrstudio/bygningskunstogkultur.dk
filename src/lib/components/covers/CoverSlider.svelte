@@ -73,9 +73,11 @@
 >
   <!-- TITLE -->
   <div class="top">
+    <!-- Empty lines used as spacing above the covers -->
+    <!-- svelte-ignore a11y_missing_content -->
     <h1 class="edition title">
-      <span class="line" />
-      <span class="line" />
+      <span class="line"></span>
+      <span class="line"></span>
     </h1>
   </div>
 
@@ -109,12 +111,12 @@
 
   <!-- PAGINATION -->
   <div class="bottom">
-    <div class="custom-pagination" />
+    <div class="custom-pagination"></div>
   </div>
 </div>
 
 <style lang="scss">
-  @import "../../styles/variables.scss";
+  @use "../../styles/variables.scss" as *;
 
   .custom-controls-prev,
   .custom-controls-next,

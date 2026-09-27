@@ -18,7 +18,7 @@
         frameborder="no"
         allow="autoplay; fullscreen"
         allowfullscreen
-      />
+      ></iframe>
     </div>
   {/if}
 
@@ -35,7 +35,7 @@
         color="#ffffff"
         allow="autoplay; fullscreen"
         allowfullscreen
-      />
+      ></iframe>
     </div>
   {/if}
 
@@ -52,7 +52,7 @@
         frameborder="no"
         scrolling="no"
         allow="autoplay"
-      />
+      ></iframe>
     </div>
   {/if}
 
@@ -65,7 +65,7 @@
 </figure>
 
 <style lang="scss">
-  @import "../../styles/variables.scss";
+  @use "../../styles/variables.scss" as *;
 
   .embed {
     width: var(--text-width);

@@ -168,7 +168,7 @@
 {/if}
 
 <style lang="scss">
-  @import "../../styles/variables.scss";
+  @use "../../styles/variables.scss" as *;
 
   .toc {
     z-index: 1000;
@@ -216,10 +216,6 @@
 
     .toc-button {
       justify-content: start;
-
-      .title-item {
-        margin-bottom: var(--title-letter-spacing);
-      }
     }
 
     &.open {
@@ -237,31 +233,6 @@
 
     &.parentExtended {
       transform: translateX(260px);
-    }
-
-    .articleNumber {
-      display: inline-block;
-      width: 100%;
-      white-space: nowrap;
-      writing-mode: unset;
-      text-orientation: unset;
-      line-height: 0;
-      height: var(--title-letter-spacing);
-      text-align: center;
-      position: relative;
-
-      &.active {
-        &:after {
-          top: 20px;
-          left: -5px;
-          height: 1.5px;
-          width: 10px;
-          content: "";
-          display: block;
-          position: absolute;
-          background-color: var(--black);
-        }
-      }
     }
   }
 

@@ -50,7 +50,7 @@
 </div>
 
 <style lang="scss">
-  @import "../../styles/variables.scss";
+  @use "../../styles/variables.scss" as *;
 
   .header {
     padding-top: var(--margin-xs);

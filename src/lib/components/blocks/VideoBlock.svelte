@@ -19,10 +19,10 @@
   let duration = 0
   let paused = true
   let showControls = true
-  let showControlsTimeout: number
+  let showControlsTimeout: ReturnType<typeof setTimeout>
   let controlsTimeoutDuration = 1500
 
-  function handleMousemove(e: MouseEvent) {
+  function handleMousemove(e: MouseEvent & { currentTarget: HTMLElement }) {
     // Make the controls visible, but fade out after
     // 1.5 seconds of inactivity
     clearTimeout(showControlsTimeout)
@@ -35,39 +35,30 @@
     if (e.which !== 1) return // mouse not down
     if (!duration) return // video not loaded yet
 
-    const { left, right } = this.getBoundingClientRect()
+    const { left, right } = e.currentTarget.getBoundingClientRect()
     time = (duration * (e.clientX - left)) / (right - left)
   }
 
   function handleMousedown(e: MouseEvent) {
     if (!e.target) return
+    const target: EventTarget = e.target
 
     function handleMouseup() {
       if (paused) {
-        e.target.play()
+        videoEl.play()
       } else {
-        e.target.pause()
+        videoEl.pause()
       }
       cancel()
     }
 
     function cancel() {
-      e.target.removeEventListener("mouseup", handleMouseup)
+      target.removeEventListener("mouseup", handleMouseup)
     }
 
-    e.target.addEventListener("mouseup", handleMouseup)
+    target.addEventListener("mouseup", handleMouseup)
 
     setTimeout(cancel, 200)
-  }
-
-  function format(seconds: number) {
-    if (isNaN(seconds)) return "..."
-
-    const minutes = Math.floor(seconds / 60)
-    seconds = Math.floor(seconds % 60)
-    if (seconds < 10) seconds = "0" + seconds
-
-    return `${minutes}:${seconds}`
   }
 
   // *** ON MOUNT
@@ -85,7 +76,6 @@
 
 <figure
   class="video"
-  class:fullwidth={block.fullWidth}
   class:padded={has(block, "backgroundColor.hex")}
   style={"background: " + get(block, "backgroundColor.hex", "transparent")}
 >
@@ -101,7 +91,7 @@
     bind:duration
     bind:paused
     bind:this={videoEl}
-  />
+  ></video>
 
   {#if !block.autoPlay}
     <div class="controls" style="opacity: {duration && showControls ? 1 : 0}">
@@ -140,7 +130,7 @@
 </figure>
 
 <style lang="scss">
-  @import "../../styles/variables.scss";
+  @use "../../styles/variables.scss" as *;
 
   .video {
     width: var(--text-width);
@@ -159,10 +149,6 @@
     justify-content: center;
 
     cursor: pointer;
-
-    &--playing {
-      cursor: grab;
-    }
 
     .controls {
       transition: opacity 1s;
@@ -195,55 +181,6 @@
     .play {
       position: relative;
       left: 4px;
-    }
-
-    .time {
-      position: absolute;
-      bottom: 10px;
-      right: 10px;
-    }
-
-    progress {
-      position: absolute;
-      bottom: 0px;
-      left: -2px;
-      display: block;
-      width: 100%;
-      height: 7px;
-      -webkit-appearance: none;
-      appearance: none;
-
-      pointer-events: none;
-
-      &::-webkit-progress-value {
-        background-color: rgba(255, 255, 255, 1);
-      }
-
-      &::-webkit-progress-bar {
-        background-color: rgba(0, 0, 0, 1);
-      }
-    }
-
-    &.fullwidth {
-      margin-left: 0;
-      margin-right: 0;
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      img {
-        max-height: 80dvh;
-      }
-
-      .video-player {
-        width: 960px;
-        max-width: 96%;
-      }
-
-      &.padded {
-        padding-top: calc(var(--line-height) * 4);
-        padding-bottom: calc(var(--line-height) * 4);
-      }
     }
   }
 </style>

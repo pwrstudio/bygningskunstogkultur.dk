@@ -35,7 +35,7 @@
 </div>
 
 <style lang="scss">
-  @import "../lib/styles/variables.scss";
+  @use "../lib/styles/variables.scss" as *;
 
   .landing {
     background: var(--grey-solid);

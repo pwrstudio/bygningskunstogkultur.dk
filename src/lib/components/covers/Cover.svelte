@@ -41,7 +41,7 @@
 </a>
 
 <style lang="scss">
-  @import "../../styles/variables.scss";
+  @use "../../styles/variables.scss" as *;
 
   .cover {
     width: 400px;
@@ -57,10 +57,6 @@
 
     &.empty {
       pointer-events: none;
-    }
-
-    &.scalable {
-      transform: scale(0.5);
     }
 
     .inner {

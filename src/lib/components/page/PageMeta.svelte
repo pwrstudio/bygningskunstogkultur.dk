@@ -36,17 +36,13 @@
 </div>
 
 <style lang="scss">
-  @import "../../styles/variables.scss";
+  @use "../../styles/variables.scss" as *;
 
   .header {
     padding-top: var(--margin-xs);
     padding-bottom: var(--margin-xs);
     border-top: var(--border-black);
     font-size: 16px;
-
-    .right {
-      text-align: right;
-    }
   }
 
   .article-title {

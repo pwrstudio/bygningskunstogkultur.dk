@@ -25,7 +25,7 @@
 </div>
 
 <style lang="scss">
-  @import "../../../styles/variables.scss";
+  @use "../../../styles/variables.scss" as *;
 
   .content {
     padding-bottom: 4em;

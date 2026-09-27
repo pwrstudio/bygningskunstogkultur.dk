@@ -17,15 +17,16 @@
 
   let audioEl: HTMLAudioElement
 
-  function handleMousemove(e: MouseEvent) {
+  function handleMousemove(e: MouseEvent & { currentTarget: HTMLElement }) {
     if (e.which !== 1) return // mouse not down
     if (!duration) return // audio not loaded yet
-    const { left, right } = this.getBoundingClientRect()
+    const { left, right } = e.currentTarget.getBoundingClientRect()
     time = (duration * (e.clientX - left)) / (right - left)
   }
 
   function handleMousedown(e: MouseEvent) {
     if (!e.target) return
+    const target: EventTarget = e.target
 
     function handleMouseup() {
       if (paused) audioEl.play()
@@ -34,10 +35,10 @@
     }
 
     function cancel() {
-      e.target.removeEventListener("mouseup", handleMouseup)
+      target.removeEventListener("mouseup", handleMouseup)
     }
 
-    e.target.addEventListener("mouseup", handleMouseup)
+    target.addEventListener("mouseup", handleMouseup)
 
     setTimeout(cancel, 200)
   }
@@ -69,7 +70,7 @@
       bind:duration
       bind:paused
       bind:this={audioEl}
-    />
+    ></audio>
 
     <div class="top-text">
       {#if block.title}
@@ -78,7 +79,7 @@
       <div class="audio-toggle right">{paused ? "PLAY" : "PAUSE"}</div>
     </div>
 
-    <progress value={time / duration || 0} />
+    <progress value={time / duration || 0}></progress>
 
     <div class="bottom-text">
       <div class="current-time">{format(time)}</div>
@@ -88,7 +89,7 @@
 </div>
 
 <style lang="scss">
-  @import "../../styles/variables.scss";
+  @use "../../styles/variables.scss" as *;
 
   .audio-container {
     width: var(--text-width);

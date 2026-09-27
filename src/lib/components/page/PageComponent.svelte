@@ -24,7 +24,7 @@
 </div>
 
 <style lang="scss">
-  @import "../../styles/variables.scss";
+  @use "../../styles/variables.scss" as *;
 
   .page {
     box-sizing: border-box;
@@ -68,28 +68,8 @@
           margin-top: 1em;
           margin-bottom: var(--margin);
         }
-
-        &.link {
-          text-align: center;
-        }
-
-        &.next {
-          display: block;
-          margin-top: 2em;
-          text-decoration: none;
-          margin-bottom: 6em;
-        }
       }
     }
-
-    .title {
-      margin-top: 0;
-    }
-  }
-
-  .article:last-child {
-    margin-bottom: calc(var(--menu-side-width) * 2);
-    padding-bottom: 100px;
   }
 
   :global(.graphic) {

@@ -67,12 +67,12 @@
 
   <!-- PAGINATION -->
   <div class="bottom">
-    <div class="custom-pagination-mobile" />
+    <div class="custom-pagination-mobile"></div>
   </div>
 </div>
 
 <style lang="scss">
-  @import "../../styles/variables.scss";
+  @use "../../styles/variables.scss" as *;
 
   .custom-pagination-mobile {
     width: auto;

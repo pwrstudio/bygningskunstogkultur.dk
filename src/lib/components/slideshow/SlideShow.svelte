@@ -35,7 +35,7 @@
     }
   }
 
-  const scrollThrough = (e: MouseEvent) => {
+  const scrollThrough = (e: MouseEvent & { currentTarget: HTMLElement }) => {
     if (e.currentTarget) {
       const rect = e.currentTarget.getBoundingClientRect()
       const x = e.clientX - rect.left
@@ -112,7 +112,7 @@
     <!-- Bottom -->
     <div class="bottom">
       <!-- Pagination -->
-      <div class={"custom-pagination"} />
+      <div class={"custom-pagination"}></div>
 
       <!-- Zoom level -->
       {#if zoomable}
@@ -127,7 +127,7 @@
 </div>
 
 <style lang="scss">
-  @import "../../styles/variables.scss";
+  @use "../../styles/variables.scss" as *;
 
   .slideshow {
     height: 100%;

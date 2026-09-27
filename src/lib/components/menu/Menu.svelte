@@ -124,7 +124,7 @@
 </div>
 
 <style lang="scss">
-  @import "../../styles/variables.scss";
+  @use "../../styles/variables.scss" as *;
 
   .menu {
     z-index: 100000;
@@ -208,10 +208,6 @@
           display: inline;
         }
       }
-    }
-
-    &.hidden {
-      display: none;
     }
   }
 

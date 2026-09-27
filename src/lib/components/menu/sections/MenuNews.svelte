@@ -100,7 +100,7 @@
 </div>
 
 <style lang="scss">
-  @import "../../../styles/variables.scss";
+  @use "../../../styles/variables.scss" as *;
 
   .kadk-logo {
     width: 100%;

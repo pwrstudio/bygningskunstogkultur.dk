@@ -109,7 +109,7 @@
 {/if}
 
 <style lang="scss">
-  @import "../../styles/variables.scss";
+  @use "../../styles/variables.scss" as *;
 
   .toc {
     user-select: none;
@@ -176,19 +176,6 @@
       align-items: flex-start;
       padding-bottom: 30px;
       line-height: var(--menu-side-width);
-
-      .title {
-        cursor: pointer;
-      }
-
-      .title-item {
-        margin-bottom: var(--title-letter-spacing);
-
-        &.indhold {
-          text-align: center;
-          width: 100%;
-        }
-      }
     }
 
     .toc-menu {

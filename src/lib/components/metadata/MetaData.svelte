@@ -16,8 +16,10 @@
         })
       : defaultMetadata.description
 
-  let image = post?.mainImage
-    ? urlFor(post.mainImage)
+  const mainImage = post && "mainImage" in post ? post.mainImage : undefined
+
+  let image = mainImage
+    ? urlFor(mainImage)
         .quality(80)
         .height(627)
         .width(1200)

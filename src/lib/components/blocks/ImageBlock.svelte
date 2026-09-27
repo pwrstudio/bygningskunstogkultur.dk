@@ -11,7 +11,6 @@
   style={"background: " + get(block, "backgroundColor.hex", "transparent")}
   class:padded={has(block, "backgroundColor.hex")}
   class:fullwidth={block.fullWidth}
-  class:fullheight={block.fullHeight}
 >
   <!-- IMAGE -->
   <img
@@ -34,7 +33,7 @@
 </figure>
 
 <style lang="scss">
-  @import "../../styles/variables.scss";
+  @use "../../styles/variables.scss" as *;
 
   .image {
     width: var(--text-width);
@@ -61,20 +60,6 @@
       }
     }
 
-    &.fullheight {
-      width: 100%;
-      max-height: unset;
-      height: calc(100dvh - var(--menu-bar-height));
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding-bottom: 0;
-      padding-top: 0;
-      img {
-        max-height: 90dvh;
-      }
-    }
-
     &.padded {
       padding-top: calc(var(--line-height) * 4);
       padding-bottom: calc(var(--line-height) * 4);
@@ -82,9 +67,6 @@
   }
 
   .caption {
-    p {
-      font-size: var(--font-size-small);
-    }
     text-align: left;
     float: left;
   }

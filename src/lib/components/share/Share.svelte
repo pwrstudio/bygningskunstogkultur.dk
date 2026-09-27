@@ -111,7 +111,7 @@
     {/if}
   </button>
   <!-- NATIVE SHARE -->
-  {#if browser && navigator?.share}
+  {#if browser && "share" in navigator}
     <button aria-label="Share page" class="native" on:click={nativeShare}>
       <Fa icon={faShareAltSquare} />
     </button>
@@ -119,7 +119,7 @@
 </div>
 
 <style lang="scss">
-  @import "../../styles/variables.scss";
+  @use "../../styles/variables.scss" as *;
 
   .social {
     white-space: nowrap;

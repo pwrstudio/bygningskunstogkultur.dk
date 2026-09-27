@@ -31,9 +31,8 @@ export const currentDateAndTime = (): string => {
 };
 
 export function extractFootnotes(mainContent: BlockContent) {
-    let a = flatMap(mainContent.filter(c => c._type == "block").map(x => x.markDefs))
-    let footnotes: Footnote[] = a.filter(x => x._type === "footnote")
-    return footnotes
+    const markDefs = flatMap(mainContent.map(c => (c._type == "block" ? c.markDefs ?? [] : [])))
+    return markDefs.filter((x): x is Footnote => x._type === "footnote")
 }
 
 export function calculateArticleReadingTime(article: Article | Page) {
