@@ -121,6 +121,7 @@ export function getPageType(route: string): PageType {
     case "/pdf/article/[slug]":
     case "/pdf/issue/[slug]":
     case "/pdf/news/[slug]":
+    case "/pdf/page/[slug]":
       return PageType.Pdf
     default:
       return PageType.Error

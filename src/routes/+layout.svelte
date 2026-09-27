@@ -6,6 +6,7 @@
   import MenuPhone from "$lib/components/menu/MenuPhone.svelte"
   import ToC from "$lib/components/table-of-contents/ToC.svelte"
   import ToCPhone from "$lib/components/table-of-contents/ToCPhone.svelte"
+  import ConsentBanner from "$lib/components/consent/ConsentBanner.svelte"
   import { getPageType } from "$lib/modules/utils"
   import {
     menuOpen,
@@ -72,6 +73,11 @@
 {/if}
 
 <slot />
+
+<!-- Keep the cookie banner off the print pages -->
+{#if pageType !== PageType.Pdf}
+  <ConsentBanner />
+{/if}
 
 <style lang="scss">
   @use "../lib/styles/variables.scss" as *;

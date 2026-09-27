@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { Colophon } from "$lib/types/sanity.types"
   import { renderBlockText } from "$lib/modules/sanity"
+  import { analyticsEnabled, openConsentBanner } from "$lib/modules/analytics"
   export let colophon: Colophon
 </script>
 
@@ -22,6 +23,11 @@
       </div>
     {/if}
   </div>
+  {#if analyticsEnabled}
+    <button class="cookie-settings" on:click={openConsentBanner}>
+      Cookie-indstillinger
+    </button>
+  {/if}
 </div>
 
 <style lang="scss">
@@ -56,5 +62,13 @@
     .narrow-col {
       width: 50%;
     }
+  }
+
+  .cookie-settings {
+    margin-top: var(--margin);
+    font-size: 10px;
+    line-height: 14px;
+    text-decoration: underline;
+    cursor: pointer;
   }
 </style>
