@@ -3,22 +3,33 @@ on:
   schedule:
     - cron: '0 4 * * 1'
   workflow_dispatch:
+permissions:
+  contents: read
 jobs:
   backup-dataset:
     runs-on: ubuntu-latest
     name: Backup dataset
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+        with:
+          version: 12
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      # Documents only: assets (~2 GB of audio/video) would exceed the artifact storage quota.
+      # Take a full export manually from time to time: pnpm sanity dataset export production <file>.tar.gz
       - name: Export dataset
-        uses: sanity-io/github-action-sanity@v0.7-alpha
         env:
           SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
-        with:
-          args: dataset export production backups/backup.tar.gz
+        run: pnpm sanity dataset export production backups/backup.tar.gz --no-assets
       - name: Upload backup.tar.gz
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v7
         with:
           name: backup-tarball
           path: backups/backup.tar.gz
+          retention-days: 90
           # Fails the workflow if no files are found; defaults to 'warn'
           if-no-files-found: error
