@@ -1,7 +1,7 @@
-name: Backup Routine
+name: Backup dataset
 on:
   schedule:
-    - cron: '0 4 * * 1'
+    - cron: "0 4 * * 1"
   workflow_dispatch:
 permissions:
   contents: read
@@ -11,26 +11,26 @@ jobs:
     name: Backup dataset
     steps:
       - uses: actions/checkout@v7
+      # pnpm version comes from the packageManager field in package.json
       - uses: pnpm/action-setup@v6
-        with:
-          version: 12
       - uses: actions/setup-node@v7
         with:
           node-version: 24
           cache: pnpm
-      - run: pnpm install --frozen-lockfile
+      - run: pnpm install --frozen-lockfile --filter cms
       # Documents only (--raw keeps asset references intact; --no-assets would strip them).
       # Asset files (~2 GB of video) would exceed the artifact storage quota, so take a
-      # full export manually from time to time: pnpm sanity dataset export production <file>.tar.gz
+      # full export manually from time to time:
+      #   pnpm --filter cms exec sanity dataset export production <file>.tar.gz
       - name: Export dataset
         env:
           SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
-        run: pnpm sanity dataset export production backups/backup.tar.gz --raw
+        run: pnpm --filter cms exec sanity dataset export production backups/backup.tar.gz --raw
       - name: Upload backup.tar.gz
         uses: actions/upload-artifact@v7
         with:
           name: backup-tarball
-          path: backups/backup.tar.gz
+          path: packages/cms/backups/backup.tar.gz
           retention-days: 90
           # Fails the workflow if no files are found; defaults to 'warn'
           if-no-files-found: error

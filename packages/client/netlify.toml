@@ -1,0 +1,6 @@
+# Netlify builds this package with "Package directory" set to packages/client
+# (base directory is the repo root, where the lockfile is). adapter-auto selects
+# adapter-netlify on Netlify and writes the site to build/.
+[build]
+  command = "pnpm build"
+  publish = "build"

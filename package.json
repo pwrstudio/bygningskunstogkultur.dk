@@ -1,0 +1,24 @@
+{
+  "name": "bygningskunstogkultur.dk",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "mprocs",
+    "dev:sveltekit": "pnpm --filter client dev",
+    "dev:sanity": "pnpm --filter cms dev",
+    "build": "pnpm --filter client build",
+    "check": "pnpm --filter client check && pnpm --filter cms lint",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "deploy:sanity": "pnpm --filter cms run deploy",
+    "typegen:sanity": "pnpm --filter cms typegen"
+  },
+  "devDependencies": {
+    "mprocs": "^0.9.6",
+    "prettier": "^3.9.10",
+    "prettier-plugin-svelte": "^4.1.1",
+    "svelte": "^5.57.2",
+    "typescript": "^6.0.3"
+  },
+  "packageManager": "pnpm@12.3.4"
+}

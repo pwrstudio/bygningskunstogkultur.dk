@@ -1,0 +1,9 @@
+# `pnpm dev` at the repo root starts both processes in one terminal.
+# Site: http://localhost:5173  Studio: http://localhost:3333
+procs:
+  sveltekit:
+    cwd: packages/client
+    shell: pnpm dev
+  cms:
+    cwd: packages/cms
+    shell: pnpm dev
