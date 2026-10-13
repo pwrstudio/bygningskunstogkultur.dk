@@ -5,6 +5,9 @@
  * regenerate with `pnpm typegen:sanity` at the repo root). The GROQ queries in
  * #lib/groq dereference some fields, so a few shapes below describe query results
  * rather than raw documents.
+ *
+ * The generated file is imported straight from the cms package: the imports are
+ * type-only, so nothing resolves the path at runtime.
  */
 
 import type {
@@ -12,7 +15,7 @@ import type {
   Issue as IssueDocument,
   ContentEditor,
   SimpleEditor,
-} from "@sanity-types"
+} from "../../../../cms/sanity.types"
 
 export type {
   About,
@@ -25,7 +28,7 @@ export type {
   SimpleEditor,
   Slug,
   VideoBlock,
-} from "@sanity-types"
+} from "../../../../cms/sanity.types"
 
 export type Article = ArticleDocument
 

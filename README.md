@@ -38,8 +38,8 @@ Use `pnpm dev:sveltekit` or `pnpm dev:sanity` to run one of them.
 
 - **Schema → types.** `pnpm typegen:sanity` extracts the studio schema to
   `packages/cms/schema.json` and generates `packages/cms/sanity.types.ts`
-  (required fields are enforced). The site imports that file through the
-  `@sanity-types` alias and derives the shapes its queries return in
+  (required fields are enforced). The site imports that file directly (a
+  type-only import) and derives the shapes its queries return in
   `packages/client/src/lib/types/index.ts`. After changing the schema: run
   typegen, run `pnpm check`, commit both generated files.
 - **Queries** live in `packages/client/src/lib/groq/index.ts`.
