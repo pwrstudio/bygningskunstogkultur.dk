@@ -4,10 +4,14 @@
   import { renderBlockText } from "$lib/modules/sanity"
   import { extractFootnotes, scrollToHash } from "$lib/modules/utils"
 
-  export let article: Article | Page
-  export let isPrint: boolean = false
+  interface Props {
+    article: Article | Page
+    isPrint?: boolean
+  }
 
-  $: footnotes = extractFootnotes(article.content?.content ?? [])
+  let { article, isPrint = false }: Props = $props()
+
+  let footnotes = $derived(extractFootnotes(article.content?.content ?? []))
 
   function backLink(footnote: Footnote) {
     document
@@ -33,7 +37,7 @@
             <button
               aria-label={`Back to footnote ${index + 1}`}
               class="back-link"
-              on:click={(_) => {
+              onclick={(_) => {
                 backLink(footnote)
               }}
             >

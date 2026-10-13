@@ -4,8 +4,12 @@
   import { urlFor } from "$lib/modules/sanity"
   import Logo from "$lib/components/graphics/Logo.svelte"
 
-  export let issue: Issue
-  export let scale = 1
+  interface Props {
+    issue: Issue
+    scale?: number
+  }
+
+  let { issue, scale = 1 }: Props = $props()
 
   // Ratio of the cover image is 460 / 370
   const ratio = 460 / 370

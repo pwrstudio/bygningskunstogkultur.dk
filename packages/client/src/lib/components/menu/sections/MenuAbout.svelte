@@ -1,7 +1,11 @@
 <script lang="ts">
   import type { About } from "$lib/types"
   import { renderBlockText } from "$lib/modules/sanity"
-  export let about: About
+  interface Props {
+    about: About
+  }
+
+  let { about }: Props = $props()
 </script>
 
 {#if about?.content?.content}

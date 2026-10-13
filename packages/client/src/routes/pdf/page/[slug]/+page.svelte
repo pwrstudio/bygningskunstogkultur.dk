@@ -3,9 +3,13 @@
   import MetaData from "$lib/components/metadata/MetaData.svelte"
   import PrintSinglePage from "$lib/components/print/PrintSinglePage.svelte"
 
-  export let data: PageData
+  interface Props {
+    data: PageData
+  }
 
-  const { page } = data
+  let { data }: Props = $props()
+
+  const { page } = $derived(data)
 </script>
 
 {#key data}

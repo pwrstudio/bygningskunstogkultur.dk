@@ -2,9 +2,13 @@
   import type { PageData } from "./$types"
   import PrintIssue from "$lib/components/print/PrintIssue.svelte"
 
-  export let data: PageData
+  interface Props {
+    data: PageData
+  }
 
-  const { issue, colophon } = data
+  let { data }: Props = $props()
+
+  const { issue, colophon } = $derived(data)
 </script>
 
 {#key data}

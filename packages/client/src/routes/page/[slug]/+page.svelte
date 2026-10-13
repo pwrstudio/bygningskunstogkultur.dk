@@ -3,7 +3,11 @@
   import PageComponent from "$lib/components/page/PageComponent.svelte"
   import MetaData from "$lib/components/metadata/MetaData.svelte"
 
-  export let data: PageData
+  interface Props {
+    data: PageData
+  }
+
+  let { data }: Props = $props()
 </script>
 
 {#key data}

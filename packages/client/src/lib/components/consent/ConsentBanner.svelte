@@ -17,10 +17,10 @@
       dit valg under Kolofon i menuen.
     </p>
     <div class="buttons">
-      <button class="button" on:click={() => setConsent("denied")}>
+      <button class="button" onclick={() => setConsent("denied")}>
         Afvis
       </button>
-      <button class="button" on:click={() => setConsent("granted")}>
+      <button class="button" onclick={() => setConsent("granted")}>
         Accepter
       </button>
     </div>

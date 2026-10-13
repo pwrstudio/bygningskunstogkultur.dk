@@ -1,37 +1,35 @@
 <script lang="ts">
   import { onMount } from "svelte"
-  import type { Article, Issue } from "$lib/types"
   import { fade } from "svelte/transition"
+  import { goto } from "$app/navigation"
+  import type { Article, Issue } from "$lib/types"
   import { calculateArticleReadingTime } from "$lib/modules/utils"
   import {
     tableOfContentsOpen,
     menuOpen,
-    currentArticleSlug,
     newsExtended,
     activeMenuSection,
   } from "$lib/modules/stores"
-  import { goto } from "$app/navigation"
 
-  export let issue: Issue
+  let { issue, currentSlug }: { issue: Issue; currentSlug?: string } = $props()
 
-  let loaded = false
-  let inTransition = false
-  let scrollParent: HTMLElement | null = null
+  let loaded = $state(false)
+  let inTransition = $state(false)
+  let scrollParent = $state<HTMLElement | null>(null)
 
-  // Scroll the ToC to top when it is closed
-  $: if (
-    (!$tableOfContentsOpen && scrollParent) ||
-    (scrollParent && !$activeMenuSection)
-  ) {
-    scrollParent.scrollTop = 0
-  }
+  // Scroll the list back to the top when the table of contents closes
+  $effect(() => {
+    if (scrollParent && (!$tableOfContentsOpen || !$activeMenuSection)) {
+      scrollParent.scrollTop = 0
+    }
+  })
 
   const goToArticle = async (article: Article) => {
     await goto("/" + issue.slug.current + "/" + article.slug.current)
     tableOfContentsOpen.set(false)
   }
 
-  const gotToLandingPage = () => {
+  const goToLandingPage = () => {
     goto("/")
   }
 
@@ -66,22 +64,22 @@
     class:parentOpen={$menuOpen && $activeMenuSection}
   >
     <!-- ToC TOGGLE -->
-    <button class="toc-button" on:click={toggleToC}>INDHOLD</button>
+    <button class="toc-button" onclick={toggleToC}>INDHOLD</button>
     <div class="toc-menu">
       <!-- BACK BUTTON -->
-      <button class="toc-menu-item title-item link" on:click={gotToLandingPage}>
+      <button class="toc-menu-item title-item link" onclick={goToLandingPage}>
         ← TILBAGE TIL FORSIDE
       </button>
       {#each issue.tableOfContents as article, index}
         <!-- MENU ITEMS -->
         <button
           class="toc-menu-item title-item link"
-          class:active={$currentArticleSlug === article.slug.current}
-          on:click={() => goToArticle(article)}
+          class:active={currentSlug === article.slug.current}
+          onclick={() => goToArticle(article)}
         >
           <div class="title-text">
             <!-- ARROW MARKER -->
-            {#if $currentArticleSlug === article.slug.current}
+            {#if currentSlug === article.slug.current}
               <div class="arrow-marker">→</div>
             {/if}
             {`${index + 1}. `}
@@ -100,7 +98,7 @@
       <!-- PDF BUTTON -->
       <button
         class="toc-menu-item title-item link"
-        on:click={() => goto("/pdf/issue/" + issue.slug.current)}
+        onclick={() => goto("/pdf/issue/" + issue.slug.current)}
       >
         <div class="title-text pdf">Hent udgaven som PDF</div>
       </button>

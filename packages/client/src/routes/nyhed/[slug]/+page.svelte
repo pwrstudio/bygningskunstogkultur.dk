@@ -3,9 +3,13 @@
   import FullNewsItem from "$lib/components/news/FullNewsItem.svelte"
   import { goto } from "$app/navigation"
 
-  export let data: PageData
+  interface Props {
+    data: PageData
+  }
 
-  const { news } = data
+  let { data }: Props = $props()
+
+  const { news } = $derived(data)
 
   const goToLandingPage = () => {
     goto("/")
@@ -14,7 +18,7 @@
 
 <div class="single-news-container">
   <div class="single-news-item">
-    <FullNewsItem {news} on:close={goToLandingPage} />
+    <FullNewsItem {news} onclose={goToLandingPage} />
   </div>
 </div>
 

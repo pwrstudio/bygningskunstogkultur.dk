@@ -16,8 +16,12 @@
     faFilePdf,
   } from "@fortawesome/free-solid-svg-icons"
 
-  export let article: Article | News | Page
-  export let issue: Issue | null = null
+  interface Props {
+    article: Article | News | Page
+    issue?: Issue | null
+  }
+
+  let { article, issue = null }: Props = $props()
 
   const BASE_URL = "https://bygningskunstogkultur.dk"
 
@@ -44,14 +48,20 @@
     }
   }
 
-  $: url = getUrl(article)
-  $: pdfUrl = getPdfUrl(article)
-  $: encodedUrl = encodeURIComponent(url)
-  $: encodedTitle = encodeURIComponent(article.title)
-  $: linkedin = `https://www.linkedin.com/shareArticle?mini=true&url=${encodedUrl}`
-  $: facebook = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`
-  $: twitter = `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`
-  $: email = `mailto:?subject=${encodedTitle}&body=${encodedUrl}`
+  let url = $derived(getUrl(article))
+  let pdfUrl = $derived(getPdfUrl(article))
+  let encodedUrl = $derived(encodeURIComponent(url))
+  let encodedTitle = $derived(encodeURIComponent(article.title))
+  let linkedin = $derived(
+    `https://www.linkedin.com/shareArticle?mini=true&url=${encodedUrl}`,
+  )
+  let facebook = $derived(
+    `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
+  )
+  let twitter = $derived(
+    `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`,
+  )
+  let email = $derived(`mailto:?subject=${encodedTitle}&body=${encodedUrl}`)
 
   const nativeShare = () => {
     navigator
@@ -61,7 +71,7 @@
       })
   }
 
-  let copied = false
+  let copied = $state(false)
 
   const copyLink = () => {
     copy(url)
@@ -106,7 +116,7 @@
     <Fa icon={faEnvelope} />
   </a>
   <!-- COPY URL -->
-  <button aria-label="Copy url" class="copy" on:click={copyLink}>
+  <button aria-label="Copy url" class="copy" onclick={copyLink}>
     {#if copied}
       <Fa icon={faCheck} />
     {:else}
@@ -115,7 +125,7 @@
   </button>
   <!-- NATIVE SHARE -->
   {#if browser && "share" in navigator}
-    <button aria-label="Share page" class="native" on:click={nativeShare}>
+    <button aria-label="Share page" class="native" onclick={nativeShare}>
       <Fa icon={faShareAltSquare} />
     </button>
   {/if}

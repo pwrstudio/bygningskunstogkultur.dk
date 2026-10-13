@@ -11,20 +11,25 @@
   import "swiper/css/navigation"
   import "swiper/css/pagination"
 
-  export let issues: Issue[] = []
+  interface Props {
+    issues?: Issue[]
+  }
 
-  let coverScale = 1
-  let loaded = false
+  let { issues = [] }: Props = $props()
 
-  let swiperMobileElement: HTMLDivElement
-  let swiperMobile: Swiper
+  let loaded = $state(false)
+
+  let swiperMobileElement = $state<HTMLDivElement>()
+  let swiperMobile: Swiper | undefined
 
   // Narrow phones get a scaled-down cover
-  $: coverScale =
-    $windowWidth < 400 ? mapValue($windowWidth, 80, 440, 0, 0.8) : 1
+  const coverScale = $derived(
+    $windowWidth < 400 ? mapValue($windowWidth, 80, 440, 0, 0.8) : 1,
+  )
 
   function initializeSwipers() {
-    if (swiperMobile) swiperMobile.destroy()
+    if (!swiperMobileElement) return
+    swiperMobile?.destroy()
 
     swiperMobile = new Swiper(swiperMobileElement, {
       modules: [Navigation, Pagination],

@@ -6,10 +6,14 @@
 
   import Share from "$lib/components/share/Share.svelte"
 
-  export let article: Article
-  export let issue: Issue | undefined | null
+  interface Props {
+    article: Article
+    issue: Issue | undefined | null
+  }
 
-  const readingTime = calculateArticleReadingTime(article)
+  let { article, issue }: Props = $props()
+
+  const readingTime = $derived(calculateArticleReadingTime(article))
 </script>
 
 <div class="block meta" in:fade>

@@ -16,22 +16,27 @@
   import ArrowRight from "$lib/components/graphics/ArrowRight.svelte"
   import ArrowLeft from "$lib/components/graphics/ArrowLeft.svelte"
 
-  export let issues: Issue[] = []
+  interface Props {
+    issues?: Issue[]
+  }
 
-  let scale = 1
-  let loaded = false
+  let { issues = [] }: Props = $props()
 
-  let swiperDesktopElement: HTMLDivElement
-  let swiperDesktop: Swiper
+  let loaded = $state(false)
+
+  let swiperDesktopElement = $state<HTMLDivElement>()
+  let swiperDesktop: Swiper | undefined
 
   // Below 1350px the two covers no longer fit side by side, so the slider is scaled down
-  $: scale =
+  const scale = $derived(
     768 < $windowWidth && $windowWidth < 1350
       ? mapValue($windowWidth, 769, 1349, 0.2, 0.9)
-      : 1
+      : 1,
+  )
 
   function initializeSwipers() {
-    if (swiperDesktop) swiperDesktop.destroy()
+    if (!swiperDesktopElement) return
+    swiperDesktop?.destroy()
 
     swiperDesktop = new Swiper(swiperDesktopElement, {
       modules: [Navigation, Pagination],
@@ -63,7 +68,7 @@
   in:fade
   class:loaded
   class="coverslider"
-  on:click={() => newsExtended.set(false)}
+  onclick={() => newsExtended.set(false)}
   role="presentation"
 >
   <!-- TITLE -->

@@ -6,8 +6,12 @@
   import OutputInfo from "$lib/components/print/OutputInfo.svelte"
   import PrintInfo from "$lib/components/print/PrintInfo.svelte"
 
-  export let issue: Issue
-  export let post: Article
+  interface Props {
+    issue: Issue
+    post: Article
+  }
+
+  let { issue, post }: Props = $props()
 
   onMount(unlockBodyScroll)
 </script>

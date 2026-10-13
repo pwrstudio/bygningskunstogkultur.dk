@@ -1,7 +1,8 @@
 <script lang="ts">
+  import type { Snippet } from "svelte"
   import { page } from "$app/stores"
-  import { PageType } from "$lib/enums"
   import type { LayoutData } from "./$types"
+  import { PageType } from "$lib/enums"
   import Menu from "$lib/components/menu/Menu.svelte"
   import MenuPhone from "$lib/components/menu/MenuPhone.svelte"
   import ToC from "$lib/components/table-of-contents/ToC.svelte"
@@ -11,30 +12,37 @@
   import {
     menuOpen,
     tableOfContentsOpen,
-    currentIssue,
     windowHeight,
     windowWidth,
     screenSizePhone,
   } from "$lib/modules/stores"
 
-  export let data: LayoutData
+  let { data, children }: { data: LayoutData; children?: Snippet } = $props()
 
-  const { colophon, news, about } = data
+  const { colophon, news, about } = $derived(data)
 
-  // Write window dimensions to reactive stores
-  let iH: number
-  let iW: number
-  $: windowHeight.set(iH)
-  $: windowWidth.set(iW)
+  // Window dimensions, mirrored into stores for the components that lay out by them
+  let innerWidth = $state(0)
+  let innerHeight = $state(0)
+  $effect(() => {
+    windowWidth.set(innerWidth)
+  })
+  $effect(() => {
+    windowHeight.set(innerHeight)
+  })
 
   const NoMenuPages = [PageType.News, PageType.Pdf, PageType.Error]
 
-  $: pageType = getPageType($page.route?.id ?? "")
+  const pageType = $derived(getPageType($page.route?.id ?? ""))
 
-  // Make sure table of content is closed when navigating to an article
-  $: if (pageType === PageType.Article) {
-    tableOfContentsOpen.set(false)
-  }
+  // The issue and article of the current page, if any (see App.PageData)
+  const issue = $derived($page.data.issue)
+  const currentSlug = $derived($page.data.article?.slug.current)
+
+  // Close the table of contents when navigating to an article
+  $effect(() => {
+    if (pageType === PageType.Article) tableOfContentsOpen.set(false)
+  })
 
   const closeMenu = () => {
     if ($menuOpen) menuOpen.set(false)
@@ -42,11 +50,11 @@
 </script>
 
 <!-- Listen to changes to window dimensions -->
-<svelte:window bind:innerWidth={iW} bind:innerHeight={iH} />
+<svelte:window bind:innerWidth bind:innerHeight />
 
 <!-- 
   - Hide both menu and ToC for news and pdf pages
-  - Show ToC if currentIssue is set (ie. we are on an issue/article page)   
+  - Show ToC when the page belongs to an issue (ie. we are on an article page)
   - Show mobile menu and Toc component if on phone
 -->
 {#if !NoMenuPages.includes(pageType)}
@@ -55,20 +63,20 @@
   {:else}
     <Menu {news} {about} {colophon} {pageType} />
   {/if}
-  {#if $currentIssue}
+  {#if issue}
     {#if $screenSizePhone}
-      <ToCPhone issue={$currentIssue} />
+      <ToCPhone {issue} {currentSlug} />
     {:else}
-      <ToC issue={$currentIssue} />
+      <ToC {issue} {currentSlug} />
     {/if}
   {/if}
 {/if}
 
 {#if $screenSizePhone && $menuOpen}
-  <button class="pseudo" aria-label="Close menu" on:click={closeMenu}></button>
+  <button class="pseudo" aria-label="Close menu" onclick={closeMenu}></button>
 {/if}
 
-<slot />
+{@render children?.()}
 
 <!-- Keep the cookie banner off the print pages -->
 {#if pageType !== PageType.Pdf}

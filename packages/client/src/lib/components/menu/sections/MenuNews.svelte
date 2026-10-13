@@ -1,23 +1,24 @@
 <script lang="ts">
   import type { News } from "$lib/types"
-  import { tick, createEventDispatcher } from "svelte"
+  import { tick } from "svelte"
   import { renderBlockText, urlFor } from "$lib/modules/sanity"
   import { formattedDate } from "$lib/modules/utils"
   import { tableOfContentsOpen, newsExtended } from "$lib/modules/stores"
   import ArrowRight from "$lib/components/graphics/ArrowRight.svelte"
   import FullNewsItem from "$lib/components/news/FullNewsItem.svelte"
 
-  const dispatch = createEventDispatcher()
+  let {
+    news = [],
+    onscrolltotop,
+  }: { news?: News[]; onscrolltotop?: () => void } = $props()
 
-  export let news = [] as News[]
-
-  let extendedPost: News | null = null
+  let extendedPost: News | null = $state(null)
 
   const openExtendedPost = (item: News) => {
     extendedPost = item
     tableOfContentsOpen.set(false)
     newsExtended.set(true)
-    dispatch("scrollToTop")
+    onscrolltotop?.()
   }
 
   const closeExtendedPost = async () => {
@@ -37,7 +38,7 @@
 <div class:extended={$newsExtended}>
   <!-- EXTENDED POST -->
   {#if $newsExtended && extendedPost}
-    <FullNewsItem news={extendedPost} on:close={closeExtendedPost} />
+    <FullNewsItem news={extendedPost} onclose={closeExtendedPost} />
   {:else}
     <!-- LOGO -->
     <a href="/" class="kadk-logo">
@@ -82,7 +83,7 @@
           <button
             aria-label="Læs mere"
             class="read-more"
-            on:click={(_) => {
+            onclick={(_) => {
               openExtendedPost(item)
             }}
           >

@@ -1,23 +1,18 @@
 <script lang="ts">
-  import { createEventDispatcher } from "svelte"
   import type { News } from "$lib/types"
   import { urlFor, renderBlockText } from "$lib/modules/sanity"
   import { formattedDate } from "$lib/modules/utils"
   import ArrowLeft from "$lib/components/graphics/ArrowLeft.svelte"
   import Share from "$lib/components/share/Share.svelte"
 
-  const dispatch = createEventDispatcher()
+  let { news, onclose }: { news: News; onclose?: () => void } = $props()
 
-  export let news: News
-
-  const close = () => {
-    dispatch("close")
-  }
+  const close = () => onclose?.()
 </script>
 
 <div class="full-news-item">
   <!-- CLOSE  -->
-  <button class="close-extended" aria-label="Close news" on:click={close}>
+  <button class="close-extended" aria-label="Close news" onclick={close}>
     <ArrowLeft />
   </button>
 

@@ -5,7 +5,11 @@
   import PageMeta from "$lib/components/page/PageMeta.svelte"
   import Footnotes from "$lib/components/issue/Footnotes.svelte"
 
-  export let page: Page
+  interface Props {
+    page: Page
+  }
+
+  let { page }: Props = $props()
 </script>
 
 <div class="page">

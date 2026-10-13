@@ -4,19 +4,15 @@
   import MetaData from "$lib/components/metadata/MetaData.svelte"
   import CoverSlider from "$lib/components/covers/CoverSlider.svelte"
   import CoverSliderPhone from "$lib/components/covers/CoverSliderPhone.svelte"
-  import {
-    menuOpen,
-    newsExtended,
-    currentIssue,
-    screenSizePhone,
-  } from "$lib/modules/stores"
+  import { menuOpen, newsExtended, screenSizePhone } from "$lib/modules/stores"
 
-  export let data: PageData
+  interface Props {
+    data: PageData
+  }
 
-  const { issues } = data
+  let { data }: Props = $props()
 
-  // No current issue as we are on the landing page
-  currentIssue.set(undefined)
+  const { issues } = $derived(data)
 
   onDestroy(() => {
     menuOpen.set(false)

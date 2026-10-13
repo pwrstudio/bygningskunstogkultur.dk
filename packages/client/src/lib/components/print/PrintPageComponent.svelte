@@ -4,7 +4,11 @@
   import { calculateArticleReadingTime } from "$lib/modules/utils"
   import Footnotes from "$lib/components/issue/Footnotes.svelte"
 
-  export let page: Page
+  interface Props {
+    page: Page
+  }
+
+  let { page }: Props = $props()
 </script>
 
 <div class="print-article">

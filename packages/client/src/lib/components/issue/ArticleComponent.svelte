@@ -12,14 +12,19 @@
   import ArrowDown from "$lib/components/graphics/ArrowDown.svelte"
   import Footnotes from "$lib/components/issue/Footnotes.svelte"
 
-  export let article: Article
-  export let issue: Issue | undefined = undefined
+  interface Props {
+    article: Article
+    issue?: Issue | undefined
+  }
 
-  const nextArticle = issue ? getNextArticle(issue, article) : null
-  const nextArticleHref =
+  let { article, issue = undefined }: Props = $props()
+
+  const nextArticle = $derived(issue ? getNextArticle(issue, article) : null)
+  const nextArticleHref = $derived(
     issue && nextArticle
       ? `/${issue.slug.current}/${nextArticle.slug.current}`
-      : ""
+      : "",
+  )
 
   const closeMenus = () => {
     menuOpen.set(false)
@@ -28,7 +33,7 @@
 </script>
 
 <div
-  on:click={closeMenus}
+  onclick={closeMenus}
   in:fly={{
     duration: 700,
     y: 1000,

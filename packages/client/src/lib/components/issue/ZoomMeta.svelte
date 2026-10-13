@@ -7,17 +7,23 @@
   import Share from "$lib/components/share/Share.svelte"
   import Footnotes from "$lib/components/issue/Footnotes.svelte"
 
-  export let article: Article
-  export let issue: Issue | undefined | null
+  interface Props {
+    article: Article
+    issue: Issue | undefined | null
+  }
 
-  let extended = false
+  let { article, issue }: Props = $props()
+
+  let extended = $state(false)
   const toggleExtended = () => (extended = !extended)
 
   const TEXT_LIMIT = 400
-  let mainTextLength = toPlainText(article.content?.content ?? []).length
+  const mainTextLength = $derived(
+    toPlainText(article.content?.content ?? []).length,
+  )
 
-  const [shortText, extendedText] = splitTextBlocks(
-    article.content?.content ?? [],
+  const [shortText, extendedText] = $derived(
+    splitTextBlocks(article.content?.content ?? []),
   )
 </script>
 
@@ -53,7 +59,7 @@
       <button
         class="read-more"
         aria-label={extended ? "Read less" : "Read more"}
-        on:click={toggleExtended}
+        onclick={toggleExtended}
       >
         {extended ? "READ LESS" : "READ MORE"}
       </button>

@@ -12,20 +12,24 @@
   import MenuAbout from "$lib/components/menu/sections/MenuAbout.svelte"
   import MenuColophon from "$lib/components/menu/sections/MenuColophon.svelte"
 
-  export let news: News[]
-  export let about: About
-  export let colophon: Colophon
-  export let pageType: PageType
-
-  let menuContentElement: HTMLDivElement
-
-  // Menu should be closed on landing page on phone
-  $: if (pageType === PageType.Landing) {
-    menuOpen.set(false)
+  interface Props {
+    news: News[]
+    about: About
+    colophon: Colophon
+    pageType: PageType
   }
 
+  let { news, about, colophon, pageType }: Props = $props()
+
+  let menuContentElement = $state<HTMLDivElement>()
+
+  // Menu should be closed on landing page on phone
+  $effect(() => {
+    if (pageType === PageType.Landing) menuOpen.set(false)
+  })
+
   const scrollToTop = () => {
-    menuContentElement.scrollTo(0, 0)
+    menuContentElement?.scrollTo(0, 0)
   }
 
   const toggleMenu = () => {
@@ -52,7 +56,7 @@
     <div class="menu-list">
       <button
         class="menu-item title"
-        on:click={() => {
+        onclick={() => {
           activeMenuSection.set(MenuSection.News)
         }}
       >
@@ -60,7 +64,7 @@
       </button>
       <button
         class="menu-item title"
-        on:click={() => {
+        onclick={() => {
           activeMenuSection.set(MenuSection.About)
         }}
       >
@@ -68,7 +72,7 @@
       </button>
       <button
         class="menu-item title"
-        on:click={() => {
+        onclick={() => {
           activeMenuSection.set(MenuSection.Colophon)
         }}
       >
@@ -87,7 +91,7 @@
       bind:this={menuContentElement}
     >
       {#if $activeMenuSection == MenuSection.News}
-        <MenuNews {news} on:scrollToTop={scrollToTop} />
+        <MenuNews {news} onscrolltotop={scrollToTop} />
       {:else if $activeMenuSection == MenuSection.About}
         <MenuAbout {about} />
       {:else if $activeMenuSection == MenuSection.Colophon}
@@ -105,7 +109,7 @@
   <button
     class="menu-button"
     aria-label={$menuOpen ? "Close menu" : "Open menu"}
-    on:click={toggleMenu}
+    onclick={toggleMenu}
   >
     <!-- Icon only; the button's aria-label names it -->
     <!-- svelte-ignore a11y_missing_content -->

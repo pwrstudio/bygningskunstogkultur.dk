@@ -14,34 +14,44 @@
   import "swiper/css/navigation"
   import "swiper/css/pagination"
 
-  export let slides = [] as Slide[]
-  export let zoomable = false
-  export let mobile = false
+  interface Props {
+    slides?: any
+    zoomable?: boolean
+    mobile?: boolean
+  }
 
-  let swiperContainer: HTMLDivElement
-  let swiperInstance: Swiper
-  let zoomed = false
-  let zoomLevel = 1
+  let {
+    slides = [] as Slide[],
+    zoomable = false,
+    mobile = false,
+  }: Props = $props()
+
+  let swiperContainer = $state<HTMLDivElement>()
+  let swiperInstance: Swiper | undefined
+  let zoomed = $state(false)
+  let zoomLevel = $state(1)
 
   const toggleZoomButton = () => {
-    if (swiperInstance.slides[swiperInstance.activeIndex]) {
+    if (swiperInstance?.slides[swiperInstance.activeIndex]) {
       zoomed = !zoomed
       zoomLevel = zoomLevel === 1 ? 2 : 1
     }
   }
 
   const toggleZoom = () => {
-    if (swiperInstance.clickedSlide) {
+    const swiper = swiperInstance
+    if (swiper?.clickedSlide) {
       if (zoomable) {
         zoomed = !zoomed
         zoomLevel = zoomLevel === 1 ? 2 : 1
       } else {
-        swiperInstance.slideNext()
+        swiper.slideNext()
       }
     }
   }
 
   onMount(() => {
+    if (!swiperContainer) return
     swiperInstance = new Swiper(swiperContainer, {
       modules: [Pagination, Navigation],
       pagination: {
@@ -64,7 +74,7 @@
   <div class="swiper-container" bind:this={swiperContainer}>
     <div class="swiper-wrapper">
       {#each slides.filter(hasAsset) as slide}
-        <div class="swiper-slide" on:click={toggleZoom} role="presentation">
+        <div class="swiper-slide" onclick={toggleZoom} role="presentation">
           {#if zoomable}
             <div class="zoom-container" class:zoomed>
               <img
@@ -102,7 +112,7 @@
       <!-- Zoom level -->
       {#if zoomable}
         <div class="zoomLevel">
-          <button class="button" on:click={toggleZoomButton}>
+          <button class="button" onclick={toggleZoomButton}>
             {`${zoomLevel * 100}%`}[±]
           </button>
         </div>

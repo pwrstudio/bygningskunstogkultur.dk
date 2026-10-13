@@ -1,77 +1,64 @@
 <script lang="ts">
   import { fade } from "svelte/transition"
-  import { calculateArticleReadingTime } from "$lib/modules/utils"
+  import { goto } from "$app/navigation"
   import type { Article, Issue } from "$lib/types"
+  import { calculateArticleReadingTime } from "$lib/modules/utils"
   import {
     tableOfContentsOpen,
     menuOpen,
-    currentArticleSlug,
     newsExtended,
     activeMenuSection,
   } from "$lib/modules/stores"
-  import { goto } from "$app/navigation"
 
-  export let issue: Issue
+  let { issue, currentSlug }: { issue: Issue; currentSlug?: string } = $props()
 
-  let scrollParent: HTMLElement | null = null
-  let inTransition = false
-  let show: boolean[] = new Array()
+  let scrollParent = $state<HTMLElement | null>(null)
+  let inTransition = $state(false)
 
-  function setNumeralMenuInSideBar(
+  /**
+   * Which article numbers the sidebar shows: the current one plus neighbours,
+   * added on alternating sides up to `maxNumbers`. The first and last numbers
+   * are always shown; hidden runs collapse to "..." in the markup.
+   */
+  function visibleNumerals(
     toc: Article[] | undefined,
-    currentSlug: string | undefined,
-    maxNumbers: number = 5,
-  ) {
-    if (!toc || !currentSlug) return
-
-    let placed = 0
-
-    // Make the current active index true
-    show = toc.map((item) => item.slug.current === currentSlug)
-    placed++ // 1
-
-    let activeIndex = show.indexOf(true)
-
-    let direction = 1 // add
-
+    slug: string | undefined,
+    maxNumbers = 5,
+  ): boolean[] {
+    if (!toc || !slug) return []
+    const show = toc.map((item) => item.slug.current === slug)
+    const activeIndex = show.indexOf(true)
+    let placed = 1
+    let direction = 1
     while (placed < maxNumbers) {
-      if (show[activeIndex + direction] === undefined) {
-        direction = -1 * direction
-      }
-
+      if (show[activeIndex + direction] === undefined) direction = -direction
       let offset = 1
-      while (show[activeIndex + offset * direction] === true) {
-        offset++
-      }
-
+      while (show[activeIndex + offset * direction] === true) offset++
       if (show[activeIndex + offset * direction] === false) {
         show[activeIndex + offset * direction] = true
       }
-
-      direction = -1 * direction
-
+      direction = -direction
       placed++
     }
+    return show
   }
 
-  // Update the numeral mini menu when the current article changes
-  $: setNumeralMenuInSideBar(issue.tableOfContents, $currentArticleSlug)
+  const show = $derived(visibleNumerals(issue.tableOfContents, currentSlug))
 
-  // Scroll the ToC to top when it is closed
-  $: if (
-    (!$tableOfContentsOpen && scrollParent) ||
-    (scrollParent && !$activeMenuSection)
-  ) {
-    scrollParent.scrollTop = 0
-  }
+  // Scroll the list back to the top when the table of contents closes
+  $effect(() => {
+    if (scrollParent && (!$tableOfContentsOpen || !$activeMenuSection)) {
+      scrollParent.scrollTop = 0
+    }
+  })
 
-  const goToArticle = async (article: Article) => {
+  const goToArticle = (article: Article) => {
     goto("/" + issue.slug.current + "/" + article.slug.current)
     tableOfContentsOpen.set(false)
     menuOpen.set(false)
   }
 
-  const gotToLandingPage = () => {
+  const goToLandingPage = () => {
     goto("/")
   }
 
@@ -96,21 +83,21 @@
     class:parentExtended={$newsExtended}
   >
     <div class="toc-menu">
-      <button class="toc-menu-item title-item link" on:click={gotToLandingPage}>
+      <button class="toc-menu-item title-item link" onclick={goToLandingPage}>
         ← TILBAGE TIL FORSIDE
       </button>
       {#each issue.tableOfContents as article, index}
         <button
           class="toc-menu-item title-item link"
-          class:active={$currentArticleSlug === article.slug.current}
-          on:click={(e) => {
+          class:active={currentSlug === article.slug.current}
+          onclick={(e) => {
             goToArticle(article)
           }}
         >
           <!-- TITLE -->
           <div class="title-text">
             <!-- ARROW MARKER -->
-            {#if $currentArticleSlug === article.slug.current}
+            {#if currentSlug === article.slug.current}
               <div class="arrow-marker">→</div>
             {/if}
             {`${index + 1}. `}
@@ -129,7 +116,7 @@
       {/each}
       <button
         class="toc-menu-item title-item link"
-        on:click={(e) => {
+        onclick={(e) => {
           goto("/pdf/issue/" + issue.slug.current)
         }}
       >
@@ -138,21 +125,21 @@
     </div>
 
     <div class="toc-button">
-      <button class="title indhold" on:click={toggleToC}>
+      <button class="title indhold" onclick={toggleToC}>
         <span>INDHOLD</span>
       </button>
       <div class="bullets">
-        <button class="bullet" on:click={gotToLandingPage}>⌂</button>
+        <button class="bullet" onclick={goToLandingPage}>⌂</button>
         {#each issue.tableOfContents as article, index}
           <button
             class="bullet"
-            class:active={$currentArticleSlug === article.slug.current}
+            class:active={currentSlug === article.slug.current}
             class:dots={(!show[index] && index === 1) ||
               (!show[index] && index === show.length - 2)}
             class:hidden={!show[index] &&
               index !== 0 &&
               index !== show.length - 1}
-            on:click={(_) => {
+            onclick={(_) => {
               goToArticle(article)
             }}
           >

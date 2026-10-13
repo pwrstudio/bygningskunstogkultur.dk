@@ -15,19 +15,26 @@
   import MenuColophon from "$lib/components/menu/sections/MenuColophon.svelte"
   import MailingListForm from "$lib/components/menu/MailingListForm.svelte"
 
-  export let news: News[]
-  export let about: About
-  export let colophon: Colophon
-  export let pageType: PageType
+  interface Props {
+    news: News[]
+    about: About
+    colophon: Colophon
+    pageType: PageType
+  }
 
-  let menuContentElement: HTMLDivElement
+  let { news, about, colophon, pageType }: Props = $props()
+
+  let menuContentElement = $state<HTMLDivElement>()
 
   // Default to showing news section
   activeMenuSection.set(MenuSection.News)
 
-  $: if (!$screenSizePhone && pageType === PageType.Landing) {
-    menuOpen.set(true)
-  }
+  // The landing page always shows the menu on desktop. The store is set in an
+  // effect (client only), so the class is derived as well to render it open on the server.
+  const landing = $derived(!$screenSizePhone && pageType === PageType.Landing)
+  $effect(() => {
+    if (landing) menuOpen.set(true)
+  })
 
   const changeMenuSection = (section: MenuSection) => {
     activeMenuSection.set(section)
@@ -44,7 +51,7 @@
   }
 
   const scrollToTop = () => {
-    menuContentElement.scrollTo(0, 0)
+    menuContentElement?.scrollTo(0, 0)
   }
 
   const toggleMenu = () => {
@@ -59,14 +66,14 @@
 
 <div
   class="menu"
-  class:open={$menuOpen}
+  class:open={$menuOpen || landing}
   class:extended={$newsExtended}
   class:landing={pageType === PageType.Landing}
 >
   <!-- CONTENT -->
   <div class="menu-content" bind:this={menuContentElement}>
     {#if $activeMenuSection == MenuSection.News}
-      <MenuNews {news} on:scrollToTop={scrollToTop} />
+      <MenuNews {news} onscrolltotop={scrollToTop} />
     {:else if $activeMenuSection == MenuSection.About}
       <MenuAbout {about} />
     {:else if $activeMenuSection == MenuSection.Colophon}
@@ -78,7 +85,7 @@
   <button
     class="menu-side"
     class:disabled={pageType === PageType.Landing && $windowWidth > 768}
-    on:click={handleSidebarClick}
+    onclick={handleSidebarClick}
   >
     <h1 class="title">Kort nyt</h1>
     <h1 class="title bottom">Info</h1>
@@ -90,7 +97,7 @@
       <button
         class="menu-item title"
         class:active={$activeMenuSection == MenuSection.News}
-        on:click={() => {
+        onclick={() => {
           changeMenuSection(MenuSection.News)
         }}
       >
@@ -99,7 +106,7 @@
       <button
         class="menu-item title"
         class:active={$activeMenuSection == MenuSection.About}
-        on:click={() => {
+        onclick={() => {
           changeMenuSection(MenuSection.About)
         }}
       >
@@ -108,7 +115,7 @@
       <button
         class="menu-item title"
         class:active={$activeMenuSection == MenuSection.Colophon}
-        on:click={() => {
+        onclick={() => {
           changeMenuSection(MenuSection.Colophon)
         }}
       >

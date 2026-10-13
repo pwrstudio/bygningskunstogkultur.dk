@@ -4,23 +4,40 @@
   import { truncate } from "$lib/modules/utils"
   import { defaultMetadata } from "./defaultMetadata"
 
-  export let post: Article | News | Page | null = null
+  interface Props {
+    post?: Article | News | Page | null
+  }
 
-  $: title = (post?.title ? post.title + " | " : "") + defaultMetadata.title
+  let { post = null }: Props = $props()
+
+  let title = $derived(
+    (post?.title ? post.title + " | " : "") + defaultMetadata.title,
+  )
 
   // One line of text: block breaks and empty paragraphs collapse to single spaces
-  $: description = post?.content?.content
-    ? truncate(
-        toPlainText(post.content.content).replace(/\s+/g, " ").trim(),
-        260,
-      )
-    : defaultMetadata.description
+  let description = $derived(
+    post?.content?.content
+      ? truncate(
+          toPlainText(post.content.content).replace(/\s+/g, " ").trim(),
+          260,
+        )
+      : defaultMetadata.description,
+  )
 
-  $: mainImage = post && "mainImage" in post ? post.mainImage : undefined
+  let mainImage = $derived(
+    post && "mainImage" in post ? post.mainImage : undefined,
+  )
 
-  $: image = mainImage?.asset
-    ? urlFor(mainImage).quality(80).height(627).width(1200).auto("format").url()
-    : defaultMetadata.image
+  let image = $derived(
+    mainImage?.asset
+      ? urlFor(mainImage)
+          .quality(80)
+          .height(627)
+          .width(1200)
+          .auto("format")
+          .url()
+      : defaultMetadata.image,
+  )
 </script>
 
 <svelte:head>

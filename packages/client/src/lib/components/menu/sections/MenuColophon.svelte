@@ -2,7 +2,11 @@
   import type { Colophon } from "$lib/types"
   import { renderBlockText } from "$lib/modules/sanity"
   import { analyticsEnabled, openConsentBanner } from "$lib/modules/analytics"
-  export let colophon: Colophon
+  interface Props {
+    colophon: Colophon
+  }
+
+  let { colophon }: Props = $props()
 </script>
 
 <div class="content">
@@ -24,7 +28,7 @@
     {/if}
   </div>
   {#if analyticsEnabled}
-    <button class="cookie-settings" on:click={openConsentBanner}>
+    <button class="cookie-settings" onclick={openConsentBanner}>
       Cookie-indstillinger
     </button>
   {/if}

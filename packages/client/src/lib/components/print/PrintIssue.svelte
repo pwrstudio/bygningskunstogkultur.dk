@@ -10,8 +10,12 @@
   import OutputInfo from "$lib/components/print/OutputInfo.svelte"
   import PrintInfo from "$lib/components/print/PrintInfo.svelte"
 
-  export let issue: Issue
-  export let colophon: Colophon
+  interface Props {
+    issue: Issue
+    colophon: Colophon
+  }
+
+  let { issue, colophon }: Props = $props()
 
   onMount(unlockBodyScroll)
 </script>

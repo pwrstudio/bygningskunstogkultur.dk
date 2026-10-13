@@ -5,9 +5,13 @@
 
   import Share from "$lib/components/share/Share.svelte"
 
-  export let page: Page
+  interface Props {
+    page: Page
+  }
 
-  $: readingTime = calculateArticleReadingTime(page)
+  let { page }: Props = $props()
+
+  let readingTime = $derived(calculateArticleReadingTime(page))
 </script>
 
 <div class="block meta" in:fade>
