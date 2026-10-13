@@ -1,32 +1,36 @@
-import getVideoId from "get-video-id";
+import getVideoId from "get-video-id"
+import type { PreviewProps } from "sanity"
 
-export const EmbedPreview = (props: any) => {
-    const { url } = props
+const frame = (title: string, src: string) => (
+  <iframe
+    title={title}
+    style={{ padding: "10px" }}
+    width="480"
+    height="320"
+    src={src}
+  />
+)
 
-    if (typeof url !== 'string') {
-        return <div style={{ padding: '10px' }}>No URL</div>
-    }
+export const EmbedPreview = (props: PreviewProps & { url?: unknown }) => {
+  const { url } = props
 
-    // YOUTUBE
-    if (url.includes('youtube')) {
-        return (
-            <iframe title='YouTube' style={{ padding: '10px' }} width='480' height='320' src={'https://www.youtube.com/embed/' + getVideoId(url).id} />
-        )
-    }
+  if (typeof url !== "string") {
+    return <div style={{ padding: "10px" }}>No URL</div>
+  }
 
-    // VIMEO
-    if (url.includes('vimeo')) {
-        return (
-            <iframe title='Vimeo' style={{ padding: '10px' }} width='480' height='320' src={'https://player.vimeo.com/video/' + getVideoId(url).id} />
-        )
-    }
+  if (url.includes("youtube")) {
+    const { id } = getVideoId(url)
+    if (id) return frame("YouTube", "https://www.youtube.com/embed/" + id)
+  }
 
-    // SOUNDCLOUD
-    if (url.includes('soundcloud')) {
-        return (
-            <iframe title='SoundCloud' style={{ padding: '10px' }} width='480' height='320' src={'https://w.soundcloud.com/player/?url=' + url} />
-        )
-    }
+  if (url.includes("vimeo")) {
+    const { id } = getVideoId(url)
+    if (id) return frame("Vimeo", "https://player.vimeo.com/video/" + id)
+  }
 
-    return <div style={{ padding: '10px' }}>{url}</div>
+  if (url.includes("soundcloud")) {
+    return frame("SoundCloud", "https://w.soundcloud.com/player/?url=" + url)
+  }
+
+  return <div style={{ padding: "10px" }}>{url}</div>
 }

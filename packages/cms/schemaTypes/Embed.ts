@@ -1,33 +1,27 @@
-// Embed.js
 import { MdPictureInPicture } from "react-icons/md"
-import { EmbedPreview } from '../components/EmbedPreview'
+import { defineField, defineType } from "sanity"
+import { EmbedPreview } from "../components/EmbedPreview"
 
-export default {
-    name: 'embedBlock',
-    type: 'object',
-    title: 'Embed code',
-    icon: MdPictureInPicture,
-    fields: [
-        {
-            name: 'url',
-            description: 'Link to Youtube or Vimeo video or soundcloud track',
-            type: 'url',
-            title: 'URL'
-        },
-        {
-            title: 'Caption',
-            name: 'caption',
-            type: 'simpleEditor',
-        },
-    ],
-    components: {
-        preview: EmbedPreview
+export default defineType({
+  name: "embedBlock",
+  type: "object",
+  title: "Embed code",
+  icon: MdPictureInPicture,
+  fields: [
+    defineField({
+      name: "url",
+      description: "Link to Youtube or Vimeo video or soundcloud track",
+      type: "url",
+      title: "URL",
+    }),
+    defineField({ title: "Caption", name: "caption", type: "simpleEditor" }),
+  ],
+  components: {
+    preview: EmbedPreview,
+  },
+  preview: {
+    select: {
+      url: "url",
     },
-    preview: {
-        select: {
-            url: 'url',
-            caption: 'caption',
-            attribution: 'attribution'
-        }
-    }
-}
+  },
+})

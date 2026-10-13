@@ -1,44 +1,42 @@
 import { MdPreview } from "react-icons/md"
+import type { DocumentActionComponent } from "sanity"
 
-const getCategory = (props: any) => {
-    switch(props.type) {
-        case 'news':
-            return 'nyhed/'
-        case 'article':
-            return 'preview-article/'
-        case 'page':
-            return "page/"
-        case 'issue':
-            return ""
-        default:
-            return ""
-        }
+/**
+ * The preview deployment of the site: same code as the live site, built with
+ * PUBLIC_ENVIRONMENT=preview, so issues in the "preview" editorial state show up.
+ */
+const PREVIEW_BASE_URL = "https://preview-bygningskunstogkultur.netlify.app"
+
+// Route prefix on the site for each document type
+const PATH_PREFIX: Record<string, string> = {
+  news: "nyhed/",
+  article: "preview-article/",
+  page: "page/",
+  issue: "",
+}
+
+/** "Preview" action in the document menu: opens the published document on the preview site */
+export const PreviewAction: DocumentActionComponent = (props) => ({
+  label: "Preview",
+  icon: MdPreview,
+  onHandle: () => {
+    if (!props.published) {
+      window.alert("This document has not been published yet")
+      return
     }
 
-export function PreviewAction(props: any) { 
-    return {
-      label: 'Preview',
-      icon: MdPreview,
-      onHandle: () => {
-        console.log('props', props)
+    const slug = (props.published.slug as { current?: string } | undefined)
+      ?.current
+    if (!slug) {
+      window.alert("This document is missing a slug")
+      return
+    }
 
-        if(!props?.published) {
-          window.alert('This document has not been published yet')
-          return
-        }
-
-        // const category = props.type === "product" ? "shop" : props.published.taxonomy?.category
-        const slug = props.published.slug?.current
-
-        if(!slug) {
-          window.alert('This document is missing a slug')
-          return
-        }
-
-        const category = getCategory(props)
-
-        const previewUrl = `https://preview-bygningskunstogkultur.netlify.app/${category}${slug}`
-        window.open(previewUrl, '_blank', 'noopener,noreferrer')
-      }    
-    } 
-  }
+    const prefix = PATH_PREFIX[props.type] ?? ""
+    window.open(
+      `${PREVIEW_BASE_URL}/${prefix}${slug}`,
+      "_blank",
+      "noopener,noreferrer",
+    )
+  },
+})

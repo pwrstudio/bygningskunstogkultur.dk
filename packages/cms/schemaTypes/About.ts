@@ -1,17 +1,11 @@
-export default {
-    title: 'About',
-    name: 'about',
-    type: 'document',
-    fields: [
-        {
-            title: 'Title',
-            name: 'title',
-            type: 'string'
-        },
-        {
-            title: 'Content',
-            name: 'content',
-            type: 'contentEditor'
-        }
-    ]
-}
+import { defineField, defineType } from "sanity"
+
+export default defineType({
+  title: "About",
+  name: "about",
+  type: "document",
+  fields: [
+    defineField({ title: "Title", name: "title", type: "string" }),
+    defineField({ title: "Content", name: "content", type: "contentEditor" }),
+  ],
+})

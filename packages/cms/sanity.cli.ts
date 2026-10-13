@@ -1,12 +1,15 @@
-import { defineCliConfig } from 'sanity/cli'
+import { defineCliConfig } from "sanity/cli"
 
 export default defineCliConfig({
-    api: {
-        projectId: 'yesqrmft',
-        dataset: 'production'
-    },
-    studioHost: 'mbk-admin',
-    deployment: {
-        appId: '111330b402a4f9b779bfa359'
-    }
+  api: {
+    projectId: "yesqrmft",
+    dataset: "production",
+  },
+  studioHost: "mbk-admin",
+  deployment: {
+    appId: "111330b402a4f9b779bfa359",
+  },
+  typegen: {
+    generates: "./sanity.types.ts",
+  },
 })

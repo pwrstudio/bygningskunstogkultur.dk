@@ -1,6 +1,3 @@
-import studio from '@sanity/eslint-config-studio'
+import studio from "@sanity/eslint-config-studio"
 
-export default [
-    { ignores: ['dist/', '.sanity/'] },
-    ...studio
-]
+export default [{ ignores: ["dist/", ".sanity/"] }, ...studio]

@@ -1,145 +1,83 @@
 import { FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa"
 import { MdLanguage } from "react-icons/md"
+import { defineArrayMember, defineField, defineType } from "sanity"
 
-export default {
-  title: 'Article',
-  name: 'article',
-  type: 'document',
+const link = (name: string, title: string, icon: React.ComponentType) =>
+  defineArrayMember({
+    title,
+    name,
+    icon,
+    type: "object",
+    fields: [defineField({ title: "URL", name: "url", type: "url" })],
+  })
+
+export default defineType({
+  title: "Article",
+  name: "article",
+  type: "document",
   fields: [
-    {
-      title: 'Title',
-      name: 'title',
-      type: 'string',
-      validation: (Rule: any) => Rule.required()
-    },
-    {
-      title: 'Byline',
-      name: 'byline',
-      type: 'simpleEditor'
-    },
-    {
-      title: 'Author',
-      name: 'author',
-      type: 'string'
-    },
-    {
+    defineField({
+      title: "Title",
+      name: "title",
+      type: "string",
+      validation: (rule) => rule.required(),
+    }),
+    defineField({ title: "Byline", name: "byline", type: "simpleEditor" }),
+    defineField({ title: "Author", name: "author", type: "string" }),
+    defineField({
       title: "Links",
       name: "links",
       type: "array",
-      options: {
-        modal: "popover",
-      },
+      options: { modal: { type: "popover" } },
       of: [
-        {
-          title: "Instagram",
-          name: "instagram",
-          icon: FaInstagram,
-          type: "object",
-          fields: [
-            {
-              title: "URL",
-              name: "url",
-              type: "url",
-            },
-          ],
-        },
-        {
-          title: "Facebook",
-          name: "facebook",
-          icon: FaFacebook,
-          type: "object",
-          fields: [
-            {
-              title: "URL",
-              name: "url",
-              type: "url",
-            },
-          ],
-        },
-        {
-          title: "Twitter",
-          name: "twitter",
-          icon: FaTwitter,
-          type: "object",
-          fields: [
-            {
-              title: "URL",
-              name: "url",
-              type: "url",
-            },
-          ],
-        },
-        {
-          title: "Other",
-          name: "other",
-          icon: MdLanguage,
-          type: "object",
-          fields: [
-            {
-              title: "URL",
-              name: "url",
-              type: "url",
-            },
-          ],
-        },
+        link("instagram", "Instagram", FaInstagram),
+        link("facebook", "Facebook", FaFacebook),
+        link("twitter", "Twitter", FaTwitter),
+        link("other", "Other", MdLanguage),
       ],
-    },
-    {
-      title: 'Main image',
-      name: 'mainImage',
-      type: 'image',
-      options: {
-        hotspot: true
-      },
-    },
-    {
-      title: 'Zoomable slideshow layout',
-      name: 'zoomableSlideshowLayout',
-      type: 'boolean'
-    },
-    {
-      title: 'Content',
-      name: 'content',
-      type: 'contentEditor'
-    },
-    {
-      title: 'Slideshow',
-      name: 'slideshow',
-      type: 'array',
-      options: {
-        modal: 'fullscreen'
-      },
+    }),
+    defineField({
+      title: "Main image",
+      name: "mainImage",
+      type: "image",
+      options: { hotspot: true },
+    }),
+    defineField({
+      title: "Zoomable slideshow layout",
+      name: "zoomableSlideshowLayout",
+      type: "boolean",
+    }),
+    defineField({ title: "Content", name: "content", type: "contentEditor" }),
+    defineField({
+      title: "Slideshow",
+      name: "slideshow",
+      type: "array",
       of: [
-        {
-          type: 'image',
-          options: {
-            hotspot: true // <-- Defaults to false
-          },
+        defineArrayMember({
+          type: "image",
+          options: { hotspot: true },
           fields: [
-            {
-              type: 'boolean',
-              name: 'cover',
-              title: 'Cover',
-              description: 'Crop image to fill slideshow area',
-            },
-            {
-              type: 'contentEditor',
-              name: 'caption',
-              title: 'Caption',
-            }
-          ]
-        }
-      ]
-    },
-    {
-      title: 'Slug',
-      name: 'slug',
-      type: 'slug',
-      options: {
-        source: 'title',
-        maxLength: 200
-      },
-      validation: (Rule: any) => Rule.required()
-    },
+            defineField({
+              type: "boolean",
+              name: "cover",
+              title: "Cover",
+              description: "Crop image to fill slideshow area",
+            }),
+            defineField({
+              type: "contentEditor",
+              name: "caption",
+              title: "Caption",
+            }),
+          ],
+        }),
+      ],
+    }),
+    defineField({
+      title: "Slug",
+      name: "slug",
+      type: "slug",
+      options: { source: "title", maxLength: 200 },
+      validation: (rule) => rule.required(),
+    }),
   ],
-}
+})
