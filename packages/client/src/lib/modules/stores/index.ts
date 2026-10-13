@@ -1,6 +1,6 @@
 import { writable, derived } from "svelte/store"
 import type { Writable, Readable } from "svelte/store"
-import type { Issue } from "$lib/types/sanity.types"
+import type { Issue } from "$lib/types"
 import { MenuSection } from "$lib/enums"
 
 // UI state

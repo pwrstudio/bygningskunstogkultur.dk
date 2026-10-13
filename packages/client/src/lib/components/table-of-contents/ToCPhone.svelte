@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from "svelte"
-  import type { Article, Issue } from "$lib/types/sanity.types"
+  import type { Article, Issue } from "$lib/types"
   import { fade } from "svelte/transition"
   import { calculateArticleReadingTime } from "$lib/modules/utils"
   import {
@@ -21,7 +21,7 @@
   // Scroll the ToC to top when it is closed
   $: if (
     (!$tableOfContentsOpen && scrollParent) ||
-    (scrollParent && !activeMenuSection)
+    (scrollParent && !$activeMenuSection)
   ) {
     scrollParent.scrollTop = 0
   }

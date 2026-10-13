@@ -1,6 +1,6 @@
 <script lang="ts">
   import { fade } from "svelte/transition"
-  import type { Issue } from "$lib/types/sanity.types"
+  import type { Issue } from "$lib/types"
   import { urlFor } from "$lib/modules/sanity"
   import Logo from "$lib/components/graphics/Logo.svelte"
 
@@ -14,7 +14,7 @@
 <a
   in:fade
   class="cover"
-  class:empty={!issue.tableOfContents || issue.tableOfContents.length == 0}
+  class:empty={!issue.tableOfContents?.length}
   style="transform: scale({scale});"
   href="/{issue.slug.current}"
 >

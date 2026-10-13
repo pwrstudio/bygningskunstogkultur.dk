@@ -1,6 +1,6 @@
 <script lang="ts">
-  import type { Article, Issue } from "$lib/types/sanity.types"
-  import { renderBlockText, urlFor } from "$lib/modules/sanity"
+  import type { Article, Issue } from "$lib/types"
+  import { renderBlockText, urlFor, hasAsset } from "$lib/modules/sanity"
   import { calculateArticleReadingTime } from "$lib/modules/utils"
   import Footnotes from "$lib/components/issue/Footnotes.svelte"
 
@@ -46,8 +46,8 @@
   </div>
   <!-- IMAGES -->
   <div class="images">
-    {#if post.slideshow && post.slideshow.length > 0}
-      {#each post.slideshow as slide}
+    {#if post.slideshow}
+      {#each post.slideshow.filter(hasAsset) as slide}
         <div class="print-img">
           <img
             src={urlFor(slide.asset)

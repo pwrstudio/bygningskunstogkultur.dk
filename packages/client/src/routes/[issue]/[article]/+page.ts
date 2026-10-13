@@ -1,29 +1,18 @@
+import { error } from "@sveltejs/kit"
+import type { PageLoad } from "./$types"
 import { loadData } from "$lib/modules/sanity"
 import { queries } from "$lib/groq"
-import type { Article, Issue } from "$lib/types/sanity.types"
+import type { Issue } from "$lib/types"
 
-/** @type {import('./$types').PageLoad} */
-export async function load({ params }) {
-  const issue: Issue = await loadData(queries.singleIssue, {
+export const load: PageLoad = async ({ params }) => {
+  const issue = await loadData<Issue>(queries.singleIssue, {
     slug: params.issue,
   })
 
-  let article: Article | undefined = undefined
-
-  // If there is no table of contents, return the issue without an article
-  if (!issue.tableOfContents) {
-    return {
-      issue,
-      article,
-    }
-  }
-
-  article = issue.tableOfContents.find(
+  const article = issue.tableOfContents?.find(
     (article) => article.slug.current === params.article,
   )
+  if (!article) error(404, "Not found")
 
-  return {
-    issue,
-    article,
-  }
+  return { issue, article }
 }

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Article, Issue, News, Page } from "$lib/types/sanity.types"
+  import type { Article, Issue, News, Page } from "$lib/types"
   import { browser } from "$app/environment"
   import Fa from "svelte-fa"
   import copy from "copy-to-clipboard"
@@ -21,85 +21,88 @@
 
   const BASE_URL = "https://bygningskunstogkultur.dk"
 
-  function getUrl(article: Article | News | Page): string {
-    switch (article._type) {
+  // Share links always point at the live site, also from the preview deployment
+  function getUrl(post: Article | News | Page): string {
+    switch (post._type) {
       case "news":
-        return `${BASE_URL}/nyhed/${article.slug?.current ?? ""}`
+        return `${BASE_URL}/nyhed/${post.slug.current}`
       case "article":
-        return `${BASE_URL}/${issue?.slug?.current ?? ""}/${article.slug?.current ?? ""}`
+        return `${BASE_URL}/${issue?.slug.current ?? ""}/${post.slug.current}`
       case "page":
-        return `${BASE_URL}/page/${article.slug?.current ?? ""}`
-      default:
-        return BASE_URL
+        return `${BASE_URL}/page/${post.slug.current}`
     }
   }
 
-  function getPdfUrl(article: Article | News | Page): string {
-    switch (article._type) {
+  function getPdfUrl(post: Article | News | Page): string {
+    switch (post._type) {
       case "news":
-        return `${BASE_URL}/pdf/news/${article.slug?.current ?? ""}`
+        return `${BASE_URL}/pdf/news/${post.slug.current}`
       case "article":
-        return `${BASE_URL}/pdf/article/${article.slug?.current ?? ""}`
+        return `${BASE_URL}/pdf/article/${post.slug.current}`
       case "page":
-        return `${BASE_URL}/pdf/page/${article.slug?.current ?? ""}`
-      default:
-        return BASE_URL
+        return `${BASE_URL}/pdf/page/${post.slug.current}`
     }
   }
 
-  // SHARING LINKS
-  const PDF_URL = getPdfUrl(article)
-
-  const URL = getUrl(article)
-
-  const LINKEDIN = `https://www.linkedin.com/shareArticle?mini=true&url=${URL}`
-
-  const FACEBOOK = `https://facebook.com/sharer/sharer.php?u=${URL}&t=${article.title}`
-
-  const TWITTER = `http://twitter.com/share?url=${URL}&text=${article.title}`
-
-  const EMAIL = `mailto:?subject=${article.title}&body=${URL}`
+  $: url = getUrl(article)
+  $: pdfUrl = getPdfUrl(article)
+  $: encodedUrl = encodeURIComponent(url)
+  $: encodedTitle = encodeURIComponent(article.title)
+  $: linkedin = `https://www.linkedin.com/shareArticle?mini=true&url=${encodedUrl}`
+  $: facebook = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`
+  $: twitter = `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`
+  $: email = `mailto:?subject=${encodedTitle}&body=${encodedUrl}`
 
   const nativeShare = () => {
-    if (navigator?.share) {
-      navigator
-        .share({
-          title: article.title,
-          text: article.title,
-          url: URL,
-        })
-        .then(() => console.log("Successful share"))
-        .catch((error) => console.log("Error sharing", error))
-    }
+    navigator
+      .share({ title: article.title, text: article.title, url })
+      .catch(() => {
+        // The visitor dismissed the share sheet
+      })
   }
 
   let copied = false
 
   const copyLink = () => {
-    copy(URL)
+    copy(url)
     copied = true
   }
 </script>
 
 <div class="social">
   <!-- PDF -->
-  <a href={PDF_URL} aria-label="Download PDF" target="_blank">
+  <a href={pdfUrl} aria-label="Download PDF" target="_blank" rel="noopener">
     <Fa icon={faFilePdf} />
   </a>
   <!-- FACEBOOK -->
-  <a href={FACEBOOK} aria-label="Share on Facebook" target="_blank">
+  <a
+    href={facebook}
+    aria-label="Share on Facebook"
+    target="_blank"
+    rel="noopener"
+  >
     <Fa icon={faFacebookSquare} />
   </a>
   <!-- TWITTER / X -->
-  <a href={TWITTER} aria-label="Share on Twitter" target="_blank">
+  <a
+    href={twitter}
+    aria-label="Share on Twitter"
+    target="_blank"
+    rel="noopener"
+  >
     <Fa icon={faTwitterSquare} />
   </a>
   <!-- LINKEDIN -->
-  <a href={LINKEDIN} aria-label="Share on LinkedIn" target="_blank">
+  <a
+    href={linkedin}
+    aria-label="Share on LinkedIn"
+    target="_blank"
+    rel="noopener"
+  >
     <Fa icon={faLinkedin} />
   </a>
   <!-- EMAIL -->
-  <a href={EMAIL} aria-label="Share by Email" target="_blank">
+  <a href={email} aria-label="Share by Email">
     <Fa icon={faEnvelope} />
   </a>
   <!-- COPY URL -->

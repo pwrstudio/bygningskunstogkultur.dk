@@ -1,16 +1,14 @@
+import type { LayoutLoad } from "./$types"
 import { loadData } from "$lib/modules/sanity"
 import { queries } from "$lib/groq"
-import type { News, About, Colophon } from "$lib/types/sanity.types"
+import type { News, About, Colophon } from "$lib/types"
 
-/** @type {import('./$types').PageLoad} */
-export async function load() {
-  const news: News[] = await loadData(queries.news, {})
-  const colophon: Colophon = await loadData(queries.colophon, {})
-  const about: About = await loadData(queries.about, {})
+export const load: LayoutLoad = async () => {
+  const [news, colophon, about] = await Promise.all([
+    loadData<News[]>(queries.news),
+    loadData<Colophon>(queries.colophon),
+    loadData<About>(queries.about),
+  ])
 
-  return {
-    news,
-    colophon,
-    about,
-  }
+  return { news, colophon, about }
 }

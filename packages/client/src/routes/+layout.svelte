@@ -1,7 +1,7 @@
 <script lang="ts">
   import { page } from "$app/stores"
   import { PageType } from "$lib/enums"
-  import type { News, About, Colophon } from "$lib/types/sanity.types"
+  import type { LayoutData } from "./$types"
   import Menu from "$lib/components/menu/Menu.svelte"
   import MenuPhone from "$lib/components/menu/MenuPhone.svelte"
   import ToC from "$lib/components/table-of-contents/ToC.svelte"
@@ -17,11 +17,7 @@
     screenSizePhone,
   } from "$lib/modules/stores"
 
-  export let data: {
-    about: About
-    colophon: Colophon
-    news: News[]
-  }
+  export let data: LayoutData
 
   const { colophon, news, about } = data
 

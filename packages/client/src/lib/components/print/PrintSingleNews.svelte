@@ -1,17 +1,14 @@
 <script lang="ts">
-  import type { News } from "$lib/types/sanity.types"
+  import type { News } from "$lib/types"
   import { onMount } from "svelte"
   import { urlFor, renderBlockText } from "$lib/modules/sanity"
-  import { formattedDate } from "$lib/modules/utils"
+  import { formattedDate, unlockBodyScroll } from "$lib/modules/utils"
   import OutputInfo from "$lib/components/print/OutputInfo.svelte"
   import PrintInfo from "$lib/components/print/PrintInfo.svelte"
 
   export let news: News
 
-  onMount(async () => {
-    document.getElementsByTagName("body")[0].style.overflow = "auto"
-    document.getElementsByTagName("body")[0].style.height = "auto"
-  })
+  onMount(unlockBodyScroll)
 </script>
 
 <div class="print-container">
@@ -39,7 +36,7 @@
       <!-- PUBLICATION DATE -->
       <span>
         {#if news.publicationDate}
-          {@html formattedDate(news.publicationDate)}
+          {formattedDate(news.publicationDate)}
         {/if}
       </span>
     </div>

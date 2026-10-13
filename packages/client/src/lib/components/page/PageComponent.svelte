@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Page } from "$lib/types/sanity.types"
+  import type { Page } from "$lib/types"
   import { renderBlockText } from "$lib/modules/sanity"
 
   import PageMeta from "$lib/components/page/PageMeta.svelte"

@@ -1,12 +1,9 @@
 <script lang="ts">
-  import type { Article, Issue } from "$lib/types/sanity.types"
+  import type { PageData } from "./$types"
   import MetaData from "$lib/components/metadata/MetaData.svelte"
   import PrintSingleArticle from "$lib/components/print/PrintSingleArticle.svelte"
 
-  export let data: {
-    issue: Issue
-    article: Article
-  }
+  export let data: PageData
 
   const { article, issue } = data
 </script>

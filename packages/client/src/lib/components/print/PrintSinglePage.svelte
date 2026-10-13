@@ -1,6 +1,7 @@
 <script lang="ts">
-  import type { Page } from "$lib/types/sanity.types"
+  import type { Page } from "$lib/types"
   import { onMount } from "svelte"
+  import { unlockBodyScroll } from "$lib/modules/utils"
 
   import PrintPageComponent from "$lib/components/print/PrintPageComponent.svelte"
   import OutputInfo from "$lib/components/print/OutputInfo.svelte"
@@ -8,10 +9,7 @@
 
   export let page: Page
 
-  onMount(async () => {
-    document.getElementsByTagName("body")[0].style.overflow = "auto"
-    document.getElementsByTagName("body")[0].style.height = "auto"
-  })
+  onMount(unlockBodyScroll)
 </script>
 
 <div class="print-container">

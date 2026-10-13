@@ -1,6 +1,7 @@
 <script lang="ts">
-  import type { Article, Issue } from "$lib/types/sanity.types"
+  import type { Article, Issue } from "$lib/types"
   import { onMount } from "svelte"
+  import { unlockBodyScroll } from "$lib/modules/utils"
   import PrintArticleComponent from "$lib/components/print/PrintArticleComponent.svelte"
   import OutputInfo from "$lib/components/print/OutputInfo.svelte"
   import PrintInfo from "$lib/components/print/PrintInfo.svelte"
@@ -8,10 +9,7 @@
   export let issue: Issue
   export let post: Article
 
-  onMount(async () => {
-    document.getElementsByTagName("body")[0].style.overflow = "auto"
-    document.getElementsByTagName("body")[0].style.height = "auto"
-  })
+  onMount(unlockBodyScroll)
 </script>
 
 <div class="print-container">

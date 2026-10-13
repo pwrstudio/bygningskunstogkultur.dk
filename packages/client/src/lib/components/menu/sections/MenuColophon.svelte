@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Colophon } from "$lib/types/sanity.types"
+  import type { Colophon } from "$lib/types"
   import { renderBlockText } from "$lib/modules/sanity"
   import { analyticsEnabled, openConsentBanner } from "$lib/modules/analytics"
   export let colophon: Colophon

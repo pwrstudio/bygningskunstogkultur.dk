@@ -1,9 +1,11 @@
 <script lang="ts">
-  import type { Colophon, Issue } from "$lib/types/sanity.types"
+  import type { Colophon, Issue } from "$lib/types"
   import { onMount } from "svelte"
   import { urlFor, renderBlockText } from "$lib/modules/sanity"
-  import { has, isArray } from "lodash-es"
-  import { calculateArticleReadingTime } from "$lib/modules/utils"
+  import {
+    calculateArticleReadingTime,
+    unlockBodyScroll,
+  } from "$lib/modules/utils"
   import PrintArticleComponent from "$lib/components/print/PrintArticleComponent.svelte"
   import OutputInfo from "$lib/components/print/OutputInfo.svelte"
   import PrintInfo from "$lib/components/print/PrintInfo.svelte"
@@ -11,10 +13,7 @@
   export let issue: Issue
   export let colophon: Colophon
 
-  onMount(async () => {
-    document.getElementsByTagName("body")[0].style.overflow = "auto"
-    document.getElementsByTagName("body")[0].style.height = "auto"
-  })
+  onMount(unlockBodyScroll)
 </script>
 
 <div class="print-container">
@@ -26,33 +25,35 @@
       <div class="title">Magasin for Bygningskunst og Kultur</div>
       <div class="date">{issue.title}</div>
     </div>
-    <div class="image">
-      <img
-        src={urlFor(issue.mainImage?.asset)
-          .quality(90)
-          .width(800)
-          .auto("format")
-          .url()}
-        alt={issue.title}
-      />
-    </div>
+    {#if issue.mainImage?.asset}
+      <div class="image">
+        <img
+          src={urlFor(issue.mainImage.asset)
+            .quality(90)
+            .width(800)
+            .auto("format")
+            .url()}
+          alt={issue.title}
+        />
+      </div>
+    {/if}
   </div>
   <!-- COLOPHON -->
   <div class="colophon">
     {#if colophon.wideColumn}
       <div class="content">
-        {#if has(colophon, "wideColumn.content") && isArray(colophon.wideColumn.content)}
+        {#if colophon.wideColumn.content}
           <div class="paragraph">
             {@html renderBlockText(colophon.wideColumn.content)}
           </div>
         {/if}
         <div class="narrow-cols">
-          {#if has(colophon, "firstNarrowColumn.content") && isArray(colophon.firstNarrowColumn?.content)}
+          {#if colophon.firstNarrowColumn?.content}
             <div class="narrow-col">
               {@html renderBlockText(colophon.firstNarrowColumn.content)}
             </div>
           {/if}
-          {#if has(colophon, "secondNarrowColumn.content") && isArray(colophon.secondNarrowColumn?.content)}
+          {#if colophon.secondNarrowColumn?.content}
             <div class="narrow-col">
               {@html renderBlockText(colophon.secondNarrowColumn.content)}
             </div>

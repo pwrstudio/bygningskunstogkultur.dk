@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { News } from "$lib/types/sanity.types"
+  import type { News } from "$lib/types"
   import { tick, createEventDispatcher } from "svelte"
   import { renderBlockText, urlFor } from "$lib/modules/sanity"
   import { formattedDate } from "$lib/modules/utils"
@@ -30,12 +30,7 @@
 
     // Let the DOM update before scrolling
     await tick()
-    let targetNewsItemEl = document.querySelector(`#${targetNewsItem}`)
-    if (targetNewsItemEl) {
-      targetNewsItemEl.scrollIntoView({
-        block: "start",
-      })
-    }
+    document.getElementById(targetNewsItem)?.scrollIntoView({ block: "start" })
   }
 </script>
 
@@ -73,7 +68,7 @@
             <!-- PUBLICATION DATE -->
             <span>
               {#if item.publicationDate}
-                {@html formattedDate(item.publicationDate)}
+                {formattedDate(item.publicationDate)}
               {/if}
             </span>
           </div>

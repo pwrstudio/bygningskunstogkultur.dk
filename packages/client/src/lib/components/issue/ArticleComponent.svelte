@@ -1,7 +1,7 @@
 <script lang="ts">
   import { fly } from "svelte/transition"
   import { quintOut } from "svelte/easing"
-  import type { Article, Issue } from "$lib/types/sanity.types"
+  import type { Article, Issue } from "$lib/types"
   import { renderBlockText } from "$lib/modules/sanity"
   import { getNextArticle } from "$lib/modules/utils"
   import { menuOpen, tableOfContentsOpen } from "$lib/modules/stores"
@@ -15,9 +15,11 @@
   export let article: Article
   export let issue: Issue | undefined = undefined
 
-  const nextArticle: Article | null = issue
-    ? getNextArticle(issue, article)
-    : null
+  const nextArticle = issue ? getNextArticle(issue, article) : null
+  const nextArticleHref =
+    issue && nextArticle
+      ? `/${issue.slug.current}/${nextArticle.slug.current}`
+      : ""
 
   const closeMenus = () => {
     menuOpen.set(false)
@@ -75,7 +77,7 @@
     <!-- NEXT ARTICLE NAVIGATION -->
     {#if nextArticle}
       <a
-        href={nextArticle.slug.current}
+        href={nextArticleHref}
         class="block link next"
         class:full={article.zoomableSlideshowLayout}
         data-sveltekit-preload-data

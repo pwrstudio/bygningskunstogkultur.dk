@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Page } from "$lib/types/sanity.types"
+  import type { Page } from "$lib/types"
   import { fade } from "svelte/transition"
   import { calculateArticleReadingTime } from "$lib/modules/utils"
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { About } from "$lib/types/sanity.types"
+  import type { About } from "$lib/types"
   import { renderBlockText } from "$lib/modules/sanity"
   export let about: About
 </script>

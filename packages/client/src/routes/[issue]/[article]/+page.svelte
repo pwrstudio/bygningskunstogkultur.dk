@@ -1,25 +1,18 @@
 <script lang="ts">
-  import type { Article, Issue } from "$lib/types/sanity.types"
+  import type { PageData } from "./$types"
   import { currentArticleSlug, currentIssue } from "$lib/modules/stores"
   import ArticleComponent from "$lib/components/issue/ArticleComponent.svelte"
   import MetaData from "$lib/components/metadata/MetaData.svelte"
 
-  export let data: {
-    issue: Issue
-    article: Article
-  }
+  export let data: PageData
 
-  // Issue is set non-reactively
-  const issue = data.issue
-  currentIssue.set(issue)
-
-  // Make the article reactive to make sure the reload on page navigation
-  $: article = data.article
-  // Set current article slug
-  $: currentArticleSlug.set(article.slug.current)
+  // The issue drives the table of contents in the layout
+  $: currentIssue.set(data.issue)
+  $: currentArticleSlug.set(data.article.slug.current)
 </script>
 
+<!-- Remount on navigation between articles so transitions and scroll positions reset -->
 {#key data}
-  <MetaData post={article} />
-  <ArticleComponent {article} {issue} />
+  <MetaData post={data.article} />
+  <ArticleComponent article={data.article} issue={data.issue} />
 {/key}

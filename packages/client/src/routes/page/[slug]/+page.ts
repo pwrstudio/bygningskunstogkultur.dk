@@ -1,11 +1,9 @@
+import type { PageLoad } from "./$types"
 import { loadData } from "$lib/modules/sanity"
 import { queries } from "$lib/groq"
-import type { Page } from "$lib/types/sanity.types"
+import type { Page } from "$lib/types"
 
-/** @type {import('./$types').PageLoad} */
-export async function load({ params }) {
-  const page: Page = await loadData(queries.singlePage, { slug: params.slug })
-  return {
-    page,
-  }
+export const load: PageLoad = async ({ params }) => {
+  const page = await loadData<Page>(queries.singlePage, { slug: params.slug })
+  return { page }
 }

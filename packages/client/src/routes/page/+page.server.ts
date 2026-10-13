@@ -1,7 +1,7 @@
 import { redirect } from "@sveltejs/kit"
+import type { PageServerLoad } from "./$types"
 
-/** @type {import('./$types').PageLoad} */
-export async function load() {
-  // Redirect to the front page
+// Pages are only reachable by their slug; the bare path goes to the front page
+export const load: PageServerLoad = () => {
   redirect(301, "/")
 }

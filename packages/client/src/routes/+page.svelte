@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onDestroy } from "svelte"
-  import type { Issue } from "$lib/types/sanity.types"
+  import type { PageData } from "./$types"
   import MetaData from "$lib/components/metadata/MetaData.svelte"
   import CoverSlider from "$lib/components/covers/CoverSlider.svelte"
   import CoverSliderPhone from "$lib/components/covers/CoverSliderPhone.svelte"
@@ -11,7 +11,7 @@
     screenSizePhone,
   } from "$lib/modules/stores"
 
-  export let data: { issues: Issue[] }
+  export let data: PageData
 
   const { issues } = data
 

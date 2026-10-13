@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { News, Colophon, About } from "$lib/types/sanity.types"
+  import type { News, Colophon, About } from "$lib/types"
   import { MenuSection, PageType } from "$lib/enums"
   import {
     menuOpen,

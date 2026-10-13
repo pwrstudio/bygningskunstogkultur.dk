@@ -1,9 +1,9 @@
 <script lang="ts">
   import { fade } from "svelte/transition"
-  import type { Issue } from "$lib/types/sanity.types"
+  import type { Issue } from "$lib/types"
   import Swiper from "swiper"
   import { Pagination, Navigation } from "swiper/modules"
-  import { onMount } from "svelte"
+  import { onDestroy, onMount } from "svelte"
   import { mapValue } from "$lib/modules/utils"
 
   import "swiper/swiper-bundle.css"
@@ -19,23 +19,18 @@
   export let issues: Issue[] = []
 
   let scale = 1
-  let coverScale = 1
   let loaded = false
 
   let swiperDesktopElement: HTMLDivElement
   let swiperDesktop: Swiper
 
-  // Not exactly sure how these two reactive statements works...
-  $: if (768 < $windowWidth && $windowWidth < 1350) {
-    scale = mapValue($windowWidth, 769, 1349, 0.2, 0.9)
-  } else {
-    scale = 1
-  }
-  $: if ($windowWidth < 400) {
-    coverScale = mapValue($windowWidth, 80, 440, 0, 0.8)
-  }
+  // Below 1350px the two covers no longer fit side by side, so the slider is scaled down
+  $: scale =
+    768 < $windowWidth && $windowWidth < 1350
+      ? mapValue($windowWidth, 769, 1349, 0.2, 0.9)
+      : 1
 
-  async function initializeSwipers() {
+  function initializeSwipers() {
     if (swiperDesktop) swiperDesktop.destroy()
 
     swiperDesktop = new Swiper(swiperDesktopElement, {
@@ -60,15 +55,15 @@
     await new Promise((resolve) => setTimeout(resolve, 100))
     loaded = true
   })
+
+  onDestroy(() => swiperDesktop?.destroy())
 </script>
 
 <div
   in:fade
   class:loaded
   class="coverslider"
-  on:click={(e) => {
-    newsExtended.set(false)
-  }}
+  on:click={() => newsExtended.set(false)}
   role="presentation"
 >
   <!-- TITLE -->

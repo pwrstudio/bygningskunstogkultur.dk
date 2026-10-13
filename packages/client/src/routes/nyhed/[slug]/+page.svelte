@@ -1,11 +1,9 @@
 <script lang="ts">
-  import type { News } from "$lib/types/sanity.types"
+  import type { PageData } from "./$types"
   import FullNewsItem from "$lib/components/news/FullNewsItem.svelte"
   import { goto } from "$app/navigation"
 
-  export let data: {
-    news: News
-  }
+  export let data: PageData
 
   const { news } = data
 

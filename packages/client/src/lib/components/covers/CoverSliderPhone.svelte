@@ -1,9 +1,8 @@
 <script lang="ts">
-  import type { Issue } from "$lib/types/sanity.types"
+  import type { Issue } from "$lib/types"
   import Swiper from "swiper"
   import { Pagination, Navigation } from "swiper/modules"
-  import { onMount } from "svelte"
-  import { get } from "lodash-es"
+  import { onDestroy, onMount } from "svelte"
   import { mapValue } from "$lib/modules/utils"
   import { windowWidth } from "$lib/modules/stores"
   import Cover from "$lib/components/covers/Cover.svelte"
@@ -20,12 +19,11 @@
   let swiperMobileElement: HTMLDivElement
   let swiperMobile: Swiper
 
-  // Not exactly sure how this reactive statement works...
-  $: if ($windowWidth < 400) {
-    coverScale = mapValue($windowWidth, 80, 440, 0, 0.8)
-  }
+  // Narrow phones get a scaled-down cover
+  $: coverScale =
+    $windowWidth < 400 ? mapValue($windowWidth, 80, 440, 0, 0.8) : 1
 
-  async function initializeSwipers() {
+  function initializeSwipers() {
     if (swiperMobile) swiperMobile.destroy()
 
     swiperMobile = new Swiper(swiperMobileElement, {
@@ -46,6 +44,8 @@
     await new Promise((resolve) => setTimeout(resolve, 100))
     loaded = true
   })
+
+  onDestroy(() => swiperMobile?.destroy())
 </script>
 
 <div class="coverslider" class:loaded>
@@ -55,7 +55,7 @@
     <div class="swiper-mobile">
       <div class="swiper-container" bind:this={swiperMobileElement}>
         <div class="swiper-wrapper">
-          {#each issues.filter((issue) => get(issue, "tableOfContents", []).length > 0) as issue}
+          {#each issues.filter((issue) => issue.tableOfContents?.length) as issue}
             <div class="swiper-slide">
               <Cover {issue} scale={coverScale} />
             </div>

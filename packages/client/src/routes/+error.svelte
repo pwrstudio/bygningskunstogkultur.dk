@@ -1,6 +1,14 @@
+<script lang="ts">
+  import { page } from "$app/stores"
+</script>
+
 <div class="error">
   <div>
-    <div>Page not found</div>
+    <div>
+      {$page.status === 404
+        ? "Page not found"
+        : ($page.error?.message ?? "Something went wrong")}
+    </div>
     <div>Go back to <a href="/">Landing page</a></div>
   </div>
 </div>
@@ -10,7 +18,6 @@
     padding-left: calc(var(--menu-side-width) + var(--margin));
     padding-top: var(--margin);
     height: 100dvh;
-    font-size: 3rem;
     font-family: var(--sans-stack);
     font-size: var(--font-size-large);
 

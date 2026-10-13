@@ -1,6 +1,6 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte"
-  import type { News } from "$lib/types/sanity.types"
+  import type { News } from "$lib/types"
   import { urlFor, renderBlockText } from "$lib/modules/sanity"
   import { formattedDate } from "$lib/modules/utils"
   import ArrowLeft from "$lib/components/graphics/ArrowLeft.svelte"
@@ -46,7 +46,7 @@
         <!-- PUBLICATION DATE -->
         <div>
           {#if news.publicationDate}
-            {@html formattedDate(news.publicationDate)}
+            {formattedDate(news.publicationDate)}
           {/if}
         </div>
       </div>

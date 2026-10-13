@@ -1,7 +1,12 @@
 <script lang="ts">
-  import type { Slide } from "$lib/types/sanity.types"
-  import { urlFor, renderBlockText, toPlainText } from "$lib/modules/sanity"
-  import { onMount } from "svelte"
+  import type { Slide } from "$lib/types"
+  import {
+    urlFor,
+    hasAsset,
+    renderBlockText,
+    toPlainText,
+  } from "$lib/modules/sanity"
+  import { onDestroy, onMount } from "svelte"
   import Swiper from "swiper"
   import { Pagination, Navigation } from "swiper/modules"
 
@@ -51,12 +56,14 @@
       zoomed = false
     })
   })
+
+  onDestroy(() => swiperInstance?.destroy())
 </script>
 
 <div class="slideshow" class:zoomable>
   <div class="swiper-container" bind:this={swiperContainer}>
     <div class="swiper-wrapper">
-      {#each slides as slide}
+      {#each slides.filter(hasAsset) as slide}
         <div class="swiper-slide" on:click={toggleZoom} role="presentation">
           {#if zoomable}
             <div class="zoom-container" class:zoomed>

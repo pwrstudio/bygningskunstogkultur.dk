@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Article, Footnote, Page } from "$lib/types/sanity.types"
+  import type { Article, Footnote, Page } from "$lib/types"
   import { onMount } from "svelte"
   import { renderBlockText } from "$lib/modules/sanity"
   import { extractFootnotes, scrollToHash } from "$lib/modules/utils"
@@ -10,15 +10,15 @@
   $: footnotes = extractFootnotes(article.content?.content ?? [])
 
   function backLink(footnote: Footnote) {
-    let backLinkTarget = document.querySelector("#" + "link-" + footnote._key)
-    if (backLinkTarget) {
-      backLinkTarget.scrollIntoView({ behavior: "smooth" })
-    }
+    document
+      .getElementById("link-" + footnote._key)
+      ?.scrollIntoView({ behavior: "smooth" })
   }
 
   onMount(() => {
-    // Listen to changes to the hash to scroll to and from footnotes
+    // Scroll to and from footnotes when the hash changes
     window.addEventListener("hashchange", scrollToHash)
+    return () => window.removeEventListener("hashchange", scrollToHash)
   })
 </script>
 
@@ -31,7 +31,7 @@
           {@html renderBlockText(footnote.content?.content ?? [])}
           {#if !isPrint}
             <button
-              aria-label={"Go to footnote " + index + 1}
+              aria-label={`Back to footnote ${index + 1}`}
               class="back-link"
               on:click={(_) => {
                 backLink(footnote)

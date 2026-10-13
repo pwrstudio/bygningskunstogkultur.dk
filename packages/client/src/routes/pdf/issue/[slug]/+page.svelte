@@ -1,11 +1,8 @@
 <script lang="ts">
-  import type { Colophon, Issue } from "$lib/types/sanity.types"
+  import type { PageData } from "./$types"
   import PrintIssue from "$lib/components/print/PrintIssue.svelte"
 
-  export let data: {
-    issue: Issue
-    colophon: Colophon
-  }
+  export let data: PageData
 
   const { issue, colophon } = data
 </script>

@@ -1,13 +1,6 @@
-import type {
-  Article,
-  Issue,
-  BlockContent,
-  Footnote,
-  Page,
-} from "$lib/types/sanity.types"
+import type { Article, Issue, BlockContent, Footnote, Page } from "$lib/types"
 import { PageType } from "$lib/enums"
 import { format, getYear } from "date-fns"
-import { flatMap } from "lodash-es"
 import { toPlainText } from "$lib/modules/sanity"
 
 export const formattedDate = (start: string, end?: string) => {
@@ -30,28 +23,24 @@ export const formattedDate = (start: string, end?: string) => {
   return format(startDate, startFormat) + " – " + format(endDate, endFormat)
 }
 
-export const currentDateAndTime = (): string => {
-  const currentDate = new Date()
-  const startDate = currentDate.getTime()
-  return format(startDate, "HH:mm dd.MM.yyyy")
+export const currentDateAndTime = (): string =>
+  format(new Date(), "HH:mm dd.MM.yyyy")
+
+/** The footnote annotations of a block array, in document order */
+export function extractFootnotes(content: BlockContent): Footnote[] {
+  return content
+    .flatMap((block) => (block._type === "block" ? (block.markDefs ?? []) : []))
+    .filter((mark): mark is Footnote => mark._type === "footnote")
 }
 
-export function extractFootnotes(mainContent: BlockContent) {
-  const markDefs = flatMap(
-    mainContent.map((c) => (c._type == "block" ? (c.markDefs ?? []) : [])),
-  )
-  return markDefs.filter((x): x is Footnote => x._type === "footnote")
-}
+const WORDS_PER_MINUTE = 200 // average reading speed
 
-export function calculateArticleReadingTime(article: Article | Page) {
-  const blockContent = article?.content?.content
-  if (!blockContent) return 0
-  const wordsPerMinute = 200 // average reading speed
-  const text = toPlainText(blockContent)
-  const words = text.split(/\s/g).length // split by spaces
-  const minutes = words / wordsPerMinute
-  const readTime = Math.ceil(minutes)
-  return readTime
+/** Reading time of the main text in whole minutes */
+export function calculateArticleReadingTime(post: Article | Page): number {
+  const content = post.content?.content
+  if (!content) return 0
+  const words = toPlainText(content).split(/\s+/).filter(Boolean).length
+  return Math.ceil(words / WORDS_PER_MINUTE)
 }
 
 export function mapValue(
@@ -64,48 +53,40 @@ export function mapValue(
   return ((value - inMin) * (outMax - outMin)) / (inMax - inMin) + outMin
 }
 
-export function splitTextBlocks(text: BlockContent) {
-  let shortText = []
-  let extendedText = []
-
-  // Check if there is at least one block to add to shortText
-  if (text.length > 0) {
-    shortText.push(text[0]) // Add the first text block to shortText
-  }
-
-  // Add all remaining blocks to extendedText
-  for (let i = 1; i < text.length; i++) {
-    extendedText.push(text[i])
-  }
-
-  return [shortText, extendedText]
+/** Splits a block array into its first block and the rest (for "read more") */
+export function splitTextBlocks(
+  text: BlockContent,
+): [BlockContent, BlockContent] {
+  return [text.slice(0, 1), text.slice(1)]
 }
 
-export function getNextArticle(issue: Issue, article: Article) {
-  if (!issue.tableOfContents) return null
-
-  const articleIndex = issue.tableOfContents.findIndex(
-    (tocItem) => tocItem._id === article._id,
-  )
-
-  if (articleIndex < issue.tableOfContents.length - 1) {
-    return issue.tableOfContents[articleIndex + 1]
-  } else {
-    return null
-  }
+/** The article after `article` in the issue's table of contents, if any */
+export function getNextArticle(issue: Issue, article: Article): Article | null {
+  const toc = issue.tableOfContents ?? []
+  const index = toc.findIndex((item) => item._id === article._id)
+  return index >= 0 && index < toc.length - 1 ? toc[index + 1] : null
 }
 
 export function scrollToHash() {
-  const newHash = window.location.hash.substring(1) // Remove the '#' from the hash
-  const targetElement = document.getElementById(newHash)
-  if (targetElement) {
-    targetElement.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    })
-  } else {
-    console.log("Element not found for hash: " + newHash)
-  }
+  const target = document.getElementById(window.location.hash.substring(1))
+  target?.scrollIntoView({ behavior: "smooth", block: "start" })
+}
+
+/** Shortens text to at most `length` characters, cut at a word boundary */
+export function truncate(text: string, length: number): string {
+  if (text.length <= length) return text
+  const cut = text.slice(0, length)
+  const lastSpace = cut.lastIndexOf(" ")
+  return (lastSpace > 0 ? cut.slice(0, lastSpace) : cut).trimEnd() + "…"
+}
+
+/**
+ * The site locks body scrolling (app.css) and scrolls inside its columns.
+ * The print pages are plain documents, so they scroll the body instead.
+ */
+export function unlockBodyScroll() {
+  document.body.style.overflow = "auto"
+  document.body.style.height = "auto"
 }
 
 export function getPageType(route: string): PageType {

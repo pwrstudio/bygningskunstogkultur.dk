@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Article, Issue } from "$lib/types/sanity.types"
+  import type { Article, Issue } from "$lib/types"
   import { fade } from "svelte/transition"
   import { renderBlockText } from "$lib/modules/sanity"
   import { calculateArticleReadingTime } from "$lib/modules/utils"
