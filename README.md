@@ -64,12 +64,14 @@ Both modes show published documents only (drafts are never fetched).
 
 ## Deployment
 
-**Site.** Two Netlify sites (live and preview) build from this repository on
-pushes to `main`. In each site's build settings the _base directory_ is the
-repository root and the _package directory_ is `packages/client`;
-`packages/client/netlify.toml` holds the build command and publish directory,
-and `@sveltejs/adapter-auto` selects the Netlify adapter. Set
-`PUBLIC_ENVIRONMENT` per site as above.
+**Site.** Two Netlify projects (live and preview) build from this repository on
+pushes to `main`. The build command and publish directory are in the root
+`netlify.toml` (the comments there explain why it is not inside the package).
+In each project's settings in the Netlify UI, leave the _base directory_ empty
+(the repo root) and set the _package directory_ to `packages/client`; that is
+what makes Netlify pick up the serverless function the adapter writes.
+`@sveltejs/adapter-auto` selects the Netlify adapter. Set `PUBLIC_ENVIRONMENT`
+per project as above.
 
 **Studio.** `pnpm deploy:sanity` builds and uploads the studio to
 `mbk-admin.sanity.studio` (host and app id in `packages/cms/sanity.cli.ts`).
