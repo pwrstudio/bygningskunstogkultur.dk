@@ -1,7 +1,7 @@
 <script lang="ts">
-  import type { Article, News, Page } from "$lib/types"
-  import { toPlainText, urlFor } from "$lib/modules/sanity"
-  import { truncate } from "$lib/modules/utils"
+  import type { Article, News, Page } from "#lib/types/index.js"
+  import { toPlainText, urlFor } from "#lib/modules/sanity/index.js"
+  import { truncate } from "#lib/modules/utils/index.js"
   import { defaultMetadata } from "./defaultMetadata"
 
   interface Props {

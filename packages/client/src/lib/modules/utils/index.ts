@@ -1,7 +1,13 @@
-import type { Article, Issue, BlockContent, Footnote, Page } from "$lib/types"
-import { PageType } from "$lib/enums"
+import type {
+  Article,
+  Issue,
+  BlockContent,
+  Footnote,
+  Page,
+} from "#lib/types/index.js"
+import { PageType } from "#lib/enums/index.js"
 import { format, getYear } from "date-fns"
-import { toPlainText } from "$lib/modules/sanity"
+import { toPlainText } from "#lib/modules/sanity/index.js"
 
 export const formattedDate = (start: string, end?: string) => {
   if (!start) return ""

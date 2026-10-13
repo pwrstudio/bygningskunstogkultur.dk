@@ -6,15 +6,13 @@
 #   Base directory:    (empty: the repo root, where the lockfile is)
 #   Package directory: packages/client
 #
-# The package directory is what makes Netlify pick up the serverless function
-# that adapter-netlify writes to packages/client/.netlify/functions-internal.
+# The package directory is what makes Netlify pick up what adapter-netlify
+# writes to packages/client/.netlify/v1: the render function and its config
+# (Netlify Frameworks API).
 #
-# This file lives at the repo root on purpose. Netlify resolves the paths
-# below against the base directory. adapter-netlify also reads a netlify.toml,
-# but from the package directory and relative to it, so one publish path can't
-# satisfy both when the file sits next to the package. With no netlify.toml
-# there, the adapter writes to its default, packages/client/build, which is
-# what Netlify publishes.
+# Paths below are relative to the base directory. The adapter writes the
+# static files to its default publish directory, build/ inside the package,
+# which is what Netlify publishes.
 [build]
   command = "pnpm --filter client build"
   publish = "packages/client/build"

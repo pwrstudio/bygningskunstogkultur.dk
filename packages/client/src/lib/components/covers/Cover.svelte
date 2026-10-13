@@ -1,8 +1,8 @@
 <script lang="ts">
   import { fade } from "svelte/transition"
-  import type { Issue } from "$lib/types"
-  import { urlFor } from "$lib/modules/sanity"
-  import Logo from "$lib/components/graphics/Logo.svelte"
+  import type { Issue } from "#lib/types/index.js"
+  import { urlFor } from "#lib/modules/sanity/index.js"
+  import Logo from "#lib/components/graphics/Logo.svelte"
 
   interface Props {
     issue: Issue

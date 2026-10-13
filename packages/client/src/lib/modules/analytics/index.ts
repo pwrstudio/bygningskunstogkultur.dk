@@ -1,5 +1,5 @@
-import { dev } from "$app/environment"
-import { PUBLIC_ENVIRONMENT } from "$env/static/public"
+import { dev } from "$app/env"
+import { PUBLIC_ENVIRONMENT } from "$app/env/public"
 import { writable } from "svelte/store"
 import type { Writable } from "svelte/store"
 
@@ -38,17 +38,20 @@ function writeConsent(value: Consent) {
 // measurement (browser history events), which is on by default.
 function loadAnalytics() {
   if (analyticsLoaded || dev) return
-  analyticsLoaded = true
 
+  analyticsLoaded = true
   window.dataLayer = window.dataLayer || []
+
   function gtag(..._args: unknown[]) {
     // gtag.js expects the arguments object itself, not an array
     window.dataLayer.push(arguments)
   }
+
   gtag("js", new Date())
   gtag("config", GA_MEASUREMENT_ID)
 
   const script = document.createElement("script")
+
   script.async = true
   script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`
   document.head.appendChild(script)
@@ -75,6 +78,7 @@ export function initConsent() {
 
 export function setConsent(consent: Consent) {
   const wasGranted = readConsent() === "granted"
+
   writeConsent(consent)
   consentBannerOpen.set(false)
 

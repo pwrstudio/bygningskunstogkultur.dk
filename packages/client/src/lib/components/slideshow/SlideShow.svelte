@@ -1,11 +1,11 @@
 <script lang="ts">
-  import type { Slide } from "$lib/types"
+  import type { Slide } from "#lib/types/index.js"
   import {
     urlFor,
     hasAsset,
     renderBlockText,
     toPlainText,
-  } from "$lib/modules/sanity"
+  } from "#lib/modules/sanity/index.js"
   import { onDestroy, onMount } from "svelte"
   import Swiper from "swiper"
   import { Pagination, Navigation } from "swiper/modules"

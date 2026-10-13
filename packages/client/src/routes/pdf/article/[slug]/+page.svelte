@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { PageData } from "./$types"
-  import MetaData from "$lib/components/metadata/MetaData.svelte"
-  import PrintSingleArticle from "$lib/components/print/PrintSingleArticle.svelte"
+  import MetaData from "#lib/components/metadata/MetaData.svelte"
+  import PrintSingleArticle from "#lib/components/print/PrintSingleArticle.svelte"
 
   interface Props {
     data: PageData

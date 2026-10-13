@@ -1,13 +1,13 @@
 <script lang="ts">
-  import { page } from "$app/stores"
+  import { page } from "$app/state"
 </script>
 
 <div class="error">
   <div>
     <div>
-      {$page.status === 404
+      {page.status === 404
         ? "Page not found"
-        : ($page.error?.message ?? "Something went wrong")}
+        : (page.error?.message ?? "Something went wrong")}
     </div>
     <div>Go back to <a href="/">Landing page</a></div>
   </div>

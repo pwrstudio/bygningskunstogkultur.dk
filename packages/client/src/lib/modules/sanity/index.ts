@@ -24,7 +24,7 @@ import type {
   AudioBlock,
   Footnote,
   PageLink,
-} from "$lib/types"
+} from "#lib/types/index.js"
 
 export const SANITY_PROJECT_ID = "yesqrmft"
 export const SANITY_DATASET = "production"

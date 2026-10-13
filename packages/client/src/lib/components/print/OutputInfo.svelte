@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { currentDateAndTime } from "$lib/modules/utils"
+  import { currentDateAndTime } from "#lib/modules/utils/index.js"
 </script>
 
 <div class="output-info">

@@ -3,7 +3,7 @@
  *
  * The base types are generated from the studio schema (packages/cms/sanity.types.ts,
  * regenerate with `pnpm typegen:sanity` at the repo root). The GROQ queries in
- * $lib/groq dereference some fields, so a few shapes below describe query results
+ * #lib/groq dereference some fields, so a few shapes below describe query results
  * rather than raw documents.
  */
 
@@ -47,7 +47,7 @@ type MarkDef = NonNullable<TextBlock["markDefs"]>[number]
 
 export type Footnote = Extract<MarkDef, { _type: "footnote" }>
 
-/** Page link annotation. `slug` is resolved by the query (resolvePageLinks in $lib/groq). */
+/** Page link annotation. `slug` is resolved by the query (resolvePageLinks in #lib/groq). */
 export type PageLink = Extract<MarkDef, { _type: "pageLink" }> & {
   slug?: string | null
 }

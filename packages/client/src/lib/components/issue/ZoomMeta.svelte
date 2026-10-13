@@ -1,11 +1,11 @@
 <script lang="ts">
-  import type { Article, Issue } from "$lib/types"
+  import type { Article, Issue } from "#lib/types/index.js"
   import { fade } from "svelte/transition"
-  import { renderBlockText, toPlainText } from "$lib/modules/sanity"
-  import { splitTextBlocks } from "$lib/modules/utils"
+  import { renderBlockText, toPlainText } from "#lib/modules/sanity/index.js"
+  import { splitTextBlocks } from "#lib/modules/utils/index.js"
 
-  import Share from "$lib/components/share/Share.svelte"
-  import Footnotes from "$lib/components/issue/Footnotes.svelte"
+  import Share from "#lib/components/share/Share.svelte"
+  import Footnotes from "#lib/components/issue/Footnotes.svelte"
 
   interface Props {
     article: Article

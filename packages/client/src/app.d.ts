@@ -1,6 +1,6 @@
 // See https://kit.svelte.dev/docs/types#app
 // for information about these interfaces
-import type { Article, Issue } from "$lib/types"
+import type { Article, Issue } from "#lib/types/index.js"
 
 declare global {
   namespace App {

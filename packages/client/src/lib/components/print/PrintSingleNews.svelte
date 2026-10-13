@@ -1,10 +1,10 @@
 <script lang="ts">
-  import type { News } from "$lib/types"
+  import type { News } from "#lib/types/index.js"
   import { onMount } from "svelte"
-  import { urlFor, renderBlockText } from "$lib/modules/sanity"
-  import { formattedDate, unlockBodyScroll } from "$lib/modules/utils"
-  import OutputInfo from "$lib/components/print/OutputInfo.svelte"
-  import PrintInfo from "$lib/components/print/PrintInfo.svelte"
+  import { urlFor, renderBlockText } from "#lib/modules/sanity/index.js"
+  import { formattedDate, unlockBodyScroll } from "#lib/modules/utils/index.js"
+  import OutputInfo from "#lib/components/print/OutputInfo.svelte"
+  import PrintInfo from "#lib/components/print/PrintInfo.svelte"
 
   interface Props {
     news: News

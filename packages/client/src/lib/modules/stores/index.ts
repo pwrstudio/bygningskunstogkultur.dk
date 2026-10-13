@@ -1,6 +1,6 @@
 import { writable, derived } from "svelte/store"
 import type { Writable, Readable } from "svelte/store"
-import { MenuSection } from "$lib/enums"
+import { MenuSection } from "#lib/enums/index.js"
 
 // UI state
 export const menuOpen: Writable<boolean> = writable(false)

@@ -1,6 +1,6 @@
 <script lang="ts">
-  import type { About } from "$lib/types"
-  import { renderBlockText } from "$lib/modules/sanity"
+  import type { About } from "#lib/types/index.js"
+  import { renderBlockText } from "#lib/modules/sanity/index.js"
   interface Props {
     about: About
   }

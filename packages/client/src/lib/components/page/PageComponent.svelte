@@ -1,9 +1,9 @@
 <script lang="ts">
-  import type { Page } from "$lib/types"
-  import { renderBlockText } from "$lib/modules/sanity"
+  import type { Page } from "#lib/types/index.js"
+  import { renderBlockText } from "#lib/modules/sanity/index.js"
 
-  import PageMeta from "$lib/components/page/PageMeta.svelte"
-  import Footnotes from "$lib/components/issue/Footnotes.svelte"
+  import PageMeta from "#lib/components/page/PageMeta.svelte"
+  import Footnotes from "#lib/components/issue/Footnotes.svelte"
 
   interface Props {
     page: Page

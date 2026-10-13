@@ -1,9 +1,9 @@
 <script lang="ts">
-  import type { Page } from "$lib/types"
+  import type { Page } from "#lib/types/index.js"
   import { fade } from "svelte/transition"
-  import { calculateArticleReadingTime } from "$lib/modules/utils"
+  import { calculateArticleReadingTime } from "#lib/modules/utils/index.js"
 
-  import Share from "$lib/components/share/Share.svelte"
+  import Share from "#lib/components/share/Share.svelte"
 
   interface Props {
     page: Page

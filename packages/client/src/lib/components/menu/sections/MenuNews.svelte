@@ -1,11 +1,14 @@
 <script lang="ts">
-  import type { News } from "$lib/types"
+  import type { News } from "#lib/types/index.js"
   import { tick } from "svelte"
-  import { renderBlockText, urlFor } from "$lib/modules/sanity"
-  import { formattedDate } from "$lib/modules/utils"
-  import { tableOfContentsOpen, newsExtended } from "$lib/modules/stores"
-  import ArrowRight from "$lib/components/graphics/ArrowRight.svelte"
-  import FullNewsItem from "$lib/components/news/FullNewsItem.svelte"
+  import { renderBlockText, urlFor } from "#lib/modules/sanity/index.js"
+  import { formattedDate } from "#lib/modules/utils/index.js"
+  import {
+    tableOfContentsOpen,
+    newsExtended,
+  } from "#lib/modules/stores/index.js"
+  import ArrowRight from "#lib/components/graphics/ArrowRight.svelte"
+  import FullNewsItem from "#lib/components/news/FullNewsItem.svelte"
 
   let {
     news = [],

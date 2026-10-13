@@ -2,14 +2,14 @@
   import { onMount } from "svelte"
   import { fade } from "svelte/transition"
   import { goto } from "$app/navigation"
-  import type { Article, Issue } from "$lib/types"
-  import { calculateArticleReadingTime } from "$lib/modules/utils"
+  import type { Article, Issue } from "#lib/types/index.js"
+  import { calculateArticleReadingTime } from "#lib/modules/utils/index.js"
   import {
     tableOfContentsOpen,
     menuOpen,
     newsExtended,
     activeMenuSection,
-  } from "$lib/modules/stores"
+  } from "#lib/modules/stores/index.js"
 
   let { issue, currentSlug }: { issue: Issue; currentSlug?: string } = $props()
 

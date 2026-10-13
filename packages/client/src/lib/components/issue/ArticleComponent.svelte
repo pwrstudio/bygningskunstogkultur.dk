@@ -1,16 +1,16 @@
 <script lang="ts">
   import { fly } from "svelte/transition"
   import { quintOut } from "svelte/easing"
-  import type { Article, Issue } from "$lib/types"
-  import { renderBlockText } from "$lib/modules/sanity"
-  import { getNextArticle } from "$lib/modules/utils"
-  import { menuOpen, tableOfContentsOpen } from "$lib/modules/stores"
-  import Slideshow from "$lib/components/slideshow/SlideShow.svelte"
-  import SlideshowPhone from "$lib/components/slideshow/SlideshowPhone.svelte"
-  import Meta from "$lib/components/issue/Meta.svelte"
-  import ZoomMeta from "$lib/components/issue/ZoomMeta.svelte"
-  import ArrowDown from "$lib/components/graphics/ArrowDown.svelte"
-  import Footnotes from "$lib/components/issue/Footnotes.svelte"
+  import type { Article, Issue } from "#lib/types/index.js"
+  import { renderBlockText } from "#lib/modules/sanity/index.js"
+  import { getNextArticle } from "#lib/modules/utils/index.js"
+  import { menuOpen, tableOfContentsOpen } from "#lib/modules/stores/index.js"
+  import Slideshow from "#lib/components/slideshow/SlideShow.svelte"
+  import SlideshowPhone from "#lib/components/slideshow/SlideshowPhone.svelte"
+  import Meta from "#lib/components/issue/Meta.svelte"
+  import ZoomMeta from "#lib/components/issue/ZoomMeta.svelte"
+  import ArrowDown from "#lib/components/graphics/ArrowDown.svelte"
+  import Footnotes from "#lib/components/issue/Footnotes.svelte"
 
   interface Props {
     article: Article

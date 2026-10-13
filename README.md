@@ -13,7 +13,7 @@ anonymously (published documents only), so no token is needed to run it.
 
 ## Development
 
-Requires Node 22+ and pnpm 12 (`corepack enable` picks the version from `package.json`).
+Requires Node 22.17+ and pnpm 12 (`corepack enable` picks the version from `package.json`).
 
 ```bash
 pnpm install
@@ -69,9 +69,9 @@ pushes to `main`. The build command and publish directory are in the root
 `netlify.toml` (the comments there explain why it is not inside the package).
 In each project's settings in the Netlify UI, leave the _base directory_ empty
 (the repo root) and set the _package directory_ to `packages/client`; that is
-what makes Netlify pick up the serverless function the adapter writes.
-`@sveltejs/adapter-auto` selects the Netlify adapter. Set `PUBLIC_ENVIRONMENT`
-per project as above.
+what makes Netlify pick up the render function `@sveltejs/adapter-netlify`
+writes to `.netlify/v1` inside the package. Set `PUBLIC_ENVIRONMENT` per
+project as above.
 
 **Studio.** `pnpm deploy:sanity` builds and uploads the studio to
 `mbk-admin.sanity.studio` (host and app id in `packages/cms/sanity.cli.ts`).
@@ -102,9 +102,10 @@ pnpm --filter cms exec sanity dataset export production backup.tar.gz
 
 ## Notes for the next maintainer
 
-- The site is written in Svelte 4 syntax (`export let`, `$:`, `on:click`) running
-  on Svelte 5 in legacy mode. `$app/stores` is deprecated in favour of `$app/state`.
-- SvelteKit 3 (October 2026) is not adopted yet; `npx sv migrate sveltekit-3`
-  does most of the work. TypeScript stays on 6.x until `svelte-check` supports 7.
+- The site runs SvelteKit 3 with Svelte 5 runes. SvelteKit options live in
+  `vite.config.ts` (there is no `svelte.config.js`), library imports use the
+  `#lib` subpath with file extensions, and `$app/state`, `$app/env` and
+  `$app/env/public` replace the Kit 2 stores and env modules.
+- TypeScript stays on 6.x until `svelte-check` supports 7.
 - The "Fullbredd" toggle on images in the content editor is stored but not used
   by the site.

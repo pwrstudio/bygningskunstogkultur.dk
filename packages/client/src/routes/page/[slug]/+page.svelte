@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { PageData } from "./$types"
-  import PageComponent from "$lib/components/page/PageComponent.svelte"
-  import MetaData from "$lib/components/metadata/MetaData.svelte"
+  import PageComponent from "#lib/components/page/PageComponent.svelte"
+  import MetaData from "#lib/components/metadata/MetaData.svelte"
 
   interface Props {
     data: PageData

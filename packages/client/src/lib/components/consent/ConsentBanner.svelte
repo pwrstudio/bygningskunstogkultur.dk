@@ -4,7 +4,7 @@
     consentBannerOpen,
     initConsent,
     setConsent,
-  } from "$lib/modules/analytics"
+  } from "#lib/modules/analytics/index.js"
 
   onMount(initConsent)
 </script>

@@ -1,20 +1,20 @@
 <script lang="ts">
   import { fade } from "svelte/transition"
-  import type { Issue } from "$lib/types"
+  import type { Issue } from "#lib/types/index.js"
   import Swiper from "swiper"
   import { Pagination, Navigation } from "swiper/modules"
   import { onDestroy, onMount } from "svelte"
-  import { mapValue } from "$lib/modules/utils"
+  import { mapValue } from "#lib/modules/utils/index.js"
 
   import "swiper/swiper-bundle.css"
   import "swiper/css/navigation"
   import "swiper/css/pagination"
 
-  import { newsExtended, windowWidth } from "$lib/modules/stores"
+  import { newsExtended, windowWidth } from "#lib/modules/stores/index.js"
 
-  import Cover from "$lib/components/covers/Cover.svelte"
-  import ArrowRight from "$lib/components/graphics/ArrowRight.svelte"
-  import ArrowLeft from "$lib/components/graphics/ArrowLeft.svelte"
+  import Cover from "#lib/components/covers/Cover.svelte"
+  import ArrowRight from "#lib/components/graphics/ArrowRight.svelte"
+  import ArrowLeft from "#lib/components/graphics/ArrowLeft.svelte"
 
   interface Props {
     issues?: Issue[]

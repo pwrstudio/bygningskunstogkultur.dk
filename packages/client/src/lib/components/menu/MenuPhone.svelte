@@ -1,16 +1,16 @@
 <script lang="ts">
-  import type { News, Colophon, About } from "$lib/types"
-  import { MenuSection, PageType } from "$lib/enums"
+  import type { News, Colophon, About } from "#lib/types/index.js"
+  import { MenuSection, PageType } from "#lib/enums/index.js"
   import {
     menuOpen,
     tableOfContentsOpen,
     newsExtended,
     activeMenuSection,
-  } from "$lib/modules/stores"
+  } from "#lib/modules/stores/index.js"
 
-  import MenuNews from "$lib/components/menu/sections/MenuNews.svelte"
-  import MenuAbout from "$lib/components/menu/sections/MenuAbout.svelte"
-  import MenuColophon from "$lib/components/menu/sections/MenuColophon.svelte"
+  import MenuNews from "#lib/components/menu/sections/MenuNews.svelte"
+  import MenuAbout from "#lib/components/menu/sections/MenuAbout.svelte"
+  import MenuColophon from "#lib/components/menu/sections/MenuColophon.svelte"
 
   interface Props {
     news: News[]

@@ -1,10 +1,10 @@
 <script lang="ts">
-  import type { Article, Issue } from "$lib/types"
+  import type { Article, Issue } from "#lib/types/index.js"
   import { onMount } from "svelte"
-  import { unlockBodyScroll } from "$lib/modules/utils"
-  import PrintArticleComponent from "$lib/components/print/PrintArticleComponent.svelte"
-  import OutputInfo from "$lib/components/print/OutputInfo.svelte"
-  import PrintInfo from "$lib/components/print/PrintInfo.svelte"
+  import { unlockBodyScroll } from "#lib/modules/utils/index.js"
+  import PrintArticleComponent from "#lib/components/print/PrintArticleComponent.svelte"
+  import OutputInfo from "#lib/components/print/OutputInfo.svelte"
+  import PrintInfo from "#lib/components/print/PrintInfo.svelte"
 
   interface Props {
     issue: Issue

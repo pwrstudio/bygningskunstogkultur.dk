@@ -1,8 +1,12 @@
 <script lang="ts">
-  import type { Article, Issue } from "$lib/types"
-  import { renderBlockText, urlFor, hasAsset } from "$lib/modules/sanity"
-  import { calculateArticleReadingTime } from "$lib/modules/utils"
-  import Footnotes from "$lib/components/issue/Footnotes.svelte"
+  import type { Article, Issue } from "#lib/types/index.js"
+  import {
+    renderBlockText,
+    urlFor,
+    hasAsset,
+  } from "#lib/modules/sanity/index.js"
+  import { calculateArticleReadingTime } from "#lib/modules/utils/index.js"
+  import Footnotes from "#lib/components/issue/Footnotes.svelte"
 
   interface Props {
     post: Article

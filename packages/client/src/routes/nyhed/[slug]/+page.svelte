@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { PageData } from "./$types"
-  import FullNewsItem from "$lib/components/news/FullNewsItem.svelte"
+  import FullNewsItem from "#lib/components/news/FullNewsItem.svelte"
   import { goto } from "$app/navigation"
 
   interface Props {

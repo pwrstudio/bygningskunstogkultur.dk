@@ -1,6 +1,6 @@
 <script lang="ts">
-  import type { Article, Issue, News, Page } from "$lib/types"
-  import { browser } from "$app/environment"
+  import type { Article, Issue, News, Page } from "#lib/types/index.js"
+  import { browser } from "$app/env"
   import Fa from "svelte-fa"
   import copy from "copy-to-clipboard"
   import {
@@ -22,7 +22,6 @@
   }
 
   let { article, issue = null }: Props = $props()
-
   const BASE_URL = "https://bygningskunstogkultur.dk"
 
   // Share links always point at the live site, also from the preview deployment

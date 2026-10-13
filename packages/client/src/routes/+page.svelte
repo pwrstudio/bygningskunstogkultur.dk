@@ -1,10 +1,14 @@
 <script lang="ts">
   import { onDestroy } from "svelte"
   import type { PageData } from "./$types"
-  import MetaData from "$lib/components/metadata/MetaData.svelte"
-  import CoverSlider from "$lib/components/covers/CoverSlider.svelte"
-  import CoverSliderPhone from "$lib/components/covers/CoverSliderPhone.svelte"
-  import { menuOpen, newsExtended, screenSizePhone } from "$lib/modules/stores"
+  import MetaData from "#lib/components/metadata/MetaData.svelte"
+  import CoverSlider from "#lib/components/covers/CoverSlider.svelte"
+  import CoverSliderPhone from "#lib/components/covers/CoverSliderPhone.svelte"
+  import {
+    menuOpen,
+    newsExtended,
+    screenSizePhone,
+  } from "#lib/modules/stores/index.js"
 
   interface Props {
     data: PageData

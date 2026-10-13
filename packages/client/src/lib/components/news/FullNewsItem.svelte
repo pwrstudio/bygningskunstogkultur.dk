@@ -1,9 +1,9 @@
 <script lang="ts">
-  import type { News } from "$lib/types"
-  import { urlFor, renderBlockText } from "$lib/modules/sanity"
-  import { formattedDate } from "$lib/modules/utils"
-  import ArrowLeft from "$lib/components/graphics/ArrowLeft.svelte"
-  import Share from "$lib/components/share/Share.svelte"
+  import type { News } from "#lib/types/index.js"
+  import { urlFor, renderBlockText } from "#lib/modules/sanity/index.js"
+  import { formattedDate } from "#lib/modules/utils/index.js"
+  import ArrowLeft from "#lib/components/graphics/ArrowLeft.svelte"
+  import Share from "#lib/components/share/Share.svelte"
 
   let { news, onclose }: { news: News; onclose?: () => void } = $props()
 

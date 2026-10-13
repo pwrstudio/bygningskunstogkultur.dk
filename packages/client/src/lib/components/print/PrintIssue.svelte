@@ -1,14 +1,14 @@
 <script lang="ts">
-  import type { Colophon, Issue } from "$lib/types"
+  import type { Colophon, Issue } from "#lib/types/index.js"
   import { onMount } from "svelte"
-  import { urlFor, renderBlockText } from "$lib/modules/sanity"
+  import { urlFor, renderBlockText } from "#lib/modules/sanity/index.js"
   import {
     calculateArticleReadingTime,
     unlockBodyScroll,
-  } from "$lib/modules/utils"
-  import PrintArticleComponent from "$lib/components/print/PrintArticleComponent.svelte"
-  import OutputInfo from "$lib/components/print/OutputInfo.svelte"
-  import PrintInfo from "$lib/components/print/PrintInfo.svelte"
+  } from "#lib/modules/utils/index.js"
+  import PrintArticleComponent from "#lib/components/print/PrintArticleComponent.svelte"
+  import OutputInfo from "#lib/components/print/OutputInfo.svelte"
+  import PrintInfo from "#lib/components/print/PrintInfo.svelte"
 
   interface Props {
     issue: Issue

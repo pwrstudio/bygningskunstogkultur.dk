@@ -1,11 +1,11 @@
 <script lang="ts">
-  import type { Issue } from "$lib/types"
+  import type { Issue } from "#lib/types/index.js"
   import Swiper from "swiper"
   import { Pagination, Navigation } from "swiper/modules"
   import { onDestroy, onMount } from "svelte"
-  import { mapValue } from "$lib/modules/utils"
-  import { windowWidth } from "$lib/modules/stores"
-  import Cover from "$lib/components/covers/Cover.svelte"
+  import { mapValue } from "#lib/modules/utils/index.js"
+  import { windowWidth } from "#lib/modules/stores/index.js"
+  import Cover from "#lib/components/covers/Cover.svelte"
 
   import "swiper/swiper-bundle.css"
   import "swiper/css/navigation"

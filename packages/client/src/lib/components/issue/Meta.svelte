@@ -1,10 +1,10 @@
 <script lang="ts">
-  import type { Article, Issue } from "$lib/types"
+  import type { Article, Issue } from "#lib/types/index.js"
   import { fade } from "svelte/transition"
-  import { renderBlockText } from "$lib/modules/sanity"
-  import { calculateArticleReadingTime } from "$lib/modules/utils"
+  import { renderBlockText } from "#lib/modules/sanity/index.js"
+  import { calculateArticleReadingTime } from "#lib/modules/utils/index.js"
 
-  import Share from "$lib/components/share/Share.svelte"
+  import Share from "#lib/components/share/Share.svelte"
 
   interface Props {
     article: Article

@@ -1,24 +1,23 @@
 <script lang="ts">
   import type { Snippet } from "svelte"
-  import { page } from "$app/stores"
+  import { page } from "$app/state"
   import type { LayoutData } from "./$types"
-  import { PageType } from "$lib/enums"
-  import Menu from "$lib/components/menu/Menu.svelte"
-  import MenuPhone from "$lib/components/menu/MenuPhone.svelte"
-  import ToC from "$lib/components/table-of-contents/ToC.svelte"
-  import ToCPhone from "$lib/components/table-of-contents/ToCPhone.svelte"
-  import ConsentBanner from "$lib/components/consent/ConsentBanner.svelte"
-  import { getPageType } from "$lib/modules/utils"
+  import { PageType } from "#lib/enums/index.js"
+  import Menu from "#lib/components/menu/Menu.svelte"
+  import MenuPhone from "#lib/components/menu/MenuPhone.svelte"
+  import ToC from "#lib/components/table-of-contents/ToC.svelte"
+  import ToCPhone from "#lib/components/table-of-contents/ToCPhone.svelte"
+  import ConsentBanner from "#lib/components/consent/ConsentBanner.svelte"
+  import { getPageType } from "#lib/modules/utils/index.js"
   import {
     menuOpen,
     tableOfContentsOpen,
     windowHeight,
     windowWidth,
     screenSizePhone,
-  } from "$lib/modules/stores"
+  } from "#lib/modules/stores/index.js"
 
   let { data, children }: { data: LayoutData; children?: Snippet } = $props()
-
   const { colophon, news, about } = $derived(data)
 
   // Window dimensions, mirrored into stores for the components that lay out by them
@@ -32,12 +31,12 @@
   })
 
   const NoMenuPages = [PageType.News, PageType.Pdf, PageType.Error]
-
-  const pageType = $derived(getPageType($page.route?.id ?? ""))
+  const pageType = $derived(getPageType(page.route?.id ?? ""))
 
   // The issue and article of the current page, if any (see App.PageData)
-  const issue = $derived($page.data.issue)
-  const currentSlug = $derived($page.data.article?.slug.current)
+  const issue = $derived(page.data.issue)
+
+  const currentSlug = $derived(page.data.article?.slug.current)
 
   // Close the table of contents when navigating to an article
   $effect(() => {

@@ -1,7 +1,7 @@
 import type { PageLoad } from "./$types"
-import { loadData } from "$lib/modules/sanity"
-import { queries } from "$lib/groq"
-import type { Article } from "$lib/types"
+import { loadData } from "#lib/modules/sanity/index.js"
+import { queries } from "#lib/groq/index.js"
+import type { Article } from "#lib/types/index.js"
 
 // Preview of an article that is not (yet) in an issue, opened from the studio's Preview action
 export const load: PageLoad = async ({ params }) => {

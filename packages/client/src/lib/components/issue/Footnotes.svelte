@@ -1,8 +1,8 @@
 <script lang="ts">
-  import type { Article, Footnote, Page } from "$lib/types"
+  import type { Article, Footnote, Page } from "#lib/types/index.js"
   import { onMount } from "svelte"
-  import { renderBlockText } from "$lib/modules/sanity"
-  import { extractFootnotes, scrollToHash } from "$lib/modules/utils"
+  import { renderBlockText } from "#lib/modules/sanity/index.js"
+  import { extractFootnotes, scrollToHash } from "#lib/modules/utils/index.js"
 
   interface Props {
     article: Article | Page

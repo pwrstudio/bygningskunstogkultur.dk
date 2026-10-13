@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { PageData } from "./$types"
-  import PrintIssue from "$lib/components/print/PrintIssue.svelte"
+  import PrintIssue from "#lib/components/print/PrintIssue.svelte"
 
   interface Props {
     data: PageData

@@ -1,8 +1,8 @@
 <script lang="ts">
-  import type { Page } from "$lib/types"
-  import { renderBlockText } from "$lib/modules/sanity"
-  import { calculateArticleReadingTime } from "$lib/modules/utils"
-  import Footnotes from "$lib/components/issue/Footnotes.svelte"
+  import type { Page } from "#lib/types/index.js"
+  import { renderBlockText } from "#lib/modules/sanity/index.js"
+  import { calculateArticleReadingTime } from "#lib/modules/utils/index.js"
+  import Footnotes from "#lib/components/issue/Footnotes.svelte"
 
   interface Props {
     page: Page

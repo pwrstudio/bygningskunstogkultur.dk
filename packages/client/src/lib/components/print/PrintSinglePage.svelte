@@ -1,11 +1,11 @@
 <script lang="ts">
-  import type { Page } from "$lib/types"
+  import type { Page } from "#lib/types/index.js"
   import { onMount } from "svelte"
-  import { unlockBodyScroll } from "$lib/modules/utils"
+  import { unlockBodyScroll } from "#lib/modules/utils/index.js"
 
-  import PrintPageComponent from "$lib/components/print/PrintPageComponent.svelte"
-  import OutputInfo from "$lib/components/print/OutputInfo.svelte"
-  import PrintInfo from "$lib/components/print/PrintInfo.svelte"
+  import PrintPageComponent from "#lib/components/print/PrintPageComponent.svelte"
+  import OutputInfo from "#lib/components/print/OutputInfo.svelte"
+  import PrintInfo from "#lib/components/print/PrintInfo.svelte"
 
   interface Props {
     page: Page

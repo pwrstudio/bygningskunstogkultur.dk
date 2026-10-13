@@ -1,7 +1,10 @@
 <script lang="ts">
-  import type { Colophon } from "$lib/types"
-  import { renderBlockText } from "$lib/modules/sanity"
-  import { analyticsEnabled, openConsentBanner } from "$lib/modules/analytics"
+  import type { Colophon } from "#lib/types/index.js"
+  import { renderBlockText } from "#lib/modules/sanity/index.js"
+  import {
+    analyticsEnabled,
+    openConsentBanner,
+  } from "#lib/modules/analytics/index.js"
   interface Props {
     colophon: Colophon
   }
